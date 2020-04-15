@@ -1,0 +1,20 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a class="logo immergas" href="#" (click)="navigateHome()"><img src="../../../../assets/images/immergas.png" alt="" style="width: 100%;"></a>
+  </div>
+</div>
+
+<div class="header-container">
+<!--  <nb-action class="control-item">-->
+<!--    <a href="#"><img src="../../../../assets/images/vipsgas.svg" alt="" style="height: calc(100% - 2.5rem);"></a>-->
+<!--  </nb-action>-->
+  <nb-actions size="small">
+    <nb-action  class="user-action" *ngIf="user">
+      <nb-user [nbContextMenu]="userMenu"
+               [onlyPicture]="userPictureOnly"
+               [name]="user?.name ? user.name : user.email"
+               [picture]="user?.photoURL">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
+</div>

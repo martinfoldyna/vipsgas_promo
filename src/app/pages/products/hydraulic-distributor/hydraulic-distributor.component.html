@@ -1,0 +1,15 @@
+<p><a routerLink="/pages/products/" style="color: inherit">Produkty</a>&nbsp;/&nbsp;<b>Hydraulické rozdělovače DIM ErP</b></p>
+<div class="row">
+  <div class="col-md-6 m-auto">
+    <ngx-add-product [productCategory]="'boiler-regulation'" (loadProducts)="loadProducts()"></ngx-add-product>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" *ngIf="allProducts.length === 0">
+    <nb-alert status="warning">Tato sekce neobsahuje žádné obrázky</nb-alert>
+  </div>
+  <div class="col-md-4" *ngFor="let product of allProducts">
+    <ngx-product-card [product]="product" (loadProducts)="loadProducts()"></ngx-product-card>
+  </div>
+</div>
+

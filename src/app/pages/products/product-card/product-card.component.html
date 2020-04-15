@@ -1,0 +1,9 @@
+<nb-card class="scale">
+  <nb-card-body class="image-wrapper">
+    <img [src]="product.thumbnailURL" alt="" style="width: 100%">
+  </nb-card-body>
+  <nb-card-footer class="d-flex justify-content-between">
+    <h3>{{product.name}}</h3>
+    <nb-icon icon="trash-2-outline" class="align-self-center" status="danger" (click)="deleteProduct(product.id)" *ngIf="authService.getUser()" style="cursor: pointer;"></nb-icon>
+  </nb-card-footer>
+</nb-card>

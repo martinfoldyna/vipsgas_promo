@@ -1,0 +1,28 @@
+<div class="spinner_section">
+
+  <h1 id="title" class="title">Login</h1>
+
+  <form>
+    <div class="form-control-group">
+      <label for="email" class="label">Email</label>
+      <input type="email" nbInput fullWidth placeholder="Uživatelské jméno" name="email" id="email" [(ngModel)]="user.email">
+    </div>
+    <div class="form-control-group">
+      <label for="password" class="label">Heslo</label>
+      <input type="password" nbInput fullWidth placeholder="Heslo" name="password" id="password" [(ngModel)]="user.password">
+    </div>
+    <div class="form-control-group">
+      <button nbButton fullWidth (click)="userLogin()">Přihlásit se</button>
+    </div>
+  </form>
+
+  <section class="links" aria-label="Social sign in">
+    nebo se přihlašte pomocí:
+    <div class="socials">
+      <a (click)="googleLogin()">
+        <nb-icon icon="google"></nb-icon>
+      </a>
+    </div>
+  </section>
+
+</div>

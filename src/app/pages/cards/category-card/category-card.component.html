@@ -1,0 +1,11 @@
+<a [routerLink]="category.url">
+  <nb-card class="scale">
+    <nb-card-body *ngIf="!category.thumbnail"><img [src]="'../../../../assets/images/' + category.image" alt="" style="max-width: 100%;"></nb-card-body>
+    <nb-card-body *ngIf="category.thumbnail"><img [src]="category.thumbnail" alt="" style="max-width: 100%;"></nb-card-body>
+    <nb-card-footer>
+      <div class="d-flex justify-content-between">
+        <h2>{{category.name}}</h2>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+</a>
