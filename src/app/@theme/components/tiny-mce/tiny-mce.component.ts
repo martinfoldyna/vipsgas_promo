@@ -25,6 +25,7 @@ export class TinyMCEComponent implements OnDestroy, AfterViewInit {
         this.editor = editor;
         editor.on('keyup', () => {
           this.editorKeyup.emit(editor.getContent());
+          console.log(editor.getContent());
         });
       },
       height: '320',

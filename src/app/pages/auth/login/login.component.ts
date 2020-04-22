@@ -12,13 +12,12 @@ import {User} from "../../../@core/data/user";
 export class LoginComponent implements OnInit {
 
   private user: User;
+  private submitteded: boolean = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    iconsLibrary: NbIconLibraries
   ) {
-    iconsLibrary.registerFontPack('ion', { iconClassPrefix: 'ion' });
     this.user = {
       email: '',
       password: ''

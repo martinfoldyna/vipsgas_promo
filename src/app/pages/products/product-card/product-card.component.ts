@@ -12,13 +12,20 @@ export class ProductCardComponent implements OnInit {
   @Output('loadProducts') loadProducts: EventEmitter<any> = new EventEmitter();
 
   @Input('product') product: Product;
+  @Input('productCategory') productCategory: string;
+
+  productDetailLink: string
 
   constructor(
     private generalService: GeneralService,
     private authService: AuthService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
+    this.productDetailLink = '/pages/products/detail/' + this.product.id;
+    console.log(this.productDetailLink);
   }
 
   deleteProduct(productId) {

@@ -60,6 +60,7 @@
     "eva-icons": "^1.1.0",
     "firebase": "^7.12.0",
     "intl": "1.2.5",
+    "ionicons": "2.0.1",
     "leaflet": "1.2.0",
     "nebular-icons": "1.1.0",
     "ng-lazyload-image": "^7.1.0",
@@ -70,6 +71,7 @@
     "ngx-echarts": "^4.0.1",
     "ngx-gallery": "^5.10.0",
     "ngx-image-compress": "^8.0.4",
+    "ngx-tinymce": "^9.0.0",
     "node-sass": "^4.13.1",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",
@@ -80,7 +82,6 @@
     "tinymce": "4.5.7",
     "tslib": "^1.9.0",
     "typeface-exo": "0.0.22",
-    "ionicons": "2.0.1",
     "web-animations-js": "github:angular/web-animations-js#release_pr208",
     "zone.js": "~0.9.1"
   },

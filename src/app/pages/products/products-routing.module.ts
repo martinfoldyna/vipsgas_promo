@@ -6,6 +6,7 @@ import {TuvHeatersComponent} from "./tuv-heaters/tuv-heaters.component";
 import {TuvContainersComponent} from "./tuv-containers/tuv-containers.component";
 import {BoilerRegulationComponent} from "./boiler-regulation/boiler-regulation.component";
 import {HydraulicDistributorComponent} from "./hydraulic-distributor/hydraulic-distributor.component";
+import {ProductDetailComponent} from "./product-detail/product-detail.component";
 
 let routes: Routes = [
   {
@@ -31,6 +32,10 @@ let routes: Routes = [
   {
     path: 'hydraulic-distributor',
     component: HydraulicDistributorComponent,
+  },
+  {
+    path: 'detail/:id',
+    component: ProductDetailComponent,
   },
   {
     path: '',

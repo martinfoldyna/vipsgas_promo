@@ -21,9 +21,11 @@ import { HydraulicDistributorComponent } from './hydraulic-distributor/hydraulic
 import { AddProductComponent } from './add-product/add-product.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import {CondensingBoilersComponent} from "./condensing-boilers/condensing-boilers.component";
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import {ThemeModule} from "../../@theme/theme.module";
 
 @NgModule({
-  declarations: [ProductsComponent, DashboardComponent, CondensingBoilersComponent, TuvHeatersComponent, TuvContainersComponent, BoilerRegulationComponent, HydraulicDistributorComponent, AddProductComponent, ProductCardComponent],
+  declarations: [ProductsComponent, DashboardComponent, CondensingBoilersComponent, TuvHeatersComponent, TuvContainersComponent, BoilerRegulationComponent, HydraulicDistributorComponent, AddProductComponent, ProductCardComponent, ProductDetailComponent],
   imports: [
     CommonModule,
     NbCardModule,
@@ -36,7 +38,9 @@ import {CondensingBoilersComponent} from "./condensing-boilers/condensing-boiler
     NbButtonModule,
     NbIconModule,
     NbSpinnerModule,
-    NbAlertModule
+    NbAlertModule,
+    ThemeModule,
+    CKEditorModule,
   ]
 })
 export class ProductsModule { }

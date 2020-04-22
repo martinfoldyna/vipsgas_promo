@@ -9,7 +9,7 @@
     <nb-alert status="warning">Tato sekce neobsahuje žádné obrázky</nb-alert>
   </div>
   <div class="col-md-4" *ngFor="let product of allProducts">
-    <ngx-product-card [product]="product" (loadProducts)="loadProducts()"></ngx-product-card>
+    <ngx-product-card [product]="product" (loadProducts)="loadProducts()" productCategory="condensing-boilers"></ngx-product-card>
   </div>
 </div>
 

@@ -28,6 +28,7 @@ import {AngularFireStorageModule} from "@angular/fire/storage";
 import {DateFnsModule} from "ngx-date-fns";
 import {NgxImageCompressService} from "ngx-image-compress";
 import { LazyLoadImageModule } from 'ng-lazyload-image';
+import {NgxTinymceModule} from "ngx-tinymce";
 
 @NgModule({
   declarations: [AppComponent],
@@ -53,6 +54,9 @@ import { LazyLoadImageModule } from 'ng-lazyload-image';
     AngularFireStorageModule,
     CoreModule.forRoot(),
     LazyLoadImageModule,
+    NgxTinymceModule.forRoot({
+      baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.0/'
+    })
   ],
   bootstrap: [AppComponent],
   providers: [NgxImageCompressService],

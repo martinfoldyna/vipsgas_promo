@@ -67,4 +67,55 @@ export class ProductsService {
       })
     })
   }
+
+  getProductById(id): Promise<Product> {
+    return new Promise<Product>((resolve, reject) => {
+      this.getProducts().subscribe(response => {
+        if(response) {
+          let product = response.filter(a => {
+            const docId = a.payload.doc.id;
+            return docId === id;
+          }).map(a => {
+            const data = a.payload.doc.data() as Product;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })[0]
+          resolve(product);
+        } else {
+          reject('Not found')
+        }
+      })
+    })
+  }
+
+  translateProductCategory(productCategory) {
+    let returnValue = "";
+    switch (productCategory) {
+      case 'condensing-boilers': {
+        returnValue = "Kondenzační kotle";
+        break;
+      }
+      case 'tuv-heaters': {
+        returnValue = "Průtokové ohřívače TUV";
+        break;
+      }
+      case 'tuv-containers': {
+        returnValue = "Zásobníky TUV";
+        break;
+      }
+      case 'boiler-regulation': {
+        returnValue = "Regulace kotlů";
+        break;
+      }
+      case 'hydraulic-distributor': {
+        returnValue = "Hydraulické rozdělovače DIM ErP";
+        break;
+      }
+      default : {
+        returnValue = "";
+        break;
+      }
+    }
+    return returnValue;
+  }
 }

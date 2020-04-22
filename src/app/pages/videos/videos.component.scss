@@ -1,0 +1,17 @@
+.thumbnail nb-icon {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+}
+
+.thumbnail {
+  //filter: grayscale(100%);
+  background-blend-mode: saturation;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.thumbnail:hover {
+  filter: grayscale(0);
+}

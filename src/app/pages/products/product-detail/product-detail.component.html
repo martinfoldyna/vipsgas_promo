@@ -1,0 +1,94 @@
+<p *ngIf="productLoaded"><a routerLink="/pages/products/" style="color: inherit">Produkty</a>&nbsp;/&nbsp;<a [routerLink]="productCategory.url" style="color: inherit">{{productCategory.name}}</a>&nbsp;/&nbsp;<b>{{product.name}}</b></p>
+
+<!--<nb-card [nbSpinner]="!productLoaded" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám produkt.." style="height: 70vh; overflow: hidden;">-->
+<!--  <nb-card-body>-->
+<!--    <div class="row">-->
+<!--      <div class="left-col col-md-8 overflow-hidden" >-->
+<!--        <h2>{{product.name}}</h2>-->
+<!--        <p>-->
+<!--          Immergas VICTRIX 12 X TT 2 ErP je nástěnný kondenzační kotel s uzavřenou spalovací komorou o tepelném výkonu 1,9 - 12,0 kW určený k vytápění s možností ohřevu TUV v nepřímotopném stacionárním zásobníku.-->
+<!--          Kotel VICTRIX 12 X TT 2 ErP je vybaven modulovaným, energeticky úsporným čerpadlem. Po dopojení venkovní sondy (3.014083, volitelné příslušenství) je ekvitermní regulace v základní výbavě kolte. Elektronická výbava kotle dovoluje připojit řídicí jednotku CAR<sup>V2</sup>, která umožňuje monitorování kotle, dálkové ovládání a regulaci v závislosti na aktuálních klimatických podmínkách. Dále  elektronika umožňuje připojení zónových jednotek DIM ErP nebo samostatnou zónovou centrálu.-->
+<!--        </p>-->
+<!--        <p>-->
+<!--          Tento kotel je zaregistrován do databáze SVT (Seznam výrobků a technologií)  k  Operačnímu programu Životní prostředí (OPŽP) 2014-2020 "Kotlíkové dotace".-->
+<!--        </p>-->
+<!--        <ul>-->
+<!--          <li>Třída sezonní energetické účinnosti vytápění - A</li>-->
+<!--          <li>Samonastavitelný plynový ventil - automatická kontrola spalování</li>-->
+<!--          <li>Enegeticky úsporné modulované čerpadlo</li>-->
+<!--          <li>Digitální displej</li>-->
+<!--          <li>Elektrické krytí IPX5D</li>-->
+<!--          <li>Možnost připojit nepřímotopný zásobník TUV - trojcestný ventil v základní výbavě</li>-->
+<!--          <li>Regulace okruhu TUV je již v základní výbavě kotlekotlikova-dotace-logo</li>-->
+<!--          <li>Automatický by-pass je v základní výbavě</li>-->
+<!--          <li>Ekvitermní regulace v základní výbavě kotle</li>-->
+<!--          <li>Možnost regulace teploty analog. signálem 0 - 5 V</li>-->
+<!--          <li>Možnost připojit zónové jednotky DIM ErP</li>-->
+<!--          <li>Třída NOx - 6</li>-->
+<!--          <li>Kotlíková dotace - SVT20371</li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--      <div class="right-col col-md-4" style="overflow-y: auto">-->
+<!--        <div class="image-wrapper" >-->
+<!--          <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">-->
+<!--          <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">-->
+<!--          <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </nb-card-body>-->
+<!--</nb-card>-->
+<nb-card [nbSpinner]="!productLoaded" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám produkt..">
+  <nb-card-body>
+        <h2>{{product.name}}</h2>
+        <p>
+          Immergas VICTRIX 12 X TT 2 ErP je nástěnný kondenzační kotel s uzavřenou spalovací komorou o tepelném výkonu 1,9 - 12,0 kW určený k vytápění s možností ohřevu TUV v nepřímotopném stacionárním zásobníku.
+          Kotel VICTRIX 12 X TT 2 ErP je vybaven modulovaným, energeticky úsporným čerpadlem. Po dopojení venkovní sondy (3.014083, volitelné příslušenství) je ekvitermní regulace v základní výbavě kolte. Elektronická výbava kotle dovoluje připojit řídicí jednotku CAR<sup>V2</sup>, která umožňuje monitorování kotle, dálkové ovládání a regulaci v závislosti na aktuálních klimatických podmínkách. Dále  elektronika umožňuje připojení zónových jednotek DIM ErP nebo samostatnou zónovou centrálu.
+        </p>
+        <p>
+          Tento kotel je zaregistrován do databáze SVT (Seznam výrobků a technologií)  k  Operačnímu programu Životní prostředí (OPŽP) 2014-2020 "Kotlíkové dotace".
+        </p>
+        <ul>
+          <li>Třída sezonní energetické účinnosti vytápění - A</li>
+          <li>Samonastavitelný plynový ventil - automatická kontrola spalování</li>
+          <li>Enegeticky úsporné modulované čerpadlo</li>
+          <li>Digitální displej</li>
+          <li>Elektrické krytí IPX5D</li>
+          <li>Možnost připojit nepřímotopný zásobník TUV - trojcestný ventil v základní výbavě</li>
+          <li>Regulace okruhu TUV je již v základní výbavě kotlekotlikova-dotace-logo</li>
+          <li>Automatický by-pass je v základní výbavě</li>
+          <li>Ekvitermní regulace v základní výbavě kotle</li>
+          <li>Možnost regulace teploty analog. signálem 0 - 5 V</li>
+          <li>Možnost připojit zónové jednotky DIM ErP</li>
+          <li>Třída NOx - 6</li>
+          <li>Kotlíková dotace - SVT20371</li>
+        </ul>
+  </nb-card-body>
+</nb-card>
+<nb-card>
+  <nb-card-body>
+    <ck-editor [(ngModel)]="html" (editorKeyup)="logHtml()"></ck-editor>
+  </nb-card-body>
+</nb-card>
+<div class="row">
+  <div class="col-md-3">
+    <nb-card>
+      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
+    </nb-card>
+  </div>
+  <div class="col-md-3">
+    <nb-card>
+      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
+    </nb-card>
+  </div>
+  <div class="col-md-3">
+    <nb-card>
+      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
+    </nb-card>
+  </div>
+  <div class="col-md-3">
+    <nb-card>
+      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
+    </nb-card>
+  </div>
+</div>
