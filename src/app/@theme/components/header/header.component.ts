@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private userService: UserData,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private authService: AuthService) {
+              public authService: AuthService) {
   }
 
   ngOnInit() {

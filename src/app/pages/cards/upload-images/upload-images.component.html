@@ -1,0 +1,26 @@
+<nb-card>
+  <nb-card-header>Nahrát nové obrázky</nb-card-header>
+  <nb-card-body>
+    <form>
+      <div class="form-group">
+        <label for="new-image" class="label">Nahrát nové obrázky</label><br>
+        <input type="file" id="new-image" multiple accept="image/*" nbInput (change)="onFileChange($event)">
+      </div>
+      <div class="form-group">
+        <button nbButton (click)="uploadImages($event)"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-md-3" *ngFor="let image of selectedImagesPreview; let i = index" >
+        <nb-card style="width: 100%; height: 340px; overflow: hidden">
+          <nb-card-body defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="image.url" style="background-size: cover; background-position: center; background-image: url('./../../../../assets/images/placeholder.png')"></nb-card-body>
+          <nb-card-footer>
+            <button nbButton fullWidth status="danger" (click)="removeFromList(i)">
+              <nb-icon icon="trash-2-outline"></nb-icon>
+            </button>
+          </nb-card-footer>
+        </nb-card>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

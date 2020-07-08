@@ -1,0 +1,55 @@
+<p *ngIf="category"><a routerLink="/pages/products/" style="color: inherit">Produkty</a>&nbsp;/&nbsp;<b>{{category.name}}</b></p>
+
+<div class="row" *ngIf="categoryLoaded">
+  <div class="col-md-12 m-auto">
+    <nb-card *ngIf="authService.getUser()" [nbSpinner]="uploadingProduct" nbSpinnerMessage="Nahrávám produkt do databáze.." nbSpinnerStatus="primary">
+      <nb-card-header>Přidat nový produkt</nb-card-header>
+      <nb-card-body>
+        <form #form="ngForm" [formGroup]="newProductForm">
+          <div class="form-group">
+            <label for="title" class="label">Název produktu</label>
+            <input nbInput fullWidth type="text" id="title" name="name" required placeholder="např.: Victrix 12 X TT 2 ErP" [formControl]="newProductForm.controls.name">
+          </div>
+          <div class="form-group">
+            <label for="product-thumbnail" class="label">Vyberte náhledový obrázek kategorie</label><br>
+            <input type="file" id="product-thumbnail" name="thumbnail" nbInput (change)="onFileChange($event)" [formControl]="newProductForm.controls.thumbnail">
+          </div>
+          <div class="form-group">
+            <label for="product-description" class="label">Popis produktu</label>
+            <tinymce [config]="tinyMceConfig" id="product-description" [formControl]="newProductForm.controls.description"></tinymce>
+          </div>
+          <div class="form-group" *ngIf="category.categoryPositions">
+            <label for="product-position" class="label">Umístění produktu</label>
+            <nb-radio-group id="product-position" name="product-position" [formControl]="newProductForm.controls.position">
+              <nb-radio *ngFor="let position of category.categoryPositions" [value]="position.value">{{position.name}}</nb-radio>
+            </nb-radio-group>
+          </div>
+          <div class="form-group" *ngIf="newProductForm.controls.position.value && category.categoryTypes">
+            <label for="product-type" class="label">Typ produktu</label>
+            <nb-radio-group id="product-type" name="product-type" [formControl]="newProductForm.controls.type" *ngFor="let type of category.categoryTypes">
+<!--              <ng-container >-->
+                <nb-radio *ngIf="type.condition === newProductForm.controls.position.value" [value]="type.value" >{{type.name}}</nb-radio>
+<!--              </ng-container>-->
+            </nb-radio-group>
+          </div>
+          <button nbButton (click)="addProduct()" fullWidth [disabled]="!form.valid"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" *ngIf="allProducts.length === 0">
+    <nb-alert status="warning">Tato sekce neobsahuje žádné obrázky</nb-alert>
+  </div>
+</div>
+<ng-container *ngFor="let product of filteredProducts | keyvalue">
+  <h2>{{product.key}}</h2>
+  <div class="row">
+    <div class="col-4" *ngFor="let thisProduct of product.value">
+      <ngx-product-card [product]="thisProduct"></ngx-product-card>
+    </div>
+  </div>
+</ng-container>
+
+

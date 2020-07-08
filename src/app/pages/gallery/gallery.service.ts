@@ -86,7 +86,7 @@ export class GalleryService {
         if (response) {
           response.ref.getDownloadURL().then(url => {
             this.firestore.collection('gallery').doc(section.id).update(
-              { images: firestore.FieldValue.arrayUnion({name: image.name, src: url})}
+              { images: firestore.FieldValue.arrayUnion({name: image.name, url: url})}
             ).then(firestoreResponse => {
               resolve(firestoreResponse);
             })

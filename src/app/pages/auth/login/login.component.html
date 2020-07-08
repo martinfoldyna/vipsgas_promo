@@ -47,7 +47,10 @@
     <div class="form-control-group">
       <button nbButton
               fullWidth
-              (click)="userLogin(); submitteded = true"
+              [nbSpinner]="logginngIn"
+              nbSpinnerMessage="Přihlašuji uživatele.."
+              nbSpinnerStatus="primary"
+              (click)="userLogin(form); submitteded = true"
               [disabled]="submitteded || !form.valid"
               [class.btn-pulse]="">Přihlásit se</button>
     </div>

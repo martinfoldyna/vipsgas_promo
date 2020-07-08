@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../auth.service';
 import {Router} from "@angular/router";
-import {NbIconLibraries} from "@nebular/theme";
+import {NbIconLibraries, NbToastrService} from "@nebular/theme";
 import {User} from "../../../@core/data/user";
 
 @Component({
@@ -11,12 +11,14 @@ import {User} from "../../../@core/data/user";
 })
 export class LoginComponent implements OnInit {
 
-  private user: User;
-  private submitteded: boolean = false;
+  user: User;
+  submitteded: boolean = false;
+  logginngIn: boolean = false;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
+    private toastr: NbToastrService
   ) {
     this.user = {
       email: '',
@@ -33,6 +35,8 @@ export class LoginComponent implements OnInit {
   }
 
   googleLogin() {
+    this.logginngIn = true;
+
     this.authService.googleAuth().then(response => {
       console.log(response);
       let userInfo = response.user
@@ -42,23 +46,31 @@ export class LoginComponent implements OnInit {
         email: userInfo.email,
       }
       this.storeUser(storedUser, response.credential.idToken);
+      this.logginngIn = false;
       this.router.navigate(['/dashboard/']);
+    }).catch(err => {
+      this.logginngIn = false;
+      this.toastr.danger('Během přihlašování nastala chyba!', 'Chyba');
     })
   }
 
-  userLogin() {
+  userLogin(form) {
+    this.logginngIn = true;
     this.authService.credentialLogin(this.user).then(loggedInUser => {
       console.log(loggedInUser);
       if(loggedInUser.user) {
-
         let storedUser = {
           email: loggedInUser.user.email,
         }
         this.storeUser(storedUser, loggedInUser.user.getIdToken());
+        this.logginngIn = false;
         this.router.navigate(['/dashboard/'])
       }
     }).catch(err => {
-      console.log(err);
+      this.logginngIn = false;
+      this.submitteded = false;
+      form.reset();
+      this.toastr.danger(err.message ? err.message : 'Během přihlášení nastala chyba, zkuste se prosím přihlásit později.', 'Chyba')
     })
   }
 

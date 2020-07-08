@@ -4,9 +4,10 @@ import {ActivatedRoute, Route, Router, Routes} from "@angular/router";
 import {ImageSection} from "../../../@core/data/image-section";
 import {AuthService} from "../../auth/auth.service";
 import {ImagesService} from "../../../@core/utils/images.service";
-import {ImageDetailComponent} from "./image-detail/image-detail.component";
-import {NbDialogService} from "@nebular/theme";
+import {ImageDetailComponent} from "../../cards/image-detail/image-detail.component";
+import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {UpdateSectionCardComponent} from "./update-section-card/update-section-card.component";
+import {TinyMceConfig} from "../../../@core/data/tinyMceConfig";
 
 @Component({
   selector: 'ngx-detail',
@@ -26,14 +27,18 @@ export class DetailComponent implements OnInit {
   preloadingImages: boolean = true;
   showOverlay: boolean = false;
   editSection: boolean = true;
+  updateSectionState: boolean = false;
+  descriptionChanged:boolean = false;
+
 
   constructor(
     private galleryService: GalleryService,
     private imagesService: ImagesService,
     private route: ActivatedRoute,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private toastr: NbToastrService
   ) {
     this.newImages = new Array<{name: string; blob: Blob}>();
     this.selectedImagesPreview = new Array<any>();
@@ -101,7 +106,7 @@ export class DetailComponent implements OnInit {
 
     reader.onload = (e: any) => {
       this.imagesService.compressFile(e.target.result, file.name, 68).then(compressedImage => {
-        this.selectedImagesPreview.push({src: compressedImage.src, index: fileIndex});
+        this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex});
         if(compressedImage) {
           this.newImages.push({name: this.generateRandomString(), blob: compressedImage.blob});
         }
@@ -116,14 +121,15 @@ export class DetailComponent implements OnInit {
   upload(form) {
     this.uploadingImage = true;
     this.uploadImages().then(response => {
-
+        this.toastr.success('', 'Obrázky byly úspěšně přidány.')
         this.selectedImagesPreview = new Array<any>();
         this.uploadingImage = false;
         form.reset();
         this.load();
 
     }).catch(err => {
-      console.log(err);
+      this.toastr.danger(err ? JSON.stringify(err) : 'Během nahrávání obrázků došlo k chybě.', 'Chyba')
+
     });
   }
 
@@ -162,23 +168,29 @@ export class DetailComponent implements OnInit {
   deleteImage(imageName) {
     this.imagesService.deleteImage('gallery', imageName).then(imageFile => {
       this.galleryService.deleteImageNameFromCollection('gallery', this.section.id, imageName, this.section.images).then(response => {
+        this.toastr.success('', 'Obrázek byl úspěšně smazán.')
         this.load();
       }, err => {
-        console.log(err);
+        this.toastr.danger(err ? JSON.stringify(err) : 'Během odstraňování obrázku došlo k chybě.', 'Chyba')
       })
     })
   }
 
-  openImage(image) {
+  openImage(allImages, index) {
     this.dialogService.open(ImageDetailComponent, {context: {
-        image: image,
+        allImages: allImages,
+        index: index
       }})
   }
 
   updateSection() {
-    this.dialogService.open(UpdateSectionCardComponent, {context: {
-        section: this.section,
-      }})
+    this.galleryService.updateSection('gallery', this.section).then(response => {
+      this.toastr.success('', 'Sekce byla upravena.');
+      this.updateSectionState = false;
+      this.load();
+    }).catch(err => {
+      this.toastr.danger(err ? JSON.stringify(err) : 'Během upravování sekce došlo k chybě.', 'Chyba')
+    })
   }
 
 }

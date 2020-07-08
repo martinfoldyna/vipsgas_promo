@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { VideosComponent } from './videos.component';
 import {
   NbButtonModule,
-  NbCardModule,
+  NbCardModule, NbDialogModule,
   NbIconModule,
   NbInputModule,
   NbSelectModule,
@@ -11,20 +11,27 @@ import {
   NbUserModule
 } from "@nebular/theme";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
+import {YouTubePlayerModule} from "@angular/youtube-player";
 
 @NgModule({
-  declarations: [VideosComponent],
-  imports: [
-    CommonModule,
-    NbCardModule,
-    NbInputModule,
-    FormsModule,
-    NbButtonModule,
-    ReactiveFormsModule,
-    NbSpinnerModule,
-    NbUserModule,
-    NbIconModule,
-    NbSelectModule,
+  declarations: [VideosComponent, YoutubePlayerComponent],
+    imports: [
+        CommonModule,
+        NbCardModule,
+        NbInputModule,
+        FormsModule,
+        NbButtonModule,
+        ReactiveFormsModule,
+        NbSpinnerModule,
+        NbUserModule,
+        NbIconModule,
+        NbSelectModule,
+        YouTubePlayerModule,
+        NbDialogModule.forChild(),
+    ],
+  entryComponents: [
+    YoutubePlayerComponent
   ]
 })
 export class VideosModule { }

@@ -9,8 +9,42 @@ import {ProductsService} from "../products.service";
 })
 export class HydraulicDistributorComponent implements OnInit {
 
-  private category: string = "hydraulic-distributor";
+  public category: string = "hydraulic-distributor";
   allProducts: Array<Product>;
+
+  categoryOptions = {
+    productPosition: [
+      {
+        name: 'Nástěnné',
+        value: 'nástěnné',
+      },
+      {
+        name: 'Stacionární',
+        value: 'stacionární',
+      },
+    ],
+    productType: [
+      {
+        name: 'Pouze topné',
+        value: 'pouze-topné',
+      },
+      {
+        name: 'Kombinované s průtokovým ohřívačem',
+        value: 'kombinované-s-průtokovým-ohřívačem',
+        condition: 'nástěnné',
+      },
+      {
+        name: 'Kombinované s vestavěným boilerem',
+        value: 'kombinované-s-vestavěným-boilerem',
+        condition: 'nástěnné',
+      },
+      {
+        name: 'Kombinované s bojlerem',
+        value: 'kombinované-s-bojlerem',
+        condition: 'stacionární'
+      }
+    ]
+  }
 
   constructor(
     private productsService: ProductsService

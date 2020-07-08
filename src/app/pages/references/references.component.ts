@@ -2,14 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ngx-references',
-  templateUrl: './references.component.html',
-  styleUrls: ['./references.component.scss']
+  template: '<router-outlet></router-outlet>',
 })
 export class ReferencesComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+ constructor() {
+ }
+ ngOnInit(): void {
+ }
 }

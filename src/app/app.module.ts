@@ -29,6 +29,8 @@ import {DateFnsModule} from "ngx-date-fns";
 import {NgxImageCompressService} from "ngx-image-compress";
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import {NgxTinymceModule} from "ngx-tinymce";
+import 'hammerjs';
+import {TinyMceConfig} from "./@core/data/tinyMceConfig";
 
 @NgModule({
   declarations: [AppComponent],
@@ -37,7 +39,6 @@ import {NgxTinymceModule} from "ngx-tinymce";
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
     ThemeModule.forRoot(),
 
     NbSidebarModule.forRoot(),
@@ -45,7 +46,9 @@ import {NgxTinymceModule} from "ngx-tinymce";
     NbDatepickerModule.forRoot(),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
-    NbToastrModule.forRoot(),
+    NbToastrModule.forRoot({
+      duration: 4000
+    }),
     DateFnsModule.forRoot(),
     NbDialogModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
@@ -55,7 +58,8 @@ import {NgxTinymceModule} from "ngx-tinymce";
     CoreModule.forRoot(),
     LazyLoadImageModule,
     NgxTinymceModule.forRoot({
-      baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.0/'
+      baseURL: '//cdnjs.cloudflare.com/ajax/libs/tinymce/4.9.0/',
+      config: TinyMceConfig
     })
   ],
   bootstrap: [AppComponent],

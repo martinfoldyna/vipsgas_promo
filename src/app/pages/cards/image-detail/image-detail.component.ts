@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NbDialogRef} from "@nebular/theme";
-import {Image} from "../../../../@core/data/image";
+import {Image} from "../../../@core/data/image";
 
 @Component({
   selector: 'ngx-image-detail',
@@ -8,15 +8,19 @@ import {Image} from "../../../../@core/data/image";
   styleUrls: ['./image-detail.component.scss']
 })
 export class ImageDetailComponent implements OnInit {
-  @Input() allImages: Array<Image>;
+  @Input() allImages: [{ name: any; src: string; }];
   @Input() index: number;
   image: any;
 
   constructor(
-    protected dialogRef: NbDialogRef<ImageDetailComponent>,
+    public dialogRef: NbDialogRef<ImageDetailComponent>,
   ) { }
 
   ngOnInit() {
+    this.loadImage();
+  }
+
+  loadImage() {
     this.image = this.allImages[this.index];
   }
 

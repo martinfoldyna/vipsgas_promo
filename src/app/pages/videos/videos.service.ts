@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {AngularFireStorage} from "@angular/fire/storage";
 import {Video} from "../../@core/data/video";
-import {firestore} from "firebase";
 import {ImageSection} from "../../@core/data/image-section";
 
 @Injectable({
@@ -16,33 +15,7 @@ export class VideosService {
   ) { }
 
   uploadVideo(video: Video) {
-    return new Promise<any>((resolve, reject) => {
-      if(video) {
-        this.storage.upload(`videos/${video.title}`, video.thumbnail.blob).then(image => {
-          if(image.state === 'success') {
-            image.ref.getDownloadURL().then(url => {
-              this.firestore.collection('videos').add({
-                title: video.title,
-                url: video.url,
-                thumbnail: {
-                  name: video.thumbnail.name,
-                  src: url
-                },
-                createdBy: video.createdBy,
-                createdAt: video.createdAt
-              }).then(uploadedVideo => {
-                resolve(uploadedVideo);
-              }).catch(err => {
-                reject(err);
-              })
-            });
-
-
-          }
-
-        })
-      }
-    })
+    return this.firestore.collection('videos').add(video);
   }
 
   loadVideos(): Promise<Video[]> {

@@ -9,7 +9,7 @@ import {ProductsService} from "../products.service";
 })
 export class TuvHeatersComponent implements OnInit {
 
-  private category: string = "tuv-heaters";
+  public category: string = "tuv-heaters";
   allProducts: Array<Product>;
 
   constructor(

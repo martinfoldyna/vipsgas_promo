@@ -1,0 +1,19 @@
+<nb-card status="danger">
+  <nb-card-header>Smazat: <b>{{title}}</b></nb-card-header>
+  <nb-card-body *ngIf="!category">
+    Určite si přejete smazat {{title}}?
+  </nb-card-body>
+  <nb-card-body *ngIf="category">
+    Určite si přejete smazat kategorii {{title}}? Veškeré produkty v této kategorii budou smazány.
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-6">
+        <button nbButton status="info" fullWidth (click)="dialogRef.close(true)">Ano</button>
+      </div>
+      <div class="col-6">
+        <button nbButton status="danger" fullWidth (click)="dialogRef.close(false)">Ne</button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

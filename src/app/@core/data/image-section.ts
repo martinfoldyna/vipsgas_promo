@@ -1,3 +1,5 @@
+import {Image} from "./image";
+
 export interface ImageSection {
   id?: string;
   name?: string;
@@ -16,9 +18,6 @@ export interface ImageSection {
     name?: string;
     photoURL?: string;
   };
-  images?: [{
-    name: any;
-    src: string;
-  }];
+  images?: Array<Image>;
   imageSrcs?: any;
 }

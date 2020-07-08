@@ -9,7 +9,7 @@ import {ImagesService} from "../../../@core/utils/images.service";
   styleUrls: ['./boiler-regulation.component.scss']
 })
 export class BoilerRegulationComponent implements OnInit {
-  private category: string = "boiler-regulation";
+  public category: string = "boiler-regulation";
   allProducts: Array<Product>;
 
   constructor(

@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {AngularFireStorage} from "@angular/fire/storage";
 import {NgxImageCompressService} from "ngx-image-compress";
 import {ImageSection} from "../data/image-section";
+import {Image} from "../data/image";
+import {firestore} from "firebase/app";
+import {AngularFirestore} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +12,14 @@ import {ImageSection} from "../data/image-section";
 export class ImagesService {
 
   constructor(
-    private storage: AngularFireStorage,
+    private fireStorage: AngularFireStorage,
+    private _firestore: AngularFirestore,
     private imageCompress: NgxImageCompressService
   ) { }
 
   getImage(collection, imageName): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-      this.storage.ref(`${collection}/${imageName}`).getDownloadURL().subscribe(image => {
+      this.fireStorage.ref(`${collection}/${imageName}`).getDownloadURL().subscribe(image => {
         resolve(image);
       }, err => {
         reject(err);
@@ -25,7 +29,7 @@ export class ImagesService {
 
   deleteImage(collection, imageName): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.storage.ref(`${collection}/${imageName}`).delete().subscribe(image => {
+      this.fireStorage.ref(`${collection}/${imageName}`).delete().subscribe(image => {
         resolve(image)
       }, err => {
         reject(err);
@@ -74,12 +78,32 @@ export class ImagesService {
     }))
   }
 
-  deleteAllImagesInSection(sectionId, sectionImages: {name: string; src: string}[]) {
+  uploadImageToDocument(collection, documentID, image: Image): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      if(sectionImages) {
+      this.fireStorage.upload(`${collection}/${image.name}`, image.blob).then(response => {
+        console.log(response);
+        if (response) {
+          response.ref.getDownloadURL().then(url => {
+            this._firestore.collection(collection).doc(documentID).update(
+              { images: firestore.FieldValue.arrayUnion({name: image.name, url: url})}
+            ).then(firestoreResponse => {
+              resolve(firestoreResponse);
+            })
+          });
+        }
+
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  }
+
+  deleteAllImagesInSection(collection, sectionImages: Array<Image>) {
+    return new Promise<any>((resolve, reject) => {
+      if (sectionImages) {
         for(let i = 0; i < sectionImages.length; i++) {
           let thisImage = sectionImages[i];
-          this.deleteImage('gallery', thisImage.name).then(response => {
+          this.deleteImage(collection, thisImage.name).then(response => {
             console.log(response);
             if(sectionImages.length - 1 === i) {
               resolve('Všechny obrázky byly smazány.');

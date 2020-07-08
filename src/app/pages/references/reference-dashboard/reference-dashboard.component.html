@@ -1,0 +1,61 @@
+<div class="row" *ngIf="authService.getUser()">
+  <div class="col-12 col-lg-8 m-auto">
+    <nb-card>
+      <nb-card-header>Přidat novou referenci</nb-card-header>
+      <nb-card-body>
+        <form #form="ngForm" [formGroup]="referenceForm">
+          <div class="form-group">
+            <label for="reference-title" class="label">Název reference</label>
+            <input type="text" nbInput placeholder="Název reference" id="reference-title" name="reference-title" fieldSize="large" [(ngModel)]="newReference.title" fullWidth [formControl]="referenceForm.controls.name">
+          </div>
+          <div class="form-group">
+            <label for="reference-content" class="label">Popis reference</label>
+            <tinymce id="reference-content" [(ngModel)]="newReference.content" [formControl]="referenceForm.controls.description"></tinymce>
+          </div>
+          <div class="form-group">
+            <button nbButton status="primary" fullWidth (click)="createNewReference()" [disabled]="!form.valid"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát</button>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<h2>Reference</h2>
+
+    <nb-card (click)="router.navigateByUrl('/pages/references/detail/'+reference.id)" class="scale reference-card font-weight-bold" *ngFor="let reference of allReferences">
+      <nb-card-body>{{reference.title}}</nb-card-body>
+    </nb-card>
+
+<!--<div class="row">-->
+<!--  <div class="col-md-4">-->
+<!--    <nb-card>-->
+<!--      <nb-card-body>-->
+<!--        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae cupiditate ducimus iure iusto ratione. Aperiam autem delectus ea excepturi iure iusto maxime natus necessitatibus quidem repellat similique, sint tempore velit.-->
+<!--      </nb-card-body>-->
+<!--      <nb-card-footer>-->
+<!--        <nb-user name="Jirka Horka"></nb-user>-->
+<!--      </nb-card-footer>-->
+<!--    </nb-card>-->
+<!--  </div>-->
+<!--  <div class="col-md-4">-->
+<!--    <nb-card>-->
+<!--      <nb-card-body>-->
+<!--        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae cupiditate ducimus iure iusto ratione. Aperiam autem delectus ea excepturi iure iusto maxime natus necessitatibus quidem repellat similique, sint tempore velit.-->
+<!--      </nb-card-body>-->
+<!--      <nb-card-footer>-->
+<!--        <nb-user name="Jirka Horka"></nb-user>-->
+<!--      </nb-card-footer>-->
+<!--    </nb-card>-->
+<!--  </div>-->
+<!--  <div class="col-md-4">-->
+<!--    <nb-card>-->
+<!--      <nb-card-body>-->
+<!--        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae cupiditate ducimus iure iusto ratione. Aperiam autem delectus ea excepturi iure iusto maxime natus necessitatibus quidem repellat similique, sint tempore velit.-->
+<!--      </nb-card-body>-->
+<!--      <nb-card-footer>-->
+<!--        <nb-user name="Jirka Horka"></nb-user>-->
+<!--      </nb-card-footer>-->
+<!--    </nb-card>-->
+<!--  </div>-->
+<!--</div>-->

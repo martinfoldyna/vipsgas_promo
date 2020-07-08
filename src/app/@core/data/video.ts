@@ -1,8 +1,8 @@
 import {User} from "./user";
 
 export interface Video {
+
   id?: string;
-  platform?: any;
   title?: string;
   url?: string;
   thumbnail?: {
@@ -10,6 +10,7 @@ export interface Video {
     blob?: Blob;
     src?: string;
   };
+  youtubeID?: string;
   createdBy?: any;
   createdAt?: number;
 }

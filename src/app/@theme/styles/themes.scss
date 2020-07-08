@@ -93,13 +93,25 @@ $nb-themes: nb-register-theme((
 
 $nb-themes: nb-register-theme((
 
-  color-primary-100: #FEE9CC,
-  color-primary-200: #FECD99,
-  color-primary-300: #FEAA66,
-  color-primary-400: #FE8840,
-  color-primary-500: #FE5001,
-  color-primary-600: #DA3600,
-  color-primary-700: #B62100,
-  color-primary-800: #931100,
-  color-primary-900: #790600,
+  //color-primary-100: #FEE9CC,
+  //color-primary-200: #FECD99,
+  //color-primary-300: #FEAA66,
+  //color-primary-400: #FE8840,
+  //color-primary-500: #FE5001,
+  //color-primary-600: #DA3600,
+  //color-primary-700: #B62100,
+  //color-primary-800: #931100,
+  //color-primary-900: #790600,
+
+  color-primary-100: #FEF0D8,
+  color-primary-200: #FEDDB2,
+  color-primary-300: #FEC58C,
+  color-primary-400: #FEAE6F,
+  color-primary-500: #FE8840,
+  color-primary-600: #DA652E,
+  color-primary-700: #B64720,
+  color-primary-800: #932D14,
+  color-primary-900: #791B0C,
+
+  //color-primary-hover: color-primary-600
 ), default, default);

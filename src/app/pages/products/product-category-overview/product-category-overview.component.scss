@@ -1,0 +1,30 @@
+.category-overview-item {
+  margin: 1em 0;
+}
+
+nb-card.category-position-options {
+  box-shadow: none;
+}
+
+.category-type-options {
+}
+
+.category-type-options li {
+  padding-top: .5em;
+  padding-bottom: .5em;
+  border-bottom: 1px solid #efefef;
+}
+
+.category-type-options li:last-of-type {
+  border-bottom: none;
+}
+
+.category-type-options > li {
+  font-weight: 600;
+  list-style: none;
+}
+
+.p-left-0 {
+  padding-left: 0;
+}
+

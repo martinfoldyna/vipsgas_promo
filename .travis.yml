@@ -20,10 +20,10 @@ addons:
       - g++-4.8
 
 before_install:
-  - npm i -g npm@latest
+  - npm positionIndex -g npm@latest
 
 install:
-  - travis_retry npm i
+  - travis_retry npm positionIndex
 
 before_script:
 

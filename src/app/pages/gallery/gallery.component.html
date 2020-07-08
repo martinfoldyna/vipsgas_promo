@@ -1,49 +1,51 @@
 <div class="row">
-  <div class="col-md-8 m-auto">
+  <div class="col-12 col-lg-8 m-auto">
     <nb-card *ngIf="authService.getUser()" [nbSpinner]="uploadingSection">
-      <nb-card-header>Přidání nové akce</nb-card-header>
+      <nb-card-header>Přidání nové sekce</nb-card-header>
       <nb-card-body>
-        <form #form="ngForm">
+        <form #form="ngForm" [formGroup]="galleryForm">
           <div class="form-group">
-            <label for="title" class="label">Název akce</label>
-            <input nbInput fullWidth type="text" id="title" name="title" [(ngModel)]="section.name" required placeholder="Zadejte název sekce">
+            <label for="title" class="label">Název sekce</label>
+            <input nbInput fullWidth type="text" id="title" name="title" [(ngModel)]="section.name" placeholder="Zadejte název sekce" [formControl]="galleryForm.controls.name">
           </div>
           <div class="form-group">
-            <label for="secitonId" class="label">Id akce</label>
-            <input nbInput fullWidth type="text" id="secitonId" name="sectionId" [value]="generateSectionId()" disabled placeholder="Zadejte nejdřív název sekce">
+            <label for="secitonId" class="label">Id sekce</label>
+            <input nbInput fullWidth type="text" id="secitonId" name="sectionId" [value]="generateSectionId()" disabled placeholder="Zadejte nejdříve název sekce">
           </div>
           <div class="form-group">
             <label for="sectionDescription" class="label">Popis</label>
-            <textarea nbInput fullWidth type="text" id="sectionDescription" name="name" [(ngModel)]="section.description" required placeholder="Zadejte název kategorie">
-            </textarea>
+<!--            <textarea nbInput fullWidth type="text" id="sectionDescription" name="name" [(ngModel)]="section.description" required placeholder="Zadejte název kategorie" [formControl]="galleryForm.controls.description">-->
+<!--            </textarea>-->
+            <tinymce id="sectionDescription" [formControl]="galleryForm.controls.description" [(ngModel)]="section.description"></tinymce>
           </div>
           <div class="form-group">
-            <label for="product-thumbnail" class="label">Vyberte titulní obrázek akce</label><br>
-            <input type="file" id="product-thumbnail" name="thumbnail" nbInput (change)="onFileChange($event)">
+            <label for="product-thumbnail" class="label">Vyberte titulní obrázek sekce</label><br>
+            <input type="file" id="product-thumbnail" name="thumbnail" nbInput (change)="onFileChange($event)" [formControl]="galleryForm.controls.thumbnail">
           </div>
-          <button nbButton (click)="addSection(form.value)" fullWidth>Odeslat</button>
+          <button nbButton (click)="addSection()" fullWidth [disabled]="!form.valid"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát</button>
         </form>
       </nb-card-body>
     </nb-card>
   </div>
 </div>
+<h2>Fotografie z akcí</h2>
 <div class="row" *ngIf="allSections">
+
   <div class="col-md-4" *ngFor="let section of allSections">
 
-      <nb-card class="scale">
+      <nb-card class="scale" (click)="openDetail(section)" style="cursor: pointer; overflow: hidden !important;">
         <nb-card-header class="d-flex justify-content-between">
           {{section.name}}
-          <a routerLink="/pages/gallery/detail/{{section.sectionId}}" class="align-self-center"><nb-icon icon="arrow-forward"></nb-icon></a>
         </nb-card-header>
         <nb-card-body class="section-image">
 
             <div class="thumbnail" [ngStyle]="{'background-image': 'url(' + section.thumbnail.image + ')'}" style="width: 100%; height: 40vh; background-position: center; background-repeat: no-repeat; background-size: cover"></div>
 
         </nb-card-body>
-        <nb-card-footer class="d-flex justify-content-between">
-          <nb-user [name]="section.createdBy.name ? section.createdBy.name : section.createdBy.email" [picture]="section.createdBy.photoURL" [title]="section.createdAt | dfnsFormat: 'dd.MM.yyyy'"></nb-user>
-          <nb-icon class="align-self-center" icon="trash-2-outline" (click)="deleteSection(section)" status="danger" *ngIf="authService.getUser()" style="cursor: pointer;"></nb-icon>
-        </nb-card-footer>
+<!--        <nb-card-footer class="d-flex justify-content-between">-->
+<!--          <nb-user [name]="section.createdBy.name ? section.createdBy.name : section.createdBy.email" [picture]="section.createdBy.photoURL" [title]="section.createdAt | dfnsFormat: 'dd.MM.yyyy'"></nb-user>-->
+<!--&lt;!&ndash;          <nb-icon class="align-self-center" icon="trash-2-outline" (click)="deleteSection(section)" status="danger" *ngIf="authService.getUser()" style="cursor: pointer;"></nb-icon>&ndash;&gt;-->
+<!--        </nb-card-footer>-->
       </nb-card>
   </div>
 </div>

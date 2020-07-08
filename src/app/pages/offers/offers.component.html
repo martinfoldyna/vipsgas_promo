@@ -1,0 +1,45 @@
+<div class="row" *ngIf="authService.getUser()">
+  <div class="col-12 col-lg-8 m-auto">
+    <nb-card [nbSpinner]="uploadingOffer" nbSpinnerStatus="primary" nbSpinnerMessage="Nahrávám akci..">
+      <nb-card-header>Přidat novou novinku</nb-card-header>
+      <nb-card-body>
+        <form #form="ngForm" [formGroup]="offerForm">
+          <div class="form-group">
+            <label for="offer-thumbnail" class="label">Náhledový obrázek akce</label><br>
+            <input type="file" id="offer-thumbnail" nbInput accept="image/*" required (change)="onThumbnailChange($event)" [formControl]="offerForm.controls.thumbnail">
+          </div>
+          <div class="form-group">
+            <label for="offer-content" class="label">Obsah akce</label><br>
+            <input type="file" id="offer-content" nbInput accept="application/pdf" required (change)="onContentChange($event)" [formControl]="offerForm.controls.content">
+          </div>
+          <button nbButton (click)="uploadOffer()" fullWidth [disabled]="!form.valid"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<div class="row">
+  <h2>Akce</h2>
+</div>
+<div class="row">
+  <div class="col-12">
+    <nb-alert status="warning" *ngIf="!allOffers || allOffers.length === 0">
+      <div class="d-flex">
+        <nb-icon icon="alert-triangle-outline" class="align-self-center" style="margin-right: .8em;"></nb-icon>
+        <span class="align-self-center">Tato sekce neobsahuje žádný obsah</span>
+      </div>
+    </nb-alert>
+  </div>
+  <div class="col-3" *ngFor="let offer of allOffers">
+    <nb-card style="overflow:hidden" class="scale">
+      <a [href]="offer.content.url" target="_blank">
+      <div class="thumbnail" [ngStyle]="{'background-image': 'url(' + offer.thumbnail.url + ')'}" style="width: 100%; height: 30vh; background-position: center; background-repeat: no-repeat; background-size: cover"></div>
+      </a>
+      <nb-card-footer *ngIf="authService.getUser()">
+        <button nbButton status="danger" fullWidth (click)="removeOffer(offer.id)"><nb-icon icon="trash-2-outline"></nb-icon></button>
+      </nb-card-footer>
+    </nb-card>
+  </div>
+</div>
+
+

@@ -1,32 +1,45 @@
 <h2>Penzion CAIUS</h2>
-<nb-card style="height: 100%;">
-  <nb-card-header>Informace</nb-card-header>
+<nb-card style="height: 100%;" *ngIf="!editContent" [nbSpinner]="loadingContent" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám obsah">
+  <nb-card-header>
+    <div class="d-flex justify-content-between align-items-center">
+<!--      <div class="col-11">-->
+      <ng-container>
+        Informace
+      </ng-container>
+<!--      </div>-->
+<!--      <div class="col-1">-->
+        <button nbButton status="warning" *ngIf="authService.getUser">
+          <nb-icon icon="edit-outline" (click)="editContent = !editContent"></nb-icon>
+        </button>
+<!--      </div>-->
+    </div>
+  </nb-card-header>
   <nb-card-body>
-    <p>Služeb Penzionu CAIUS mohou využít pouze obchodní partneři firmy VIPS gas s.r.o. a jejich rodinní příslušníci.<br>
-    Penzion CAIUS se nachází v obci Heřmanice v Podještědí, přibližně 25 km od Liberce směrem na Děčín. Penzion vznikl rekonstrukcí stávající budovy a jeho moderní interiér je zařízen ve stylu "ARMY".</p>
-
-    <p>K ubytování jsou k dispozici tří a čtyřlůžkové pokoje s televizí, bezdrátovým připojením k internetu Wi-Fi a vlastním sociálním zařízením. Vzhledem k technickým možnostem penzionu není možné poskytnout ubytování "domácím mazličkům".</p>
-
-    <p>
-    Penzion nabízí rekreaci pro celou rodinu s možností polopenze.<br>
-    Polopenze je k dipozici při požadavku na stravování od minimálního počtu osmi ubytovaných. Firmy zde mohou pořádat svá firemní zasedání a to včetně ubytování a občerstvení.
-    </p>
-    <p>
-      K objednání pobytu či závazné rezervaci použijte výhradně náš online <b><a href="https://www.immergas.cz/caius/">"Formulář pro rezervaci termínu pobytu"</a></b>.<br>
-    Okolí penzionu skýtá mimo jiné mnoho turistických tras a cyklostezek, které vás provedou po nádherném okolí obce Heřmanice.
-    </p>
-    <p> Líbila se Vám armádní technika na Penzionu CAIUS ? Rádi byste si koupili originální vojenskou výstroj? Tak neváhejte a navštivte naše internetové stránky
-      <b><a href="http://www.vipsarmy.cz/">www.vipsarmy.cz!</a></b></p>
+    <div class="pension-content" [innerHTML]="data.description" *ngIf="data">
+    </div>
     <div class="gallery d-flex justify-content-center" >
-      <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+    </div>
+  </nb-card-body>
+</nb-card>
+<nb-card *ngIf="editContent">
+  <nb-card-header>Upravit popisek</nb-card-header>
+  <nb-card-body>
+    <tinymce [(ngModel)]="data.description" [ngModelOptions]="{standalone: true}"></tinymce>
+    <div class="row" style="margin-top: .5rem;">
+      <div class="col-6">
+        <button nbButton (click)="updateContent()" fullWidth>Upravit</button>
+      </div>
+      <div class="col-6">
+        <button nbButton (click)="editContent = !editContent" status="danger" fullWidth>Zpět</button>
+      </div>
     </div>
   </nb-card-body>
 </nb-card>
 
-<!--<div class="row">-->
-<!--  <div class="col-md-3" *ngFor="let image of galleryImages">-->
-<!--    <nb-card>-->
-<!--      <img [src]="image.small" alt="">-->
-<!--    </nb-card>-->
-<!--  </div>-->
-<!--</div>-->
+<div class="row">
+  <div class="col-md-3" *ngFor="let image of galleryImages; let i = index">
+    <nb-card class="image-card" [ngStyle]="{'background-image': 'url(' + image.small + ')'}" (click)="openImage(galleryImages, i)">
+
+    </nb-card>
+  </div>
+</div>

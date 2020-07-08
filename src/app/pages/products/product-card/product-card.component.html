@@ -1,15 +1,15 @@
-<a [routerLink]="productDetailLink">
-  <nb-card class="scale">
-    <nb-card-body class="image-wrapper">
-      <div class="thumbnail position-relative" [ngStyle]="{'background-image': ' url(' + product.thumbnailURL + ')'}" style="width: 100%; height: 40vh; background-position: center; background-repeat: no-repeat; background-size: cover"></div>
+
+  <nb-card class="scale" style="cursor: pointer" (click)="navigateToProductDetail()">
+    <nb-card-body class="image-wrapper d-flex justify-content-center">
+<!--      <div class="thumbnail position-relative" [ngStyle]="{'background-image': ' url(' + product.thumbnailURL + ')'}" style="width: 100%; height: 40vh; background-position: center; background-repeat: no-repeat; background-size: cover">-->
+      <img defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="thumbnail ? thumbnail.url : './../../../../assets/images/placeholder.png'" alt="" >
+<!--      <img src="./../../../../assets/images/placeholder.png" alt="" >-->
+<!--      </div>-->
 
 <!--      <img [src]="product.thumbnailURL" alt="" style="width: 100%">-->
     </nb-card-body>
-    <nb-card-footer class="d-flex justify-content-between">
+    <nb-card-footer>
       <h3>{{product.name}}</h3>
-
-        <nb-icon icon="more-vertical-outline" class="align-self-center" *ngIf="authService.getUser()" style="cursor: pointer;"></nb-icon>
 
     </nb-card-footer>
   </nb-card>
-</a>

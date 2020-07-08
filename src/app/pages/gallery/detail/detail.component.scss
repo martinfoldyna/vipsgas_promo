@@ -4,3 +4,16 @@
   height: 100%;
   background-color: rgba(0, 0, 0, 0.28);
 }
+
+::ng-deep nb-card.gallery-item {
+  transition: all .5s;
+  overflow: hidden;
+}
+
+::ng-deep nb-card.gallery-item:hover {
+  transform: scale(1.03);
+}
+
+.gallery-item .thumbnail {
+  cursor: pointer;
+}

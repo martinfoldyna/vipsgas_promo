@@ -4,6 +4,10 @@ import {ImageSection} from "../../@core/data/image-section";
 import {GalleryService} from "./gallery.service";
 import {ImagesService} from "../../@core/utils/images.service";
 import {GeneralService} from "../../@core/utils/general.service";
+import {Router} from "@angular/router";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {TinyMceConfig} from "../../@core/data/tinyMceConfig";
+import {NbToastrService} from "@nebular/theme";
 
 @Component({
   selector: 'ngx-gallery',
@@ -16,12 +20,19 @@ export class GalleryComponent implements OnInit {
   section: ImageSection;
   allSections: Array<ImageSection>;
 
+  galleryForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    thumbnail: new FormControl('', Validators.required)
+  })
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private galleryService: GalleryService,
     private imagesService: ImagesService,
     private generalService: GeneralService,
+    private router: Router,
+    private toastr: NbToastrService
   ) {
     this.allSections = new Array<ImageSection>();
     this.section = {
@@ -67,10 +78,11 @@ export class GalleryComponent implements OnInit {
       this.section.createdBy = this.authService.getUser();
       console.log(this.section);
       this.galleryService.addSection(this.section).then(response => {
-        console.log(response);
+        this.toastr.success('', 'Nová sekce byla úspěšně vytvořena.')
         this.loadSections();
+        this.galleryForm.reset();
       }).catch(err => {
-        console.log(err);
+        this.toastr.danger(err ? JSON.stringify(err) : 'Během nahrávání sekce došlo k chybě.', 'Chyba')
       })
     } else {
       console.log('section is not defined');
@@ -99,14 +111,7 @@ export class GalleryComponent implements OnInit {
     })
   }
 
-  deleteSection(section: ImageSection) {
-    this.generalService.deleteItem('gallery', section.id).then(response => {
-      this.imagesService.deleteAllImagesInSection(section.sectionId, section.images).then(response => {
-        console.log(response);
-      }).catch(err =>{
-        console.log(err);
-      })
-      this.loadSections();
-    })
+  openDetail(section: ImageSection) {
+    this.router.navigateByUrl('/pages/gallery/detail/' + section.sectionId)
   }
 }

@@ -1,94 +1,104 @@
-<p *ngIf="productLoaded"><a routerLink="/pages/products/" style="color: inherit">Produkty</a>&nbsp;/&nbsp;<a [routerLink]="productCategory.url" style="color: inherit">{{productCategory.name}}</a>&nbsp;/&nbsp;<b>{{product.name}}</b></p>
+<p *ngIf="productLoaded"><a routerLink="/pages/products/" style="color: inherit">Produkty</a>&nbsp;/&nbsp;<a routerLink="/pages/products/category/{{product.productCategory.id}}" style="color: inherit">{{product.productCategory.name}}</a>&nbsp;/&nbsp;<b>{{product.name}}</b></p>
 
-<!--<nb-card [nbSpinner]="!productLoaded" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám produkt.." style="height: 70vh; overflow: hidden;">-->
-<!--  <nb-card-body>-->
-<!--    <div class="row">-->
-<!--      <div class="left-col col-md-8 overflow-hidden" >-->
-<!--        <h2>{{product.name}}</h2>-->
-<!--        <p>-->
-<!--          Immergas VICTRIX 12 X TT 2 ErP je nástěnný kondenzační kotel s uzavřenou spalovací komorou o tepelném výkonu 1,9 - 12,0 kW určený k vytápění s možností ohřevu TUV v nepřímotopném stacionárním zásobníku.-->
-<!--          Kotel VICTRIX 12 X TT 2 ErP je vybaven modulovaným, energeticky úsporným čerpadlem. Po dopojení venkovní sondy (3.014083, volitelné příslušenství) je ekvitermní regulace v základní výbavě kolte. Elektronická výbava kotle dovoluje připojit řídicí jednotku CAR<sup>V2</sup>, která umožňuje monitorování kotle, dálkové ovládání a regulaci v závislosti na aktuálních klimatických podmínkách. Dále  elektronika umožňuje připojení zónových jednotek DIM ErP nebo samostatnou zónovou centrálu.-->
-<!--        </p>-->
-<!--        <p>-->
-<!--          Tento kotel je zaregistrován do databáze SVT (Seznam výrobků a technologií)  k  Operačnímu programu Životní prostředí (OPŽP) 2014-2020 "Kotlíkové dotace".-->
-<!--        </p>-->
-<!--        <ul>-->
-<!--          <li>Třída sezonní energetické účinnosti vytápění - A</li>-->
-<!--          <li>Samonastavitelný plynový ventil - automatická kontrola spalování</li>-->
-<!--          <li>Enegeticky úsporné modulované čerpadlo</li>-->
-<!--          <li>Digitální displej</li>-->
-<!--          <li>Elektrické krytí IPX5D</li>-->
-<!--          <li>Možnost připojit nepřímotopný zásobník TUV - trojcestný ventil v základní výbavě</li>-->
-<!--          <li>Regulace okruhu TUV je již v základní výbavě kotlekotlikova-dotace-logo</li>-->
-<!--          <li>Automatický by-pass je v základní výbavě</li>-->
-<!--          <li>Ekvitermní regulace v základní výbavě kotle</li>-->
-<!--          <li>Možnost regulace teploty analog. signálem 0 - 5 V</li>-->
-<!--          <li>Možnost připojit zónové jednotky DIM ErP</li>-->
-<!--          <li>Třída NOx - 6</li>-->
-<!--          <li>Kotlíková dotace - SVT20371</li>-->
-<!--        </ul>-->
-<!--      </div>-->
-<!--      <div class="right-col col-md-4" style="overflow-y: auto">-->
-<!--        <div class="image-wrapper" >-->
-<!--          <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">-->
-<!--          <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">-->
-<!--          <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </nb-card-body>-->
-<!--</nb-card>-->
-<nb-card [nbSpinner]="!productLoaded" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám produkt..">
-  <nb-card-body>
+<nb-card [nbSpinner]="!productLoaded" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám produkt.." *ngIf="!editingProduct">
+  <nb-card-header *ngIf="authService.getUser()">
+    <div class="row">
+      <div class="col-9">
         <h2>{{product.name}}</h2>
-        <p>
-          Immergas VICTRIX 12 X TT 2 ErP je nástěnný kondenzační kotel s uzavřenou spalovací komorou o tepelném výkonu 1,9 - 12,0 kW určený k vytápění s možností ohřevu TUV v nepřímotopném stacionárním zásobníku.
-          Kotel VICTRIX 12 X TT 2 ErP je vybaven modulovaným, energeticky úsporným čerpadlem. Po dopojení venkovní sondy (3.014083, volitelné příslušenství) je ekvitermní regulace v základní výbavě kolte. Elektronická výbava kotle dovoluje připojit řídicí jednotku CAR<sup>V2</sup>, která umožňuje monitorování kotle, dálkové ovládání a regulaci v závislosti na aktuálních klimatických podmínkách. Dále  elektronika umožňuje připojení zónových jednotek DIM ErP nebo samostatnou zónovou centrálu.
-        </p>
-        <p>
-          Tento kotel je zaregistrován do databáze SVT (Seznam výrobků a technologií)  k  Operačnímu programu Životní prostředí (OPŽP) 2014-2020 "Kotlíkové dotace".
-        </p>
-        <ul>
-          <li>Třída sezonní energetické účinnosti vytápění - A</li>
-          <li>Samonastavitelný plynový ventil - automatická kontrola spalování</li>
-          <li>Enegeticky úsporné modulované čerpadlo</li>
-          <li>Digitální displej</li>
-          <li>Elektrické krytí IPX5D</li>
-          <li>Možnost připojit nepřímotopný zásobník TUV - trojcestný ventil v základní výbavě</li>
-          <li>Regulace okruhu TUV je již v základní výbavě kotlekotlikova-dotace-logo</li>
-          <li>Automatický by-pass je v základní výbavě</li>
-          <li>Ekvitermní regulace v základní výbavě kotle</li>
-          <li>Možnost regulace teploty analog. signálem 0 - 5 V</li>
-          <li>Možnost připojit zónové jednotky DIM ErP</li>
-          <li>Třída NOx - 6</li>
-          <li>Kotlíková dotace - SVT20371</li>
-        </ul>
-  </nb-card-body>
-</nb-card>
-<nb-card>
+      </div>
+      <div class="col-md-1">
+        <button nbButton status="info" fullWidth (click)="uploadNewImages=!uploadNewImages">
+          <nb-icon icon="plus-outline"></nb-icon>
+        </button>
+      </div>
+      <div class="col-md-1">
+        <button nbButton status="warning" (click)="editingProduct = true" fullWidth>
+          <nb-icon icon="edit-outline"></nb-icon>
+        </button>
+      </div>
+      <div class="col-md-1" (click)="deleteProduct()">
+        <button nbButton status="danger" fullWidth>
+          <nb-icon icon="trash-2-outline"></nb-icon>
+        </button>
+      </div>
+    </div>
+  </nb-card-header>
   <nb-card-body>
-    <ck-editor [(ngModel)]="html" (editorKeyup)="logHtml()"></ck-editor>
+        <h2 *ngIf="!authService.getUser()">{{product.name}}</h2>
+        <div class="product-description" [innerHTML]="product.description">
+        </div>
   </nb-card-body>
 </nb-card>
+<nb-card *ngIf="editingProduct">
+  <nb-card-body>
+    <form #form="ngForm">
+      <div class="form-group">
+        <label for="title" class="label">Název produkt</label>
+        <input nbInput fullWidth type="text" id="title" name="name" [(ngModel)]="product.name" required placeholder="Zadejte název produktu">
+      </div>
+      <div class="form-group">
+        <label for="product-description" class="label">Popis produktu</label>
+        <tinymce id="product-description" [(ngModel)]="product.description" [ngModelOptions]="{standalone: true}" [config]="tinyMceConfig"></tinymce>
+      </div>
+      <div class="form-group">
+        <label for="product-update-thumbnail" class="label">Náhledový obrázek</label>
+        <div id="product-update-thumbnail" class="thumbnail position-relative" [ngStyle]="{'background-image': ' url(' + product.thumbnailURL + ')'}" style="width: auto; height: 40vh; background-position: left center; background-repeat: no-repeat; background-size: contain;"></div>
+        <div>
+          <input type="file" nbInput style="margin-bottom: .8em" (change)="onThumbnailChange($event)"><br>
+          <button nbButton (click)="changeThumbnail()">Změnit</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <button nbButton fullWidth status="info" (click)="editProduct()"><nb-icon icon="cloud-upload-outline"></nb-icon>Odeslat</button>
+        </div>
+        <div class="col-md-6">
+          <button nbButton (click)="editingProduct=false" fullWidth status="danger">Zrušit</button>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+
+<!-- TODO: Update thumbnail image -->
+
+<nb-card *ngIf="uploadNewImages">
+  <nb-card-header>Nahrát nové obrázky</nb-card-header>
+  <nb-card-body>
+    <form>
+      <div class="form-group">
+        <label for="new-image" class="label">Nahrát nové obrázky</label><br>
+        <input type="file" #newImageInput id="new-image" multiple accept="image/*" nbInput (change)="onFileChange($event)">
+      </div>
+      <div class="form-group">
+        <button nbButton (click)="uploadImages(); newImageInput.value = ''"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-md-3" *ngFor="let image of selectedImagesPreview; let i = index" >
+        <nb-card style="width: 100%; height: 340px; overflow: hidden">
+          <nb-card-body defaultImage="../../../../assets/images/placeholder.png" [lazyLoad]="image.url" style="background-size: cover; background-position: center; background-image: url('./../../../../assets/images/placeholder.png')"></nb-card-body>
+          <nb-card-footer>
+            <button nbButton fullWidth status="danger" (click)="removeFromList(i)">
+              <nb-icon icon="trash-2-outline"></nb-icon>
+            </button>
+          </nb-card-footer>
+        </nb-card>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
+
 <div class="row">
-  <div class="col-md-3">
-    <nb-card>
-      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
-    </nb-card>
-  </div>
-  <div class="col-md-3">
-    <nb-card>
-      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
-    </nb-card>
-  </div>
-  <div class="col-md-3">
-    <nb-card>
-      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
-    </nb-card>
-  </div>
-  <div class="col-md-3">
-    <nb-card>
-      <img src="../../../../assets/images/placeholder.png" alt="" style="width: 100%;">
+  <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let image of product.images; let i = index">
+    <nb-card class="detail-image-container scale">
+      <div class="thumbnail position-relative" (click)="openImage(product.images, i)" [ngStyle]="{'background-image': ' url(' + image.url + ')'}" ></div>
+
+      <nb-card-footer *ngIf="authService.getUser()">
+        <button *ngIf="image.thumbnail" nbButton fullWidth disabled status="danger">Náhled. obrázek nelze odstranit</button>
+        <button *ngIf="!image.thumbnail" nbButton fullWidth status="danger" (click)="deleteImageFromProduct(image.name)"><nb-icon icon="trash-2-outline"></nb-icon></button>
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>
+

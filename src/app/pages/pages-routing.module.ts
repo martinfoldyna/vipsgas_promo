@@ -9,6 +9,7 @@ import {ReferencesComponent} from "./references/references.component";
 import {NewsComponent} from "./news/news.component";
 import {patch} from "@nebular/theme";
 import {VideosComponent} from "./videos/videos.component";
+import {OffersComponent} from "./offers/offers.component";
 
 const routes: Routes = [{
   path: '',
@@ -29,11 +30,16 @@ const routes: Routes = [{
     },
     {
       path: 'references',
-      component: ReferencesComponent,
+      loadChildren: () => import('./references/references.module')
+        .then(m => m.ReferencesModule)
     },
     {
       path: 'news',
       component: NewsComponent,
+    },
+    {
+      path: 'offers',
+      component: OffersComponent
     },
     {
       path: 'videos',

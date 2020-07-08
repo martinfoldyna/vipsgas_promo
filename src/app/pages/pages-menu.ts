@@ -16,8 +16,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/news',
     icon: 'message-square-outline',
   }, {
+    title: 'Akce',
+    link: '/pages/offers',
+    icon: 'alert-triangle-outline'
+  },{
     title: 'Reference',
-    link: '/pages/references',
+    link: '/pages/references/dashboard',
     icon: 'edit-2-outline',
   }, {
     title: 'Produktová videa',

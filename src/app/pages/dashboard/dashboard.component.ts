@@ -18,6 +18,10 @@ export class DashboardComponent implements OnInit {
       url: '/pages/news',
       image: 'news.jpg',
     }, {
+      name: 'Akce',
+      url: '/pages/offers',
+      image: 'offers.jpg',
+    }, {
       name: 'Reference',
       url: '/pages/references',
       image: 'references.jpg',

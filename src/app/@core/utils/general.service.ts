@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/firestore";
 import {ImagesService} from "./images.service";
+import {Image} from "../data/image";
+import {AngularFireStorage} from "@angular/fire/storage";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,8 @@ export class GeneralService {
 
   constructor(
     private firestore: AngularFirestore,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private fireStorage: AngularFireStorage
   ) { }
 
   generateRandomString(): string {
@@ -25,8 +28,8 @@ export class GeneralService {
     return returnString + Date.now() + '.jpg';
   }
 
-  deleteItem(collection, item): Promise<void> {
-    return this.firestore.doc(`${collection}/${item}`).delete();
+  deleteItem(collection, itemID): Promise<void> {
+    return this.firestore.doc(`${collection}/${itemID}`).delete();
   }
 
   setupFileReader(file) {
@@ -47,4 +50,40 @@ export class GeneralService {
       reader.readAsDataURL(file);
     })
   }
+
+  deleteAllImagesInDocument(images: Array<Image>, collection: string) {
+    return new Promise((resolve, reject) => {
+      let imagesDelted = 0;
+      for(let image of images) {
+        this.fireStorage.ref(`${collection}
+        /${image.name}`).delete().subscribe(storageResponse => {
+          console.log(storageResponse);
+          imagesDelted += 1;
+          if (imagesDelted === (images.length - 1)) {
+            resolve('Všechny obrázky byly smazány');
+          } else {
+            reject('Během procesu došlo k problému, zkuste to prosím později.');
+          }
+        }, err => reject(err));
+      }
+    })
+  }
+
+  removeImageFromProduct(collection, docID, imageName, images): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.firestore.collection(collection).doc(docID).update({
+        images: images.filter(image => {
+          return image.name !== imageName
+        })
+      }).then(response => {
+        this.fireStorage.ref(`${collection}/${imageName}`).delete().subscribe(storageResponse => {
+          resolve(storageResponse)
+        }, err => reject(err));
+      }).catch(err => {
+        reject(err);
+      })
+    })
+
+  }
+
 }

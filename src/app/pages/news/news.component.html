@@ -1,18 +1,21 @@
 <div class="row" *ngIf="authService.getUser()">
-  <div class="col-lg-8 col-md-12 m-auto">
+  <div class="col-12 col-lg-8 m-auto">
     <nb-card>
       <nb-card-header>Přidat novou novinku</nb-card-header>
       <nb-card-body>
-        <form #form="ngForm">
+        <form #form="ngForm" [formGroup]="newsForm">
           <div class="form-group">
             <label for="title" class="label">Titulek</label>
-            <input nbInput fullWidth type="text" id="title" name="name" [(ngModel)]="news.title" required placeholder="Zadejte titulek novinky">
+            <input nbInput fullWidth type="text" id="title" name="name" [(ngModel)]="news.title" required placeholder="Zadejte titulek novinky" [formControl]="newsForm.controls.name">
           </div>
           <div class="form-group">
             <label for="message" class="label">Obsah zprávy</label><br>
-            <textarea nbInput fullWidth placeholder="Zadejte obsah zprávy" id="message" [(ngModel)]="news.body" name="message"></textarea>
+<!--            <textarea nbInput fullWidth placeholder="Zadejte obsah zprávy" id="message" [(ngModel)]="news.body" name="message"></textarea>-->
+            <tinymce id="message" [(ngModel)]="news.body" [formControl]="newsForm.controls.description"></tinymce>
           </div>
-          <button nbButton (click)="addArticle()">Odeslat</button>
+          <div class="form-group">
+          <button nbButton (click)="addArticle()" fullWidth [disabled]="!form.valid"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát</button>
+          </div>
         </form>
       </nb-card-body>
     </nb-card>
@@ -22,14 +25,28 @@
   <h2>Novinky</h2>
 </div>
 <div class="row">
+  <div class="col-md-12" *ngIf="allNews.length === 0">
+    <nb-alert status="warning">Tato sekce neobsahuje žádné zprávy</nb-alert>
+  </div>
   <div class="col-md-4" *ngFor="let article of allNews">
-    <nb-card [id]="article.id">
+    <nb-card [nbSpinner]="deletingArticle">
       <nb-card-header class="d-flex justify-content-between">
-        {{article.title}}
-        <nb-icon icon="trash-2-outline" pack="eva" class="align-self-center" status="danger" (click)="deleteArticle(article.id)" *ngIf="authService.getUser()"></nb-icon>
+        <div>
+          {{article.title}}
+          <p class="article-createdAt m-0">Zveřejněno: {{article.createdAt | dfnsFormat: 'dd.MM.yyyy'}}</p>
+        </div>
+        <button nbButton ghost>
+          <nb-icon icon="trash-2-outline" pack="eva" class="align-self-center" status="danger" (click)="deleteArticle(article.id)" *ngIf="authService.getUser()"></nb-icon>
+        </button>
       </nb-card-header>
-      <nb-card-body>{{article.body}}</nb-card-body>
-      <nb-card-footer><nb-user [name]="article.createdBy.name" [title]="article.createdAt | dfnsFormat: 'dd.MM.yyyy'"></nb-user></nb-card-footer>
+      <nb-card-body>
+        <div class="article-content" [innerHTML]="article.body">
+
+        </div>
+      </nb-card-body>
+<!--      <nb-card-footer>-->
+<!--        <p class="article-createdAt m-0">Zveřejněno: {{article.createdAt | dfnsFormat: 'dd.MM.yyyy'}}</p>-->
+<!--      </nb-card-footer>-->
     </nb-card>
   </div>
 </div>

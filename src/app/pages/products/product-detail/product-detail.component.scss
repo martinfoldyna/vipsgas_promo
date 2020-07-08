@@ -1,0 +1,20 @@
+@import "../../../@theme/styles/themes";
+
+.edit-detail-item:hover {
+  color: nb-theme(color-danger-500);
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
+.detail-image-container {
+  overflow: hidden !important;
+}
+
+.detail-image-container .thumbnail {
+  width: 100%;
+  height: 40vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}

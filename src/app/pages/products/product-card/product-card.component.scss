@@ -4,3 +4,13 @@
 ::ng-deep .image-wrapper {
   padding: 0!important;
 }
+
+@import '../../../@theme/styles/themes';
+
+nb-card h3 {
+  transition: color .5s;
+}
+
+nb-card:hover h3 {
+  color: nb-theme(color-primary-400);
+}

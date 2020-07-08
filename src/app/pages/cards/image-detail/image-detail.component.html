@@ -1,8 +1,18 @@
-<nb-card>
+<nb-card class="detailed-image-card">
   <nb-card-header>
-    <nb-icon icon="close-outline" status="danger" (click)="close()"></nb-icon>
+    <button nbButton status="danger">
+      <nb-icon icon="close-outline" class="detailed-iamge-close" (click)="close()"></nb-icon>
+    </button>
   </nb-card-header>
-  <nb-card-body>
-    <img [src]="image.src" alt="">
+  <nb-card-body class="detailed-image-wrapper position-relative">
+    <img [src]="image.url" alt="" class="detailed-image">
+
+    <div class="gallery-back-arrow position-absolute" [hidden]="index - 1 === -1" (click)="index= index - 1;loadImage()">
+      <nb-icon icon="arrow-back-outline"></nb-icon>
+    </div>
+
+    <div class="gallery-forward-arrow position-absolute" [hidden]="index + 1 === allImages.length" (click)="index= index + 1;loadImage()">
+      <nb-icon icon="arrow-forward-outline"></nb-icon>
+    </div>
   </nb-card-body>
 </nb-card>

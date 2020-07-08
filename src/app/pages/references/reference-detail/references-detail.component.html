@@ -1,0 +1,78 @@
+<ng-container *ngIf="!referenceLoaded">
+  <nb-card nbSpinner="true" nbSpinnerMessage="Načítám refrenci" nbSpinnerStatus="primary">
+
+  </nb-card>
+</ng-container>
+<ng-container *ngIf="referenceLoaded">
+  <p *ngIf="referenceLoaded"><a routerLink="/pages/references/" style="color: inherit">Reference</a>&nbsp;/&nbsp;<b>{{siteTitle}}</b></p>
+
+  <div class="row" *ngIf="!updateReference">
+    <div class="col-12">
+      <nb-card *ngIf="referenceLoaded">
+        <nb-card-header *ngIf="authService.getUser()">
+          <div class="row">
+            <div class="col-9">{{reference.title}}</div>
+            <div class="col-3 d-flex justify-content-between admin-function-buttons">
+<!--            <div>-->
+              <button nbButton status="info" fullWidth (click)="uploadNewImages = true"><nb-icon icon="plus-outline"></nb-icon> </button>
+<!--            </div>-->
+<!--            <div>-->
+              <button nbButton status="warning" fullWidth (click)="updateReference = !updateReference"><nb-icon icon="edit-outline"></nb-icon></button>
+<!--            </div>-->
+<!--            <div>-->
+              <button nbButton status="danger" fullWidth (click)="deleteReference()"><nb-icon icon="trash-2-outline"></nb-icon></button>
+<!--            </div>-->
+            </div>
+          </div>
+        </nb-card-header>
+        <nb-card-header *ngIf="!authService.getUser()">{{reference.title}}</nb-card-header>
+        <nb-card-body>
+          <div class="reference-content" [innerHTML]="reference.content"></div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+
+  <ng-container class="row" *ngIf="authService.getUser() && updateReference">
+      <nb-card>
+        <nb-card-header>Upravit referenci: {{reference.title}}</nb-card-header>
+        <nb-card-body>
+          <form #form="ngForm">
+            <div class="form-group">
+              <label for="reference-title" class="label">Název reference</label>
+              <input type="text" nbInput placeholder="Název reference" id="reference-title" name="reference-title" fieldSize="large" [(ngModel)]="reference.title" fullWidth>
+            </div>
+            <div class="form-group">
+              <label for="reference-content" class="label">Popis reference</label>
+              <tinymce id="reference-content" [(ngModel)]="reference.content" [ngModelOptions]="{standalone: true}" [config]="tinyMceConfig" ></tinymce>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-6">
+                  <button nbButton status="primary" fullWidth (click)="editReference()">Odeslat</button>
+                </div>
+                <div class="col-6">
+                  <button nbButton status="danger" fullWidth (click)="updateReference = false">Zpět</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </nb-card-body>
+      </nb-card>
+  </ng-container>
+
+  <ng-container *ngIf="uploadNewImages">
+    <ngx-upload-images dbCollection="references" [documentID]="reference.id" (loadDocument)="loadReference()"></ngx-upload-images>
+  </ng-container>
+
+  <div class="row">
+    <div class="col-3" *ngFor="let image of reference.images; let i = index">
+      <nb-card style="height: 25vh; overflow: hidden !important;" [lightbox]="i">
+        <nb-card-body defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="image.url" style="background-size: cover; background-position: center; background-image: url('./../../../../assets/images/placeholder.png')"></nb-card-body>
+        <nb-card-footer *ngIf="authService.getUser()">
+          <button nbButton fullWidth status="danger">Odstranit</button>
+        </nb-card-footer>
+      </nb-card>
+    </div>
+  </div>
+</ng-container>

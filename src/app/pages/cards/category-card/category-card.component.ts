@@ -10,7 +10,7 @@ import {AuthService} from "../../auth/auth.service";
 export class CategoryCardComponent implements OnInit {
   @Input() category: Category;
 
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
     console.log(this.category);

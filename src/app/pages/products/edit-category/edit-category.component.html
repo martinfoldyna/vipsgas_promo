@@ -1,0 +1,86 @@
+<nb-card class="edit-category" [nbSpinner]="updatingCategory" nbSpinnerStatus="info" nbSpinnerMessage="Upravuji kategorii..">
+  <nb-card-header>
+    Úprava kategorie {{category.name}}
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="editCategoryForm">
+<!--      <div class="form-group">-->
+<!--        <label for="edit-name" class="label">Název kategorie</label>-->
+<!--        <input type="text" id="edit-name" name="edit-name" nbInput [(ngModel)]="category.name" fullWidth>-->
+<!--      </div>-->
+      <div class="form-group">
+        <label for="edit-options" class="label">Umístění a typy kategorí</label>
+        <div id="edit-options">
+          <ng-container *ngFor="let position of category.categoryPositions; let posIndex = index">
+            <p><b>{{position.name}}</b></p>
+            <ul>
+              <ng-container *ngFor="let type of category.categoryTypes; let typeIndex = index">
+                <li *ngIf="type.condition === position.value">{{type.name}}</li>
+              </ng-container>
+              <ng-container *ngFor="let type of typeOptions; let typeIndex = index">
+                <li *ngIf="type.condition === position.value">{{type.name}} <button nbButton size="small" status="danger" ghost (click)="removeFromTypesList(typeIndex)"><nb-icon icon="trash-2-outline"></nb-icon></button></li>
+              </ng-container>
+               <li class="add-new">
+                <div class="row mt-1">
+                  <div class="col-9">
+                    <input type="text" nbInput name="category-type-options" fieldSize="small" fullWidth placeholder="Přidat další typ" #type [formControl]="editCategoryForm.controls.type">
+                  </div>
+                  <div class="col-3">
+                    <button nbButton fullWidth size="small" status="success" [disabled]="editCategoryForm.controls.type.value" (click)="pushToProductType(editCategoryForm.controls.type.value, position); editCategoryForm.controls.type.reset()">Přidat</button>
+                  </div>
+                </div></li>
+            </ul>
+          </ng-container>
+          <ng-container *ngFor="let position of positionOptions; let posIndex = index">
+            <p><b>{{position.name}}</b> <button nbButton size="small" status="danger" ghost (click)="removeFromPositionsList(posIndex)"><nb-icon icon="trash-2-outline"></nb-icon></button></p>
+            <ul>
+              <ng-container *ngFor="let type of category.categoryTypes; let typeIndex = index">
+                <li *ngIf="type.condition === position.value">{{type.name}} <button nbButton size="small" status="danger" ghost (click)="removeFromTypesList(typeIndex)"><nb-icon icon="trash-2-outline"></nb-icon></button></li>
+              </ng-container>
+              <ng-container *ngFor="let type of typeOptions; let typeIndex = index">
+                <li *ngIf="type.condition === position.value">{{type.name}} <button nbButton size="small" status="danger" ghost (click)="removeFromTypesList(typeIndex)"><nb-icon icon="trash-2-outline"></nb-icon></button></li>
+              </ng-container>
+               <li class="add-new">
+                <div class="row mt-1">
+                  <div class="col-9">
+                    <input type="text" nbInput  name="category-type-options" fieldSize="small" fullWidth placeholder="Přidat další typ" [formControl]="editCategoryForm.controls.type">
+                  </div>
+                  <div class="col-3">
+                    <button nbButton fullWidth size="small" status="success" [disabled]="editCategoryForm.controls.type.value" (click)="pushToProductType(editCategoryForm.controls.type.value, position); editCategoryForm.controls.type.reset()">Přidat</button>
+                  </div>
+                </div></li>
+            </ul>
+          </ng-container>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-9">
+            <input type="text" nbInput id="category-position-options" fieldSize="small" autocomplete="off" name="category-position-options" fullWidth placeholder="Přidat další pozici" [formControl]="editCategoryForm.controls.position">
+          </div>
+          <div class="col-3">
+            <button nbButton fullWidth status="success" size="small" [disabled]="editCategoryForm.controls.position.value" (click)="pushToProductPosition(editCategoryForm.controls.position.value); editCategoryForm.controls.position.reset()">Přidat</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="edit-thumbnail" class="label">Náhledový obrázek</label>
+        <div *ngIf="!newThumbnailSrc" id="edit-thumbnail" defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="category.thumbnail.url" class="edit-thumbnail-container"></div>
+        <div *ngIf="newThumbnailSrc" id="edit-thumbnail" defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="newThumbnailSrc" class="edit-thumbnail-container"></div>
+        <input type="file" name="file" id="file" class="inputfile" (change)="onFileChange($event)"/>
+        <button nbButton fullWidth status="info" class="mt-1" size="small"><nb-icon icon="image-outline"></nb-icon><label for="file" class="file-label-button" [nbSpinner]="compressingImage" nbSpinnerStatus="info">Změnit náhledový obrázek</label></button>
+      </div>
+
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-12">
+        <button nbButton fullWidth status="info" (click)="updateCategory()" size="medium"><nb-icon icon="cloud-upload-outline"></nb-icon>Upravit</button>
+      </div>
+      <div class="col-12">
+        <button nbButton fullWidth status="danger" class="mt-1" (click)="dialogRef.close()">Zrušit</button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

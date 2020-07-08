@@ -1,6 +1,7 @@
 <div class="wrapper" *ngIf="section">
+  <p><a routerLink="/pages/gallery/" style="color: inherit">Přehled sekcí</a> / <b>{{section.name}}</b></p>
 
-      <nb-card>
+  <nb-card *ngIf="!updateSectionState">
         <nb-card-header>
           <div class="row">
             <div class="col-md-9 d-flex align-items-center">
@@ -11,8 +12,8 @@
                 <nb-icon icon="plus-outline"></nb-icon>
               </button>
             </div>
-            <div class="col-md-1" *ngIf="authService.getUser()" (click)="updateSection()">
-              <button nbButton status="warning" fullWidth>
+            <div class="col-md-1" *ngIf="authService.getUser()">
+              <button nbButton status="warning" fullWidth (click)="updateSectionState = true">
                 <nb-icon icon="edit-outline"></nb-icon>
               </button>
             </div>
@@ -23,14 +24,36 @@
             </div>
           </div>
         </nb-card-header>
-        <nb-card-body class="">
-          <p class="">{{section.description}}</p>
+        <nb-card-body>
+          <div [innerHTML]="section.description"></div>
+
         </nb-card-body>
-        <nb-card-footer>
-          <nb-user [name]="section.createdBy.name ? section.createdBy.name : section.createdBy.email" [title]="section.createdAt | dfnsFormat: 'dd.MM.yyyy'"></nb-user>
-        </nb-card-footer>
+<!--        <nb-card-footer>-->
+<!--          <nb-user [name]="section.createdBy.name ? section.createdBy.name : section.createdBy.email" [title]="section.createdAt | dfnsFormat: 'dd.MM.yyyy'"></nb-user>-->
+<!--        </nb-card-footer>-->
       </nb-card>
-  <nb-card *ngIf="uploadNewImage && authService.getUser()" [nbSpinner]="uploadingImage" nbSpinnerStatus="primary">
+  <nb-card *ngIf="updateSectionState">
+    <nb-card-header>Upravit sekci {{section.name}}</nb-card-header>
+    <nb-card-body>
+      <form>
+        <div class="form-group">
+          <label for="edit-description" class="label">Popis sekce</label>
+          <tinymce [(ngModel)]="section.description" [ngModelOptions]="{standalone: true}" name="edit-description" id="edit-description"></tinymce>
+        </div>
+      </form>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="row">
+        <div class="col-6">
+          <button nbButton fullWidth status="warning" (click)="updateSection()"><nb-icon icon="cloud-upload-outline"></nb-icon>Upravit</button>
+        </div>
+        <div class="col-6">
+          <button nbButton fullWidth status="danger" (click)="updateSectionState = false; load()">Zrušit</button>
+        </div>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+  <nb-card *ngIf="uploadNewImage && authService.getUser()" [nbSpinner]="uploadingImage" nbSpinnerStatus="primary" nbSpinnerMessage="Nahrávám obrázky..">
     <nb-card-header>Nahrát nový obrázek</nb-card-header>
     <nb-card-body>
       <form #form>
@@ -39,17 +62,17 @@
           <input type="file" id="file-input" (change)="onFileChange($event)" multiple accept="image/*" nbInput>
         </div>
         <div class="form-group">
-          <button nbButton fullWidth (click)="upload(this.form);" status="success">Nahrát obrázky</button>
+          <button nbButton fullWidth (click)="upload(this.form);" status="success"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>
         </div>
       </form>
       <div class="row">
         <div class="col-md-3" *ngFor="let image of selectedImagesPreview" (mouseenter)="showOverlay = true" (mouseleave)="showOverlay = false" >
           <nb-card style="width: 100%; height: 340px; overflow: hidden">
-            <nb-card-body  [ngStyle]="{'background-image': 'url(' + image.src + ')'}" style="background-size: cover; background-position: center;"></nb-card-body>
+            <nb-card-body  [ngStyle]="{'background-image': 'url(' + image.url + ')'}" style="background-size: cover; background-position: center;"></nb-card-body>
             <nb-card-footer>
               <div class="row">
                 <div class="col-md-6">
-                  <button nbButton fullWidth status="info" (click)="openImage(image)">
+                  <button nbButton fullWidth status="info">
                     <nb-icon icon="maximize-outline"></nb-icon>
                   </button>
                 </div>
@@ -72,9 +95,10 @@
   </div>
 
   <div class="row" *ngIf="section.images.length > 0">
-    <div class="col-md-4" *ngFor="let image of section.images">
-      <nb-card>
-        <img defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="image.src" alt="" style="width: 100%; border-radius: .25rem">
+    <div class="col-md-4" *ngFor="let image of section.images; let i = index">
+      <nb-card class="gallery-item">
+        <div class="thumbnail" defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="image.url" (click)="openImage(section.images, i)" style="width: 100%; height: 40vh; background-position: center; background-repeat: no-repeat; background-size: cover"></div>
+
         <nb-card-footer *ngIf="authService.getUser()">
           <button nbButton status="danger" class="w-100" (click)="deleteImage(image.name)">
             <nb-icon icon="trash-2-outline"></nb-icon>

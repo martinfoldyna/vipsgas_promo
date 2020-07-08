@@ -1,36 +1,51 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireStorage} from '@angular/fire/storage';
-import {Category} from '../../@core/data/category';
+import {Category, DynamicCategory} from '../../@core/data/category';
 import {Observable} from 'rxjs';
 import {News} from "../../@core/data/news";
 import {Product} from "../../@core/data/product";
 import {ImagesService} from "../../@core/utils/images.service";
+import {firestore} from "firebase/app";
+import {Image} from "../../@core/data/image";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductsService {
 
-  constructor(private firestore: AngularFirestore, private storage: AngularFireStorage, private imagesService: ImagesService) {
+  constructor(
+    private _firestore: AngularFirestore,
+    private fireStorage: AngularFireStorage,
+    private imagesService: ImagesService) {
   }
 
-  createProduct(data) {
+  createProduct(data: Product) {
     return new Promise<any>((resolve, reject) => {
       console.log(data);
-      this.storage
-        .upload(`products/${data.thumbnail.name}`, data.thumbnail.blob).then(response => {
+      this.fireStorage
+        .upload(`products/${data.images[0].name}`, data.images[0].blob).then(response => {
           if(response.state === "success") {
-            this.firestore
-              .collection('products')
-              .add({
-                name: data.name,
-                thumbnail: data.thumbnail.name,
-                productCategory: data.productCategory,
-              })
-              .then(res => resolve(res), err => reject(err));
+            response.ref.getDownloadURL().then(url => {
+              this._firestore
+                .collection('products')
+                .add({
+                  name: data.name,
+                  productCategory: data.productCategory,
+                  description: data.description,
+                  position: data.position,
+                  images: [{
+                    name: data.images[0].name,
+                    url: url,
+                    thumbnail: true
+                  }]
+                })
+                .then(res => resolve(res), err => reject(err));
+            }).catch(err => {
+              reject(err);
+            })
           } else {
-            reject('Nastala chyba při nahrávání obrázku')
+            reject('Během nahrávání nahrávání obrázku došlo k chybě.')
           }
       }).catch(err => {
         reject(err);
@@ -44,22 +59,21 @@ export class ProductsService {
   }
 
   getProducts() {
-    return this.firestore.collection('products').snapshotChanges();
+    return this._firestore.collection('products').snapshotChanges();
   }
 
-  getProductsByCategory(category): Promise<any> {
+  getProductsByCategory(categoryID: string): Promise<Array<Product>> {
     return new Promise<any>((resolve, reject) => {
       this.getProducts().subscribe(response => {
-        if(response) {
-          let files = response.filter(a => {
+        if (response) {
+          const files = response.filter(a => {
             const data = a.payload.doc.data() as Product;
-            return data.productCategory === category;
+            return data.productCategory.id === categoryID;
           }).map(a => {
             const data = a.payload.doc.data() as Product;
             const id = a.payload.doc.id;
             return { id, ...data };
           })
-          console.log(files);
           resolve(files);
         } else {
           reject('Not found')
@@ -71,8 +85,8 @@ export class ProductsService {
   getProductById(id): Promise<Product> {
     return new Promise<Product>((resolve, reject) => {
       this.getProducts().subscribe(response => {
-        if(response) {
-          let product = response.filter(a => {
+        if (response) {
+          const product = response.filter(a => {
             const docId = a.payload.doc.id;
             return docId === id;
           }).map(a => {
@@ -118,4 +132,51 @@ export class ProductsService {
     }
     return returnValue;
   }
+
+  editProduct(product: Product): Promise<void> {
+    return this._firestore.collection('products').doc(product.id).update(product);
+  }
+
+  uploadImageToProduct(productID, image: Image): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.fireStorage.upload(`products/${image.name}`, image.blob).then(response => {
+        console.log(response);
+        if (response) {
+          response.ref.getDownloadURL().then(url => {
+            this._firestore.collection('products').doc(productID).update(
+              { images: firestore.FieldValue.arrayUnion({name: image.name, url: url})}
+            ).then(firestoreResponse => {
+              resolve(firestoreResponse);
+            })
+          });
+
+        }
+
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  }
+
+  changeThumbnail(product: Product, thumbnail) {
+
+  }
+
+  removeImageFromProduct(collection, docID, imageName, images): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this._firestore.collection(collection).doc(docID).update({
+        images: images.filter(image => {
+          return image.name !== imageName
+        })
+      }).then(response => {
+        this.fireStorage.ref(`products/${imageName}`).delete().subscribe(storageResponse => {
+          resolve(storageResponse)
+        }, err => reject(err));
+      }).catch(err => {
+        reject(err);
+      })
+    })
+  }
+
+
 }

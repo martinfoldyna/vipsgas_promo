@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-card-header>Přidat kategorii</nb-card-header>
+      <nb-card-body>
+        <form #form="ngForm" [formGroup]="myForm">
+          <div class="form-group">
+            <label for="category-name" class="label">Název kategorie</label>
+            <input type="text" nbInput id="category-name" name="category-name" fullWidth placeholder="Kondenzační kotle" [formControl]="myForm.controls.name">
+          </div>
+          <div class="form-group">
+            <label for="category-thumbnail" class="label">Náhledový obrázek kategorie</label><br>
+            <input type="file" nbInput id="category-thumbnail" name="category-thumbnail" fullWidth [formControl]="myForm.controls.thumbnail" (change)="onFileChange($event)">
+          </div>
+          <div class="form-group">
+            <label for="category-position-options" class="label">Možnosit pro umístění produktu</label>
+            <div class="row">
+              <div class="col-9">
+                <input type="text" nbInput id="category-position-options" autocomplete="off" name="category-position-options" fullWidth placeholder="Nástěnné" [formControl]="myForm.controls.position">
+              </div>
+              <div class="col-3">
+                <button nbButton fullWidth status="success" [disabled]="myForm.controls.position.value" (click)="pushToProductPosition(myForm.controls.position.value); myForm.controls.position.reset()"><nb-icon icon="plus-outline"></nb-icon>Přidat</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <ng-container *ngFor="let position of positionOptions; let positionIndex = index;">
+              <p>
+                <button nbButton ghost status="danger" (click)="removePosition(positionIndex, position)">
+                  <nb-icon icon="trash-outline"></nb-icon>
+                </button>
+                <b>{{position.name}}</b>
+              </p>
+              <ul class="category-type-options">
+                <ng-container *ngFor="let type of typeOptions; let typeIndex = index">
+                  <li *ngIf="type.condition === position.value"><button nbButton (click)="typeOptions.splice(typeIndex, 1)" ghost status="danger"><nb-icon icon="trash-outline"></nb-icon></button>{{type.name}}</li>
+                </ng-container>
+                <li style="list-style: none;"><label for="category-type-options" class="label">Možnosti pro typ produktu</label>
+                  <div class="row">
+                    <div class="col-9">
+                      <input type="text" nbInput id="category-type-options" name="category-type-options" fullWidth placeholder="Nástěnné" [formControl]="myForm.controls.type">
+                    </div>
+                    <div class="col-3">
+                      <button nbButton fullWidth status="success" [disabled]="myForm.controls.type.value" (click)="pushToProductType(myForm.controls.type.value, position); myForm.controls.type.reset()"><nb-icon icon="plus-outline"></nb-icon>Přidat</button>
+                    </div>
+                </div></li>
+              </ul>
+            </ng-container>
+          </div>
+          <div class="form-group">
+            <button nbButton fullWidth [disabled]="!form.valid" (click)="uploadCategory()" [nbSpinner]="compressingImage" nbSpinnerMessage="Komprimuji obrázek.." nbSpinnerStatus="primary"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát</button>
+          </div>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-lg-4">
+  <nb-card class="category-overview-item" *ngFor="let category of allCategories; let i = index">
+      <nb-card-header>
+        <div class="d-flex align-items-center justify-content-between">
+          {{category.name}}
+          <div>
+            <button nbButton ghost status="warning" (click)="editCategory(category)"><nb-icon icon="edit-outline"></nb-icon></button>
+            <button nbButton ghost status="danger" (click)="deleteCategory(i)"><nb-icon icon="trash-2-outline"></nb-icon></button>
+          </div>
+        </div>
+      </nb-card-header>
+      <nb-card-body>
+        <ul class="category-type-options p-left-0">
+          <li *ngFor="let position of category.categoryPositions">
+            {{position.name}}
+            <ul>
+              <ng-container *ngFor="let type of category.categoryTypes; let typeIndex = index ">
+                <li *ngIf="position.value === type.condition">{{type.name}}</li>
+              </ng-container>
+            </ul>
+          </li>
+        </ul>
+      </nb-card-body>
+  </nb-card>
+  </div>
+</div>
+

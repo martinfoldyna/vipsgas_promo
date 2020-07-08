@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Product} from "../../../@core/data/product";
 import {AuthService} from "../../auth/auth.service";
 import {ProductsService} from "../products.service";
-import {Category} from "../../../@core/data/category";
+import {Category, DynamicCategory} from "../../../@core/data/category";
+import {CategoryService} from "../category.service";
 
 @Component({
   selector: 'ngx-dashboard',
@@ -14,13 +15,16 @@ export class DashboardComponent implements OnInit {
   public product: Product;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private productsService: ProductsService,
+    public categoryService: CategoryService,
   ) {
     this.product = {
       name: '',
     };
   }
+
+  allDynamicCategories: Array<Category>;
 
   allCategories: Category[] = [
     {
@@ -50,7 +54,31 @@ export class DashboardComponent implements OnInit {
     },
   ];
 
+  categoryOverview: Category = {
+    name: 'Přehled kategorií',
+    url: '/pages/products/category-overview',
+    image: 'products.png'
+  }
+
   ngOnInit() {
+    this.loadCategories();
+  }
+
+  loadCategories() {
+    this.categoryService.retrieveCategories().subscribe(response => {
+      if(response) {
+        this.allDynamicCategories = response.map(category => {
+          const data = category.payload.doc.data() as DynamicCategory;
+          return {
+            name: data.name,
+            url: '/pages/products/category/' + category.payload.doc.id,
+            thumbnail: data.thumbnail.url,
+          }
+        })
+      }
+    }, err => {
+      console.log(err);
+    })
   }
 
 
