@@ -31,7 +31,7 @@
 <h2>Fotografie z akcí</h2>
 <div class="row" *ngIf="allSections">
 
-  <div class="col-md-4" *ngFor="let section of allSections">
+  <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let section of allSections">
 
       <nb-card class="scale" (click)="openDetail(section)" style="cursor: pointer; overflow: hidden !important;">
         <nb-card-header class="d-flex justify-content-between">

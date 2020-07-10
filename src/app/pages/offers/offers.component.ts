@@ -22,9 +22,15 @@ export class OffersComponent implements OnInit {
   uploadingOffer: boolean = false;
 
   offerForm = new FormGroup({
+    name: new FormControl('', Validators.required),
     thumbnail: new FormControl('', Validators.required),
     content: new FormControl('', Validators.required)
   })
+
+
+  /***
+   * Přidat jeden text input na popis akce
+   */
 
   constructor(
     public authService: AuthService,

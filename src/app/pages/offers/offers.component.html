@@ -5,6 +5,10 @@
       <nb-card-body>
         <form #form="ngForm" [formGroup]="offerForm">
           <div class="form-group">
+            <label for="offer-name" class="label">Název akce</label>
+            <input fullWidth type="text" id="offer-name" nbInput [formControl]="offerForm.controls.name" placeholder="Zadejte název akce" [(ngModel)]="offer.name">
+          </div>
+          <div class="form-group">
             <label for="offer-thumbnail" class="label">Náhledový obrázek akce</label><br>
             <input type="file" id="offer-thumbnail" nbInput accept="image/*" required (change)="onThumbnailChange($event)" [formControl]="offerForm.controls.thumbnail">
           </div>
@@ -32,12 +36,13 @@
   </div>
   <div class="col-3" *ngFor="let offer of allOffers">
     <nb-card style="overflow:hidden" class="scale">
+      <nb-card-header class="d-flex justify-content-between align-items-center">
+          {{offer.name}}
+          <button nbButton ghost status="danger" (click)="removeOffer(offer.id)" *ngIf="authService.getUser()"><nb-icon icon="trash-2-outline"></nb-icon></button>
+      </nb-card-header>
       <a [href]="offer.content.url" target="_blank">
       <div class="thumbnail" [ngStyle]="{'background-image': 'url(' + offer.thumbnail.url + ')'}" style="width: 100%; height: 30vh; background-position: center; background-repeat: no-repeat; background-size: cover"></div>
       </a>
-      <nb-card-footer *ngIf="authService.getUser()">
-        <button nbButton status="danger" fullWidth (click)="removeOffer(offer.id)"><nb-icon icon="trash-2-outline"></nb-icon></button>
-      </nb-card-footer>
     </nb-card>
   </div>
 </div>

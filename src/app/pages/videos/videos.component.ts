@@ -64,6 +64,7 @@ export class VideosComponent implements OnInit {
     this.videosService.uploadVideo(this.video).then(video => {
       this.toastr.success('', 'Nové video bylo úspěšně nahráno.');
       this.videoForm.reset();
+      this.retrieveVideos();
       this.uploadingVideo = false;
     }).catch(err => {
       this.uploadingVideo = false;
