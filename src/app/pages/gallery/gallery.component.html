@@ -8,7 +8,7 @@
             <label for="title" class="label">Název sekce</label>
             <input nbInput fullWidth type="text" id="title" name="title" [(ngModel)]="section.name" placeholder="Zadejte název sekce" [formControl]="galleryForm.controls.name">
           </div>
-          <div class="form-group">
+          <div class="form-group" hidden>
             <label for="secitonId" class="label">Id sekce</label>
             <input nbInput fullWidth type="text" id="secitonId" name="sectionId" [value]="generateSectionId()" disabled placeholder="Zadejte nejdříve název sekce">
           </div>

@@ -25,6 +25,7 @@ export class OffersService {
               if(thumbnailResponse) {
                 thumbnailResponse.ref.getDownloadURL().then(thumbnailURL => {
                   this.firestore.collection('offers').add({
+                    name: offer.name,
                     thumbnail: {
                       name: offer.thumbnail.name,
                       url: thumbnailURL,

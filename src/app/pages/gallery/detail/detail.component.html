@@ -7,17 +7,17 @@
             <div class="col-md-9 d-flex align-items-center">
               {{section.name}}
             </div>
-            <div class="col-md-1" *ngIf="authService.getUser()" (click)="uploadNewImage = !uploadNewImage">
+            <div class="col-md-1 mt-1" *ngIf="authService.getUser()" (click)="uploadNewImage = !uploadNewImage">
               <button nbButton status="info" fullWidth>
                 <nb-icon icon="plus-outline"></nb-icon>
               </button>
             </div>
-            <div class="col-md-1" *ngIf="authService.getUser()">
+            <div class="col-md-1 mt-1" *ngIf="authService.getUser()">
               <button nbButton status="warning" fullWidth (click)="updateSectionState = true">
                 <nb-icon icon="edit-outline"></nb-icon>
               </button>
             </div>
-            <div class="col-md-1" *ngIf="authService.getUser()">
+            <div class="col-md-1 mt-1" *ngIf="authService.getUser()">
               <button nbButton status="danger" fullWidth>
                 <nb-icon icon="trash-2-outline"></nb-icon>
               </button>
@@ -90,7 +90,7 @@
   </nb-card>
   <div class="row" *ngIf="!section.images || section.images.length === 0">
     <div class="col-md-12">
-      <nb-alert status="warning">V této sekci nejsou nahrané žádné obrázky!</nb-alert>
+      <nb-alert status="warning">V této sekci nejsou nahrané žádné obrázky.</nb-alert>
     </div>
   </div>
 

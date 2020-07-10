@@ -26,7 +26,7 @@
 </div>
 <div class="row">
   <div class="col-md-12" *ngIf="allNews.length === 0">
-    <nb-alert status="warning">Tato sekce neobsahuje žádné zprávy</nb-alert>
+    <nb-alert status="warning">Tato sekce neobsahuje žádné zprávy.</nb-alert>
   </div>
   <div class="col-md-4" *ngFor="let article of allNews">
     <nb-card [nbSpinner]="deletingArticle">
