@@ -1,5 +1,8 @@
 .image-card {
   height: 30vh;
+}
+
+.image-card > nb-card-body {
   background-position: center;
   background-size: cover;
   cursor: pointer;

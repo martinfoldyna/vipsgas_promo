@@ -6,6 +6,8 @@ import {PensionData} from "../../@core/data/pensionData";
 import {ImageDetailComponent} from "../cards/image-detail/image-detail.component";
 import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {AuthService} from "../auth/auth.service";
+import {GeneralService} from "../../@core/utils/general.service";
+import {Image} from "../../@core/data/image";
 
 @Component({
   selector: 'ngx-pension',
@@ -20,13 +22,15 @@ export class PensionComponent implements OnInit {
   loadingContent: boolean = false;
   tinyMceConfig = TinyMceConfig;
   galleryImages;
+  uploadNewImages: boolean = false;
 
   //importing firestore, because is not necessary to have servicee for one action - fetching the description
   constructor(
     private firestore: AngularFirestore,
     private dialogService: NbDialogService,
     public authService: AuthService,
-    private toastr: NbToastrService
+    private toastr: NbToastrService,
+    private generalService: GeneralService
   ) { }
 
   ngOnInit() {
@@ -113,10 +117,12 @@ export class PensionComponent implements OnInit {
         url: './../../../assets/images/pension/20.jpg',
       },
     ];
-    this.loadDescription();
+    this.loadData();
   }
 
-  loadDescription() {
+
+
+  loadData() {
     this.loadingContent = true;
 
     this.firestore.collection('pension').snapshotChanges().subscribe(response => {
@@ -149,6 +155,15 @@ export class PensionComponent implements OnInit {
         allImages: allImages,
         index: index
       }})
+  }
+
+  deleteImage(image: Image) {
+    this.generalService.removeImageFromProduct('pension', this.data.id, image.name, this.data.images).then(response => {
+      this.toastr.success('', 'Obrázek byl odtraněn');
+      this.loadData();
+    }).catch(err => {
+      this.toastr.danger(err ? 'Během odstraňování obrázku došlo k chybě.' : JSON.stringify(err), 'Chyba')
+    })
   }
 
 }

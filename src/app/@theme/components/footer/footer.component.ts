@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
       &copy; VIPS gas 2020, Vytvořil: Martin Foldyna, Design: <a href="https://akveo.page.link/8V2f" target="_blank">Akveo</a>
     </span>
     <div class="socials">
-      <a href="/auth" class="ion ion-person"></a>
+      <a routerLink="/auth" class="ion ion-person"></a>
     </div>
   `,
 })

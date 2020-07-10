@@ -12,6 +12,8 @@ import {VideosModule} from "./videos/videos.module";
 import {OffersModule} from "./offers/offers.module";
 import {ReferencesModule} from "./references/references.module";
 import {NgxTinymceModule} from "ngx-tinymce";
+import {CardsModule} from "./cards/cards.module";
+import {LazyLoadImageModule} from "ng-lazyload-image";
 
 @NgModule({
   imports: [
@@ -30,7 +32,9 @@ import {NgxTinymceModule} from "ngx-tinymce";
     NbButtonModule,
     NbIconModule,
     NgxTinymceModule,
-    NbSpinnerModule
+    NbSpinnerModule,
+    CardsModule,
+    LazyLoadImageModule
   ],
   declarations: [
     PagesComponent,

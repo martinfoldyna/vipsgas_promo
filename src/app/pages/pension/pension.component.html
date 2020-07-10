@@ -8,9 +8,14 @@
       </ng-container>
 <!--      </div>-->
 <!--      <div class="col-1">-->
-        <button nbButton status="warning" *ngIf="authService.getUser()">
+      <div *ngIf="authService.getUser()">
+        <button nbButton status="info" class="mr-1">
+          <nb-icon icon="plus-outline" (click)="uploadNewImages = !uploadNewImages"></nb-icon>
+        </button>
+        <button nbButton status="warning">
           <nb-icon icon="edit-outline" (click)="editContent = !editContent"></nb-icon>
         </button>
+      </div>
 <!--      </div>-->
     </div>
   </nb-card-header>
@@ -36,10 +41,15 @@
   </nb-card-body>
 </nb-card>
 
-<div class="row">
-  <div class="col-md-3" *ngFor="let image of galleryImages; let i = index">
-    <nb-card class="image-card scale" [ngStyle]="{'background-image': 'url(' + image.small + ')'}" (click)="openImage(galleryImages, i)">
+<ngx-upload-images dbCollection="pension" [documentID]="data.id" (loadDocument)="loadData()" *ngIf="uploadNewImages && data"></ngx-upload-images>
 
+<div class="row">
+  <div class="col-md-3" *ngFor="let image of data.images; let i = index">
+    <nb-card class="image-card scale overflow-hidden">
+      <nb-card-body defaultImage="assets/images/placeholder.png" [lazyLoad]="image.url" (click)="openImage(galleryImages, i)"></nb-card-body>
+      <nb-card-footer *ngIf="authService.getUser()">
+        <button nbButton fullWidth status="danger" (click)="deleteImage(image)"><nb-icon icon="trash-2-outline"></nb-icon></button>
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>

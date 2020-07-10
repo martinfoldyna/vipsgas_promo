@@ -65,8 +65,8 @@
       </div>
       <div class="form-group">
         <label for="edit-thumbnail" class="label">Náhledový obrázek</label>
-        <div *ngIf="!newThumbnailSrc" id="edit-thumbnail" defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="category.thumbnail.url" class="edit-thumbnail-container"></div>
-        <div *ngIf="newThumbnailSrc" id="edit-thumbnail" defaultImage="./../../../../assets/images/placeholder.png" [lazyLoad]="newThumbnailSrc" class="edit-thumbnail-container"></div>
+        <div *ngIf="!newThumbnailSrc" id="edit-thumbnail" defaultImage="assets/images/placeholder.png" [lazyLoad]="category.thumbnail.url" class="edit-thumbnail-container"></div>
+        <div *ngIf="newThumbnailSrc" id="edit-thumbnail" defaultImage="assets/images/placeholder.png" [lazyLoad]="newThumbnailSrc" class="edit-thumbnail-container"></div>
         <input type="file" name="file" id="file" class="inputfile" (change)="onFileChange($event)"/>
         <button nbButton fullWidth status="info" class="mt-1" size="small"><nb-icon icon="image-outline"></nb-icon><label for="file" class="file-label-button" [nbSpinner]="compressingImage" nbSpinnerStatus="info">Změnit náhledový obrázek</label></button>
       </div>
