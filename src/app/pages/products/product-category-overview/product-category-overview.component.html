@@ -56,14 +56,12 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6 col-lg-3">
-  <nb-card class="category-overview-item" *ngFor="let category of allCategories; let i = index">
+  <div class="col-md-6 col-lg-3" *ngFor="let category of allCategories; let i = index">
+  <nb-card class="category-overview-item" >
       <nb-card-header>
         <div class="d-flex align-items-center justify-content-between">
           {{category.name}}
           <div>
-            <button nbButton ghost status="warning" (click)="editCategory(category)"><nb-icon icon="edit-outline"></nb-icon></button>
-            <button nbButton ghost status="danger" (click)="deleteCategory(i)"><nb-icon icon="trash-2-outline"></nb-icon></button>
           </div>
         </div>
       </nb-card-header>
@@ -79,6 +77,10 @@
           </li>
         </ul>
       </nb-card-body>
+      <nb-card-footer>
+        <button nbButton status="warning" (click)="editCategory(category)" fullWidth><nb-icon icon="edit-outline"></nb-icon> upravit</button>
+        <button nbButton status="danger" class="mt-1" (click)="deleteCategory(i)" fullWidth><nb-icon icon="trash-2-outline"></nb-icon> odstranit</button>
+      </nb-card-footer>
   </nb-card>
   </div>
 </div>

@@ -217,6 +217,7 @@ export class ProductDetailComponent implements OnInit {
 
   removeFromList(index) {
     this.selectedImagesPreview.splice(index, 1);
+    this.newImages.splice(index, 1);
   }
 
   editProduct() {

@@ -20,6 +20,7 @@ import { UpdateSectionCardComponent } from './detail/update-section-card/update-
 import {LazyLoadImageModule} from "ng-lazyload-image";
 import {LightboxModule} from "@ngx-gallery/lightbox";
 import {NgxTinymceModule} from "ngx-tinymce";
+import {CardsModule} from "../cards/cards.module";
 
 @NgModule({
   declarations: [GalleryComponent, DetailComponent, UpdateSectionCardComponent],
@@ -38,7 +39,8 @@ import {NgxTinymceModule} from "ngx-tinymce";
         LazyLoadImageModule,
         NbAlertModule,
         LightboxModule,
-        NgxTinymceModule
+        NgxTinymceModule,
+        CardsModule
     ],
   entryComponents: [UpdateSectionCardComponent]
 })

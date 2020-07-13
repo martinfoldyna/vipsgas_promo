@@ -96,7 +96,7 @@
 
       <nb-card-footer *ngIf="authService.getUser()">
         <button *ngIf="image.thumbnail" nbButton fullWidth disabled status="danger">Náhled. obrázek nelze odstranit</button>
-        <button *ngIf="!image.thumbnail" nbButton fullWidth status="danger" (click)="deleteImageFromProduct(image.name)"><nb-icon icon="trash-2-outline"></nb-icon></button>
+        <button *ngIf="!image.thumbnail" nbButton fullWidth status="danger" (click)="deleteImageFromProduct(image.name)"><nb-icon icon="trash-2-outline"></nb-icon> Odstranit</button>
       </nb-card-footer>
     </nb-card>
   </div>

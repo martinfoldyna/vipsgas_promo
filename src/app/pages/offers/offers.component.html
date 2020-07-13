@@ -35,11 +35,13 @@
     <nb-card style="overflow:hidden" class="scale">
       <nb-card-header class="d-flex justify-content-between align-items-center">
           {{offer.name}}
-          <button nbButton ghost status="danger" (click)="removeOffer(offer.id)" *ngIf="authService.getUser()"><nb-icon icon="trash-2-outline"></nb-icon></button>
       </nb-card-header>
       <a [href]="offer.content.url" target="_blank">
       <div class="thumbnail" [ngStyle]="{'background-image': 'url(' + offer.thumbnail.url + ')'}" style="width: 100%; height: 30vh; background-position: center; background-repeat: no-repeat; background-size: cover"></div>
       </a>
+      <nb-card-footer  *ngIf="authService.getUser()">
+        <button nbButton status="danger" (click)="removeOffer(offer.id)" fullWidth><nb-icon icon="trash-2-outline"></nb-icon> Odstranit</button>
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>

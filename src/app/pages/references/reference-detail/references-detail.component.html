@@ -67,10 +67,10 @@
 
   <div class="row">
     <div class="col-3" *ngFor="let image of reference.images; let i = index">
-      <nb-card style="height: 25vh; overflow: hidden !important;" [lightbox]="i">
-        <nb-card-body defaultImage="assets/images/placeholder.png" [lazyLoad]="image.url" style="background-size: cover; background-position: center;"></nb-card-body>
+      <nb-card style="height: 25vh; overflow: hidden !important;" >
+        <nb-card-body defaultImage="assets/images/placeholder.png" (click)="openImage(reference.images, i)" [lazyLoad]="image.url" style="background-size: cover; background-position: center; cursor: pointer"></nb-card-body>
         <nb-card-footer *ngIf="authService.getUser()">
-          <button nbButton fullWidth status="danger">Odstranit</button>
+          <button nbButton fullWidth status="danger" (click)="deleteImage(image)"><nb-icon icon="trash-2-outline"></nb-icon></button>
         </nb-card-footer>
       </nb-card>
     </div>

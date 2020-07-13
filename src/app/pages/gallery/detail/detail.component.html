@@ -53,41 +53,7 @@
       </div>
     </nb-card-footer>
   </nb-card>
-  <nb-card *ngIf="uploadNewImage && authService.getUser()" [nbSpinner]="uploadingImage" nbSpinnerStatus="primary" nbSpinnerMessage="Nahrávám obrázky..">
-    <nb-card-header>Nahrát nový obrázek</nb-card-header>
-    <nb-card-body>
-      <form #form>
-        <div class="form-group">
-          <label for="file-input" class="label">Nahrát obrázky</label><br>
-          <input type="file" id="file-input" (change)="onFileChange($event)" multiple accept="image/*" nbInput>
-        </div>
-        <div class="form-group">
-          <button nbButton fullWidth (click)="upload(this.form);" status="success"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>
-        </div>
-      </form>
-      <div class="row">
-        <div class="col-md-3" *ngFor="let image of selectedImagesPreview" (mouseenter)="showOverlay = true" (mouseleave)="showOverlay = false" >
-          <nb-card style="width: 100%; height: 340px; overflow: hidden">
-            <nb-card-body  [ngStyle]="{'background-image': 'url(' + image.url + ')'}" style="background-size: cover; background-position: center;"></nb-card-body>
-            <nb-card-footer>
-              <div class="row">
-                <div class="col-md-6">
-                  <button nbButton fullWidth status="info">
-                    <nb-icon icon="maximize-outline"></nb-icon>
-                  </button>
-                </div>
-                <div class="col-md-6">
-                  <button nbButton fullWidth status="danger" (click)="removeImageFromSelection(image.index)">
-                    <nb-icon icon="trash-2-outline"></nb-icon>
-                  </button>
-                </div>
-              </div>
-            </nb-card-footer>
-          </nb-card>
-        </div>
-      </div>
-    </nb-card-body>
-  </nb-card>
+  <ngx-upload-images dbCollection="gallery" [documentID]="section.id" *ngIf="uploadNewImage && authService.getUser()" (loadDocument)="load()"></ngx-upload-images>
   <div class="row" *ngIf="!section.images || section.images.length === 0">
     <div class="col-md-12">
       <nb-alert status="warning">V této sekci nejsou nahrané žádné obrázky.</nb-alert>

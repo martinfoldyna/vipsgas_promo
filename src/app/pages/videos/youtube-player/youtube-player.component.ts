@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {NbDialogRef} from "@nebular/theme";
 
 @Component({
   selector: 'ngx-youtube-player',
@@ -8,7 +9,9 @@ import {Component, Input, OnInit} from '@angular/core';
 export class YoutubePlayerComponent implements OnInit {
   @Input('videoID') videoID: string;
 
-  constructor() { }
+  constructor(
+    public dialogRef: NbDialogRef<YoutubePlayerComponent>
+  ) { }
 
   ngOnInit(): void {
   }

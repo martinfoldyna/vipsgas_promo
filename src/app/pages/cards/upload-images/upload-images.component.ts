@@ -3,6 +3,8 @@ import {Image} from "../../../@core/data/image";
 import {GeneralService} from "../../../@core/utils/general.service";
 import {ImagesService} from "../../../@core/utils/images.service";
 import {newArray} from "@angular/compiler/src/util";
+import {NbToastrService} from "@nebular/theme";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'ngx-upload-images',
@@ -17,12 +19,16 @@ export class UploadImagesComponent implements OnInit {
 
   newImages: Array<Image>;
   selectedImagesPreview: Array<Image>;
-  private uploadingImages: boolean;
+  uploadingImages: boolean;
 
+  uploadImagesForm = new FormGroup({
+    images: new FormControl('', Validators.required)
+  })
 
   constructor(
     private generalService: GeneralService,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private toastr: NbToastrService
   ) {
     this.selectedImagesPreview = new Array<Image>();
     this.newImages = new Array<Image>();
@@ -67,6 +73,8 @@ export class UploadImagesComponent implements OnInit {
           console.log(uploadImages);
           this.uploadingImages = false;
           this.loadDocument.emit();
+          this.toastr.success('', 'Obrázky byly nahrány.');
+
         }).catch(err => {
           console.log(err);
         })

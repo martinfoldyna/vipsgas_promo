@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {ReferencesService} from "../references.service";
 import {Reference} from "../../../@core/data/reference";
 import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
-import {NbToastrService} from "@nebular/theme";
+import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {AuthService} from "../../auth/auth.service";
 import {TinyMceConfig} from "../../../@core/data/tinyMceConfig";
 import {GeneralService} from "../../../@core/utils/general.service";
 import {ImagesService} from "../../../@core/utils/images.service";
+import {ImageDetailComponent} from "../../cards/image-detail/image-detail.component";
+import {Image} from "../../../@core/data/image";
 
 @Component({
   selector: 'ngx-references-detail',
@@ -30,7 +32,8 @@ export class ReferencesDetailComponent implements OnInit {
     private toastr: NbToastrService,
     public authService: AuthService,
     private generalService: GeneralService,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private dialogService: NbDialogService
   ) { }
 
   ngOnInit(): void {
@@ -79,6 +82,23 @@ export class ReferencesDetailComponent implements OnInit {
         this.router.navigateByUrl('/pages/references/dashboard');
       }
 
+    })
+  }
+
+  openImage(allImages, index) {
+    this.dialogService.open(ImageDetailComponent, {context: {
+        allImages: allImages,
+        index: index
+      }})
+  }
+
+  deleteImage(image: Image) {
+    this.generalService.removeImageFromProduct('references', this.reference.id, image.name, this.reference.images).then(response => {
+      this.toastr.success('', 'Obrázek byl odtraněn');
+      this.loadReference();
+    }).catch(err => {
+      console.log(err);
+      this.toastr.danger(err ? JSON.stringify(err) : 'Během odstraňování obrázku došlo k chybě.', 'Chyba')
     })
   }
 

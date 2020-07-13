@@ -35,18 +35,19 @@
           {{article.title}}
           <p class="article-createdAt m-0">Zveřejněno: {{article.createdAt | dfnsFormat: 'dd.MM.yyyy'}}</p>
         </div>
-        <button nbButton ghost>
-          <nb-icon icon="trash-2-outline" pack="eva" class="align-self-center" status="danger" (click)="deleteArticle(article.id)" *ngIf="authService.getUser()"></nb-icon>
-        </button>
+
       </nb-card-header>
       <nb-card-body>
         <div class="article-content" [innerHTML]="article.body">
 
         </div>
       </nb-card-body>
-<!--      <nb-card-footer>-->
-<!--        <p class="article-createdAt m-0">Zveřejněno: {{article.createdAt | dfnsFormat: 'dd.MM.yyyy'}}</p>-->
-<!--      </nb-card-footer>-->
+      <nb-card-footer *ngIf="authService.getUser()">
+        <button nbButton status="danger" fullWidth>
+          <nb-icon icon="trash-2-outline" pack="eva" class="align-self-center" (click)="deleteArticle(article.id)"></nb-icon>
+          Odstranit
+        </button>
+      </nb-card-footer>
     </nb-card>
   </div>
 </div>

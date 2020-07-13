@@ -52,29 +52,30 @@ export class ImagesService {
 
   compressFile(image, fileName, quality): Promise<{blob: Blob, src: string}> {
     return new Promise(((resolve, reject) => {
-      let sizeOfOriginalImage = this.imageCompress.byteCount(image) / (1024 * 1024);
+      let sizeOfOriginalImage = this.imageCompress.byteCount(image) / (1024);
       let sizeOfCompressedImage;
       let imgResultAfterCompress;
 
       console.log('Size in kilobytes now:', sizeOfOriginalImage);
 
-      if (sizeOfOriginalImage > 11) {
+      if (sizeOfOriginalImage > 11000) {
         quality = 60;
       }
-      this.imageCompress.compressFile(image, -1, quality, quality).then(result => {
-        imgResultAfterCompress = result;
-        let blob = this.dataURItoBlob(imgResultAfterCompress.split(',')[1]);
 
-        sizeOfCompressedImage = this.imageCompress.byteCount(result) / (1024 * 1024);
+        this.imageCompress.compressFile(image, -1, quality, quality).then(result => {
+          imgResultAfterCompress = result;
+          let blob = this.dataURItoBlob(imgResultAfterCompress.split(',')[1]);
 
-        console.log('Size in kilobytes after compression:', sizeOfCompressedImage);
+          sizeOfCompressedImage = this.imageCompress.byteCount(result) / (1024);
 
-        resolve({blob: blob, src: result});
-        if(!blob) {
-          reject('error occured');
-        }
+          console.log('Size in kilobytes after compression:', sizeOfCompressedImage);
 
-      })
+          resolve({blob: blob, src: result});
+          if (!blob) {
+            reject('error occured');
+          }
+
+        })
     }))
   }
 

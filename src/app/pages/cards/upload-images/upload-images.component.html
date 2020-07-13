@@ -1,13 +1,13 @@
-<nb-card>
+<nb-card [nbSpinner]="uploadingImages" nbSpinnerMessage="Nahrávám obrázky do databáze" nbSpinnerStatus="primary">
   <nb-card-header>Nahrát nové obrázky</nb-card-header>
   <nb-card-body>
-    <form>
+    <form [formGroup]="uploadImagesForm">
       <div class="form-group">
         <label for="new-image" class="label">Nahrát nové obrázky</label><br>
-        <input type="file" id="new-image" multiple accept="image/*" nbInput (change)="onFileChange($event)">
+        <input type="file" id="new-image" multiple accept="image/*" nbInput (change)="onFileChange($event)" [formControl]="uploadImagesForm.controls.images">
       </div>
       <div class="form-group">
-        <button nbButton (click)="uploadImages($event)"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>
+        <button nbButton (click)="uploadImages($event)" [disabled]="!uploadImagesForm.valid"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>
       </div>
     </form>
     <div class="row">
