@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
   template: `
     <span class="created-by">
-      &copy; VIPS gas 2020, Vytvořil: Martin Foldyna a Marek Štajnc, Design: <a href="https://akveo.page.link/8V2f" target="_blank">Akveo</a>
+      &copy; VIPS gas 2020, Vytvořil: Martin Foldyna & Marek Štajnc, Design: <a href="https://akveo.page.link/8V2f" target="_blank">Akveo</a>
     </span>
     <div class="socials">
       <a routerLink="/auth" class="ion ion-person"></a>
