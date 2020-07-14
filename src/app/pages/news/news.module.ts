@@ -13,22 +13,24 @@ import {
 } from "@nebular/theme";
 import {DateFnsModule} from "ngx-date-fns";
 import {NgxTinymceModule} from "ngx-tinymce";
+import {CardsModule} from "../cards/cards.module";
 
 @NgModule({
   declarations: [NewsComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    NbCardModule,
-    NbUserModule,
-    NbInputModule,
-    NbButtonModule,
-    ReactiveFormsModule,
-    DateFnsModule,
-    NbIconModule,
-    NgxTinymceModule,
-    NbAlertModule,
-    NbSpinnerModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        NbCardModule,
+        NbUserModule,
+        NbInputModule,
+        NbButtonModule,
+        ReactiveFormsModule,
+        DateFnsModule,
+        NbIconModule,
+        NgxTinymceModule,
+        NbAlertModule,
+        NbSpinnerModule,
+        CardsModule
+    ]
 })
 export class NewsModule { }

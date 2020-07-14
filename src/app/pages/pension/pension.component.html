@@ -1,57 +1,58 @@
 <h2>Penzion CAIUS</h2>
-<nb-card style="height: 100%;" *ngIf="!editContent" [nbSpinner]="loadingContent" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám obsah">
-  <nb-card-header>
-    <div class="d-flex justify-content-between align-items-center">
-<!--      <div class="col-11">-->
-      <ng-container>
-        Informace
-      </ng-container>
-<!--      </div>-->
-<!--      <div class="col-1">-->
-      <div *ngIf="authService.getUser()">
-        <button nbButton status="info" class="mr-1">
-          <nb-icon icon="plus-outline" (click)="uploadNewImages = !uploadNewImages"></nb-icon>
-        </button>
-        <button nbButton status="warning">
-          <nb-icon icon="edit-outline" (click)="editContent = !editContent"></nb-icon>
-        </button>
+<ngx-loading-data-warning [data]="data"></ngx-loading-data-warning>
+<div *ngIf="data">
+  <nb-card style="height: 100%;" *ngIf="!editContent" [nbSpinner]="loadingContent" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám obsah">
+    <nb-card-header>
+      <div class="d-flex justify-content-between align-items-center">
+  <!--      <div class="col-11">-->
+        <ng-container>
+          Informace
+        </ng-container>
+  <!--      </div>-->
+  <!--      <div class="col-1">-->
+        <div *ngIf="authService.getUser()">
+          <button nbButton status="info" class="mr-1">
+            <nb-icon icon="plus-outline" (click)="uploadNewImages = !uploadNewImages"></nb-icon>
+          </button>
+          <button nbButton status="warning">
+            <nb-icon icon="edit-outline" (click)="editContent = !editContent"></nb-icon>
+          </button>
+        </div>
+  <!--      </div>-->
       </div>
-<!--      </div>-->
-    </div>
-  </nb-card-header>
-  <nb-card-body>
-    <div class="pension-content" [innerHTML]="data.description" *ngIf="data">
-    </div>
-    <div class="gallery d-flex justify-content-center" >
-    </div>
-  </nb-card-body>
-</nb-card>
-<nb-card *ngIf="editContent">
-  <nb-card-header>Upravit popisek</nb-card-header>
-  <nb-card-body>
-    <tinymce [(ngModel)]="data.description" [ngModelOptions]="{standalone: true}"></tinymce>
-    <div class="row" style="margin-top: .5rem;">
-      <div class="col-6">
-        <button nbButton (click)="updateContent()" fullWidth>Upravit</button>
+    </nb-card-header>
+    <nb-card-body>
+      <div class="pension-content" [innerHTML]="data.description" *ngIf="data">
       </div>
-      <div class="col-6">
-        <button nbButton (click)="editContent = !editContent" status="danger" fullWidth>Zpět</button>
+      <div class="gallery d-flex justify-content-center" >
       </div>
-    </div>
-  </nb-card-body>
-</nb-card>
+    </nb-card-body>
+  </nb-card>
+  <nb-card *ngIf="editContent">
+    <nb-card-header>Upravit popisek</nb-card-header>
+    <nb-card-body>
+      <tinymce [(ngModel)]="data.description" [ngModelOptions]="{standalone: true}"></tinymce>
+      <div class="row" style="margin-top: .5rem;">
+        <div class="col-6">
+          <button nbButton (click)="updateContent()" fullWidth>Upravit</button>
+        </div>
+        <div class="col-6">
+          <button nbButton (click)="editContent = !editContent" status="danger" fullWidth>Zpět</button>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
 
-<ngx-upload-images dbCollection="pension" [documentID]="data.id" (loadDocument)="loadData()" *ngIf="uploadNewImages && data"></ngx-upload-images>
+  <ngx-upload-images dbCollection="pension" [documentID]="data.id" (loadDocument)="loadData()" *ngIf="uploadNewImages && data"></ngx-upload-images>
 
-<div class="row">
-  <div class="col-md-3" *ngFor="let image of data.images; let i = index">
-    <nb-card class="image-card scale overflow-hidden">
-      <nb-card-body defaultImage="assets/images/placeholder.png" [lazyLoad]="image.url" (click)="openImage(galleryImages, i)"></nb-card-body>
-      <nb-card-footer *ngIf="authService.getUser()">
-        <button nbButton fullWidth status="danger" (click)="deleteImage(image)"><nb-icon icon="trash-2-outline"></nb-icon></button>
-      </nb-card-footer>
-    </nb-card>
+  <div class="row" *ngIf="data.images">
+    <div class="col-md-3" *ngFor="let image of data.images; let i = index">
+      <nb-card class="image-card scale overflow-hidden">
+        <nb-card-body defaultImage="assets/images/placeholder.png" [lazyLoad]="image.url" (click)="openImage(galleryImages, i)"></nb-card-body>
+        <nb-card-footer *ngIf="authService.getUser()">
+          <button nbButton fullWidth status="danger" (click)="deleteImage(image)"><nb-icon icon="trash-2-outline"></nb-icon></button>
+        </nb-card-footer>
+      </nb-card>
+    </div>
   </div>
 </div>
-
-

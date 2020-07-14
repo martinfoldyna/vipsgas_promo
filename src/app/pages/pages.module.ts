@@ -1,5 +1,13 @@
 import { NgModule } from '@angular/core';
-import {NbButtonModule, NbCardModule, NbIconModule, NbMenuModule, NbSpinnerModule, NbUserModule} from '@nebular/theme';
+import {
+    NbAlertModule,
+    NbButtonModule,
+    NbCardModule,
+    NbIconModule,
+    NbMenuModule,
+    NbSpinnerModule,
+    NbUserModule
+} from '@nebular/theme';
 import {DashboardModule} from './dashboard/dashboard.module';
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -16,26 +24,27 @@ import {CardsModule} from "./cards/cards.module";
 import {LazyLoadImageModule} from "ng-lazyload-image";
 
 @NgModule({
-  imports: [
-    PagesRoutingModule,
-    ThemeModule,
-    NbMenuModule,
-    DashboardModule,
-    MiscellaneousModule,
-    NbCardModule,
-    NbUserModule,
-    FormsModule,
-    NewsModule,
-    VideosModule,
-    OffersModule,
-    ReferencesModule,
-    NbButtonModule,
-    NbIconModule,
-    NgxTinymceModule,
-    NbSpinnerModule,
-    CardsModule,
-    LazyLoadImageModule
-  ],
+    imports: [
+        PagesRoutingModule,
+        ThemeModule,
+        NbMenuModule,
+        DashboardModule,
+        MiscellaneousModule,
+        NbCardModule,
+        NbUserModule,
+        FormsModule,
+        NewsModule,
+        VideosModule,
+        OffersModule,
+        ReferencesModule,
+        NbButtonModule,
+        NbIconModule,
+        NgxTinymceModule,
+        NbSpinnerModule,
+        CardsModule,
+        LazyLoadImageModule,
+        NbAlertModule
+    ],
   declarations: [
     PagesComponent,
     PensionComponent,

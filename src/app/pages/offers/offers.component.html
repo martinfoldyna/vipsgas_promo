@@ -25,7 +25,8 @@
 <div class="row">
   <h2>Akce</h2>
 </div>
-<div class="row">
+<ngx-loading-data-warning [data]="allOffers"></ngx-loading-data-warning>
+<div class="row" *ngIf="allOffers">
   <div class="col-12">
     <nb-alert status="warning" *ngIf="!allOffers || allOffers.length === 0">
         <span class="align-self-center">Tato sekce neobsahuje žádný obsah</span>

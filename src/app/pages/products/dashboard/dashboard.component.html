@@ -1,6 +1,7 @@
 
 <h2>Produkty</h2>
-<div class="row">
+<ngx-loading-data-warning [data]="allCategories"></ngx-loading-data-warning>
+<div class="row" *ngIf="allCategories">
   <div class="col-lg-3 col-md-6" *ngFor="let category of allDynamicCategories">
     <ngx-category-card [category]="category"></ngx-category-card>
   </div>

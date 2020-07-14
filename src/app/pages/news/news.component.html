@@ -24,7 +24,8 @@
 <div class="row">
   <h2>Novinky</h2>
 </div>
-<div class="row">
+<ngx-loading-data-warning [data]="allNews"></ngx-loading-data-warning>
+<div class="row" *ngIf="allNews">
   <div class="col-md-12" *ngIf="allNews.length === 0">
     <nb-alert status="warning">Tato sekce neobsahuje žádné zprávy.</nb-alert>
   </div>

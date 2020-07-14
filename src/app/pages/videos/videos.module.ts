@@ -13,6 +13,7 @@ import {
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
 import {YouTubePlayerModule} from "@angular/youtube-player";
+import {CardsModule} from "../cards/cards.module";
 
 @NgModule({
   declarations: [VideosComponent, YoutubePlayerComponent],
@@ -29,6 +30,7 @@ import {YouTubePlayerModule} from "@angular/youtube-player";
         NbSelectModule,
         YouTubePlayerModule,
         NbDialogModule.forChild(),
+        CardsModule,
     ],
   entryComponents: [
     YoutubePlayerComponent

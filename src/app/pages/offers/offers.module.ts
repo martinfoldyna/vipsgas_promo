@@ -10,21 +10,23 @@ import {
   NbSpinnerModule
 } from "@nebular/theme";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {CardsModule} from "../cards/cards.module";
 
 
 
 @NgModule({
   declarations: [OffersComponent],
-  imports: [
-    CommonModule,
-    NbInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NbCardModule,
-    NbButtonModule,
-    NbSpinnerModule,
-    NbIconModule,
-    NbAlertModule
-  ]
+    imports: [
+        CommonModule,
+        NbInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NbCardModule,
+        NbButtonModule,
+        NbSpinnerModule,
+        NbIconModule,
+        NbAlertModule,
+        CardsModule
+    ]
 })
 export class OffersModule { }

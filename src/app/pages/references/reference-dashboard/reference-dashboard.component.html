@@ -22,11 +22,12 @@
 </div>
 
 <h2>Reference</h2>
-
+<ngx-loading-data-warning [data]="allReferences"></ngx-loading-data-warning>
+<div *ngIf="allReferences">
     <nb-card (click)="router.navigateByUrl('/pages/references/detail/'+reference.id)" class="scale reference-card font-weight-bold" *ngFor="let reference of allReferences">
       <nb-card-body>{{reference.title}}</nb-card-body>
     </nb-card>
-
+</div>
 <!--<div class="row">-->
 <!--  <div class="col-md-4">-->
 <!--    <nb-card>-->
