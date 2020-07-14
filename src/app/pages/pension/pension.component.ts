@@ -35,88 +35,6 @@ export class PensionComponent implements OnInit {
 
   ngOnInit() {
 
-    this.galleryImages = [
-      {
-        small: './../../../assets/images/pension/01.jpg',
-        url: './../../../assets/images/pension/01.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/02.jpg',
-        url: './../../../assets/images/pension/02.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/03.jpg',
-        url: './../../../assets/images/pension/03.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/04.jpg',
-        url: './../../../assets/images/pension/04.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/05.jpg',
-        url: './../../../assets/images/pension/05.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/06.jpg',
-        url: './../../../assets/images/pension/06.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/07.jpg',
-        url: './../../../assets/images/pension/07.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/08.jpg',
-        url: './../../../assets/images/pension/08.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/09.jpg',
-        url: './../../../assets/images/pension/09.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/10.jpg',
-        url: './../../../assets/images/pension/10.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/11.jpg',
-        url: './../../../assets/images/pension/11.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/12.jpg',
-        url: './../../../assets/images/pension/12.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/13.jpg',
-        url: './../../../assets/images/pension/13.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/14.jpg',
-        url: './../../../assets/images/pension/14.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/15.jpg',
-        url: './../../../assets/images/pension/15.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/16.jpg',
-        url: './../../../assets/images/pension/16.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/17.jpg',
-        url: './../../../assets/images/pension/17.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/18.jpg',
-        url: './../../../assets/images/pension/18.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/19.jpg',
-        url: './../../../assets/images/pension/19.jpg',
-      },
-      {
-        small: './../../../assets/images/pension/20.jpg',
-        url: './../../../assets/images/pension/20.jpg',
-      },
-    ];
     this.loadData();
   }
 
@@ -131,6 +49,8 @@ export class PensionComponent implements OnInit {
         const id = item.payload.doc.id;
         return {id, ...data};
       })[0];
+
+      // this.data.images = this.data.images.sort((a,b) => a.name > b.name ? 1 : -1)
 
       this.loadingContent = false;
     }, err => {
@@ -151,6 +71,7 @@ export class PensionComponent implements OnInit {
   }
 
   openImage(allImages, index) {
+    allImages = this.data.images
     this.dialogService.open(ImageDetailComponent, {context: {
         allImages: allImages,
         index: index

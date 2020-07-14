@@ -1,6 +1,6 @@
 <h2>Penzion CAIUS</h2>
-<ngx-loading-data-warning [data]="data"></ngx-loading-data-warning>
-<div *ngIf="data">
+<ngx-loading-data-warning [data]="!loadingContent"></ngx-loading-data-warning>
+<div *ngIf="!loadingContent">
   <nb-card style="height: 100%;" *ngIf="!editContent" [nbSpinner]="loadingContent" nbSpinnerStatus="primary" nbSpinnerMessage="Načítám obsah">
     <nb-card-header>
       <div class="d-flex justify-content-between align-items-center">
