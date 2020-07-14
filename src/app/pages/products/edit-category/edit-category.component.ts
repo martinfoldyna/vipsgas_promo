@@ -6,6 +6,8 @@ import {ImagesService} from "../../../@core/utils/images.service";
 import {CategoryService} from "../category.service";
 import {FormControl, FormGroup} from "@angular/forms";
 import {ProductPosition, ProductType} from "../../../@core/data/product";
+import * as _ from 'lodash';
+
 
 @Component({
   selector: 'ngx-edit-category',
@@ -75,10 +77,12 @@ export class EditCategoryComponent implements OnInit {
 
   updateCategory() {
     this.updatingCategory = true;
-    this.category.categoryTypes.concat(this.typeOptions);
-    this.category.categoryPositions.concat(this.positionOptions);
-    this.category.categoryPositions = Object.assign({}, this.category.categoryPositions, this.positionOptions);
-    this.category.categoryTypes = Object.assign({}, this.category.categoryTypes, this.typeOptions);
+    this.category.categoryTypes = _.union(this.category.categoryTypes, this.typeOptions);
+
+    this.category.categoryPositions = _.union(this.category.categoryPositions, this.positionOptions);
+
+    // this.category.categoryPositions = Object.assign({}, this.category.categoryPositions, this.positionOptions);
+    // this.category.categoryTypes = Object.assign({}, this.category.categoryTypes, this.typeOptions);
     console.log('Arrays concat');
     console.log('positions', this.category.categoryPositions);
     console.log('types', this.category.categoryTypes);
