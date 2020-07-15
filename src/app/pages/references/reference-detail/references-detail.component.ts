@@ -86,10 +86,13 @@ export class ReferencesDetailComponent implements OnInit {
   }
 
   openImage(allImages, index) {
-    this.dialogService.open(ImageDetailComponent, {context: {
+    this.dialogService.open(ImageDetailComponent, {
+      context: {
         allImages: allImages,
         index: index
-      }})
+      },
+      backdropClass: 'custom-backdrop'
+    })
   }
 
   deleteImage(image: Image) {

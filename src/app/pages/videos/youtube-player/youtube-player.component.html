@@ -1,4 +1,4 @@
 <nb-card style="overflow: hidden !important;">
-  <nb-card-header><nb-icon icon="close-outline"></nb-icon></nb-card-header>
+  <nb-card-header><button nbButton status="danger" (click)="dialogRef.close()"><nb-icon icon="close-outline"></nb-icon></button></nb-card-header>
   <youtube-player [videoId]="videoID"></youtube-player>
 </nb-card>

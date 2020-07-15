@@ -15,3 +15,12 @@
 .thumbnail:hover {
   filter: grayscale(0);
 }
+
+@import "../../@theme/styles/themes";
+
+nb-card.video-card h5 {
+  color: #FE5001;
+}
+
+
+

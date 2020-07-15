@@ -58,11 +58,9 @@ export class ImagesService {
 
       console.log('Size in kilobytes now:', sizeOfOriginalImage);
 
-      if (sizeOfOriginalImage > 11000) {
-        quality = 60;
-      }
+      console.log('quality in Compress:', quality)
 
-        this.imageCompress.compressFile(image, -1, quality, quality).then(result => {
+        this.imageCompress.compressFile(image, -1, 80, quality).then(result => {
           imgResultAfterCompress = result;
           let blob = this.dataURItoBlob(imgResultAfterCompress.split(',')[1]);
 

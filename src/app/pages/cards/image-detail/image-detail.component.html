@@ -1,7 +1,7 @@
 <nb-card class="detailed-image-card">
   <nb-card-header>
-    <button nbButton status="danger">
-      <nb-icon icon="close-outline" class="detailed-iamge-close" (click)="close()"></nb-icon>
+    <button nbButton status="danger" (click)="dialogRef.close()">
+      <nb-icon icon="close-outline" class="detailed-iamge-close"></nb-icon>
     </button>
   </nb-card-header>
   <nb-card-body class="detailed-image-wrapper position-relative">

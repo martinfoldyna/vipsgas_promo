@@ -3,6 +3,7 @@ import {AngularFirestore} from "@angular/fire/firestore";
 import {ImagesService} from "./images.service";
 import {Image} from "../data/image";
 import {AngularFireStorage} from "@angular/fire/storage";
+import {NgxImageCompressService} from "ngx-image-compress";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class GeneralService {
   constructor(
     private firestore: AngularFirestore,
     private imagesService: ImagesService,
-    private fireStorage: AngularFireStorage
+    private fireStorage: AngularFireStorage,
+    private imageCompress: NgxImageCompressService
   ) { }
 
   generateRandomString(): string {
@@ -33,14 +35,29 @@ export class GeneralService {
   }
 
   setupFileReader(file) {
-    return new Promise<{name: string, blob: Blob}>((resolve, reject) => {
+    return new Promise<{name: string, blob: Blob, src: string}>((resolve, reject) => {
       let reader = new FileReader();
 
       reader.onload = (e: any) => {
+        let imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+        console.log('imageSize:', imageSize)
+        let quality;
+        if (imageSize < 1200) {
+          quality = 100;
+        } else if (imageSize > 1200 && imageSize < 2000) {
+          quality = 90;
+        } else if (imageSize > 2000 && imageSize < 4000) {
+          quality = 65;
+        } else if (imageSize > 4000) {
+          quality = 55;
+        } else {
+          quality = 85
+        }
+
         let fileName = this.generateRandomString();
-        this.imagesService.compressFile(e.target.result, fileName, 50).then(compressedImage => {
+        this.imagesService.compressFile(e.target.result, fileName, quality).then(compressedImage => {
           if(compressedImage) {
-            resolve({name: 'thumb_' + fileName, blob: compressedImage.blob});
+            resolve({name: 'thumb_' + fileName, blob: compressedImage.blob, src: compressedImage.src});
           }
         }).catch(err => {
           reject(err);

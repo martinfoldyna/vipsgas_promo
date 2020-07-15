@@ -143,10 +143,13 @@ export class ProductCategoryOverviewComponent implements OnInit {
   deleteCategory(categoryIndex: number) {
     let thisCatgegory = this.allCategories[categoryIndex];
     let categoryID = thisCatgegory.id;
-    this.dialogService.open(DeleteConfirmationComponent, {context: {
+    this.dialogService.open(DeleteConfirmationComponent, {
+      context: {
         product: thisCatgegory,
         category: true
-    }}).onClose.subscribe(state => {
+      },
+      backdropClass: 'custom-backdrop'
+    }).onClose.subscribe(state => {
       if (state) {
         this.productsService.getProductsByCategory(categoryID).then(allProducts => {
           let i = 0;
@@ -179,9 +182,13 @@ export class ProductCategoryOverviewComponent implements OnInit {
   }
 
   editCategory(category: DynamicCategory) {
-    this.dialogService.open(EditCategoryComponent, {context: {
+    this.dialogService.open(EditCategoryComponent, {
+      context: {
         category: category
-      }, closeOnBackdropClick: false}).onClose.subscribe(state => {
+      },
+      closeOnBackdropClick: false,
+      backdropClass: 'custom-backdrop'
+    }).onClose.subscribe(state => {
         this.loadCategories();
     })
   }

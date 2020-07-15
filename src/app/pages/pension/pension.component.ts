@@ -72,10 +72,13 @@ export class PensionComponent implements OnInit {
 
   openImage(allImages, index) {
     allImages = this.data.images
-    this.dialogService.open(ImageDetailComponent, {context: {
+    this.dialogService.open(ImageDetailComponent, {
+      context: {
         allImages: allImages,
         index: index
-      }})
+      },
+      backdropClass: 'custom-backdrop'
+    })
   }
 
   deleteImage(image: Image) {

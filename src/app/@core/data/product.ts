@@ -1,14 +1,11 @@
-import {Image} from "./image";
+import {Image, Thumbnail} from "./image";
 
 export interface Product {
   images?: Array<Image>;
   id?: string;
   name?: string;
-  thumbnail?: {
-    name?: string;
-    blob?: Blob;
-    thumbnail?: boolean;
-  };
+  thumbnail?: Thumbnail;
+  newThumbnail?: Thumbnail;
   description?: any;
   thumbnailURL?: string;
   productCategory?: ProductCategoryInfo;

@@ -32,3 +32,7 @@
   @include nb-overrides();
 };
 
+.custom-backdrop {
+  background-color: rgba(0, 0, 0, 0.65) !important;
+}
+

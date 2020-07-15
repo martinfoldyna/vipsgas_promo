@@ -8,7 +8,7 @@ import {Image} from "../../../@core/data/image";
   styleUrls: ['./image-detail.component.scss']
 })
 export class ImageDetailComponent implements OnInit {
-  @Input() allImages: [{ name: any; src: string; }];
+  @Input() allImages: Array<Image>;
   @Input() index: number;
   image: any;
 
@@ -22,10 +22,6 @@ export class ImageDetailComponent implements OnInit {
 
   loadImage() {
     this.image = this.allImages[this.index];
-  }
-
-  close() {
-    this.dialogRef.close();
   }
 
 }

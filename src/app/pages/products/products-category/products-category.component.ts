@@ -9,6 +9,7 @@ import {TinyMceConfig} from "../../../@core/data/tinyMceConfig";
 import {AuthService} from "../../auth/auth.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryService} from "../category.service";
+import {NgxImageCompressService} from "ngx-image-compress";
 
 @Component({
   selector: 'ngx-products-category',
@@ -38,7 +39,8 @@ export class ProductsCategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: NbToastrService,
     private imagesService: ImagesService,
-    public authService: AuthService
+    public authService: AuthService,
+    private imageCompress: NgxImageCompressService
   ) {
     this.allProducts = new Array<Product>();
     this.filteredProducts = new Array<any>();
@@ -128,7 +130,24 @@ export class ProductsCategoryComponent implements OnInit {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.imagesService.compressFile(e.target.result, file.name, 55).then(compressedImage => {
+      let imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+      console.log('imageSize:', imageSize)
+      let quality;
+      if (imageSize < 1200) {
+        quality = 100;
+      } else if (imageSize > 1200 && imageSize < 2000) {
+        quality = 90;
+      } else if (imageSize > 2000 && imageSize < 4000) {
+        quality = 65;
+      } else if (imageSize > 4000) {
+        quality = 55;
+      } else {
+        quality = 85
+      }
+
+      console.log('quality:', quality);
+
+      this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
         if(compressedImage) {
           this.product.images = [{name: this.generateRandomString(), blob: compressedImage.blob}];
         }

@@ -14,6 +14,7 @@ import {Location} from "@angular/common";
 import {DeleteConfirmationComponent} from "../../cards/delete-confirmation/delete-confirmation.component";
 import {NbDialogService, NbToastrService} from "@nebular/theme";
 import {ImageDetailComponent} from "../../cards/image-detail/image-detail.component";
+import {NgxImageCompressService} from "ngx-image-compress";
 
 @Component({
   selector: 'ngx-product-detail',
@@ -34,9 +35,10 @@ export class ProductDetailComponent implements OnInit {
   newImages: Array<Image>;
   selectedImagesPreview: Array<Image>;
   detailChangeThumbnail: boolean = false;
-  newThumbnail: Thumbnail;
+  thumbnail: Thumbnail;
   galleryItems: Array<GalleryItem>;
   uploadingImages: boolean = false;
+  newThumbnailSrc: string;
 
   tinyMceConfig = TinyMceConfig;
 
@@ -51,7 +53,8 @@ export class ProductDetailComponent implements OnInit {
     private gallery: Gallery,
     private location: Location,
     private dialogService: NbDialogService,
-    private toastr: NbToastrService
+    private toastr: NbToastrService,
+    private imageCompress: NgxImageCompressService
   ) {
     this.product = { name: '' }
     this.productCategory  = {name: ''};
@@ -73,12 +76,16 @@ export class ProductDetailComponent implements OnInit {
 
     this.productsService.getProductById(this.id).then(product => {
       if(product) {
-        // this.productsService.getImage(product.thumbnail.name).then(image => {
-        //   product.thumbnailURL = image
-        // })
 
         this.product = product;
         console.log(product);
+
+        for (const [index, value] of this.product.images.entries()) {
+          if (value.thumbnail) {
+            this.thumbnail = this.product.images[index];
+            this.product.thumbnail = this.product.images[index];
+          }
+        }
 
         if(product.productCategory) {
           this.productCategory = {
@@ -91,19 +98,6 @@ export class ProductDetailComponent implements OnInit {
             url: '/pages/products/dashboard'
           }
         }
-
-        if (product.images) {
-          for(let i = 0; i < product.images.length; i++) {
-            const thisImage = product.images[i];
-
-            this.galleryItems.push(new ImageItem({src: thisImage.url, thumb: thisImage.url}))
-          }
-
-          const galleryRef = this.gallery.ref();
-          galleryRef.load(this.galleryItems);
-        }
-
-
 
 
         this.productLoaded = true;
@@ -125,21 +119,50 @@ export class ProductDetailComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
 
       this.setupFileReader(i, files[i]);
+      this.generalService.setupFileReader(files[i]).then(file => {
+        this.newImages.push({name: this.generalService.generateRandomString(), blob: file.blob});
+      }).catch(err => {
+
+      })
     }
   }
 
   onThumbnailChange(event) {
-    let thubmnail = event.target.files[0];
-    this.setupFileReaderThumbnail(thubmnail)
+    let thumbnail = event.target.files[0];
+    this.generalService.setupFileReader(thumbnail).then(file => {
+      this.newThumbnailSrc = file.src
+      this.product.newThumbnail = ({name: this.generalService.generateRandomString(), blob: file.blob})
+    }).catch(err => {
+
+    })
   }
 
   setupFileReaderThumbnail(file) {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.imagesService.compressFile(e.target.result, file.image, 68).then(compressedImage => {
+      console.log("in file reader")
+
+      const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+      let quality;
+
+      if (imageSize < 1200) {
+        quality = 100;
+      } else if (imageSize > 1200 && imageSize < 2000) {
+        quality = 90;
+      } else if (imageSize > 2000 && imageSize < 4000) {
+        quality = 65;
+      } else if (imageSize > 4000) {
+        quality = 55;
+      } else {
+        quality = 85
+      }
+
+      console.log('quality:', quality);
+      this.imagesService.compressFile(e.target.result, file.image, quality).then(compressedImage => {
+
         if (compressedImage) {
-          this.newThumbnail = ({name: this.generalService.generateRandomString(), blob: compressedImage.blob})
+          this.product.newThumbnail = ({name: this.generalService.generateRandomString(), blob: compressedImage.blob})
         }
       }).catch(err => {
         console.log(err);
@@ -148,18 +171,31 @@ export class ProductDetailComponent implements OnInit {
 
   }
 
-  changeThumbnail() {
-    this.productsService.changeThumbnail(this.product, this.newThumbnail)
-  }
-
   setupFileReader(fileIndex, file) {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.imagesService.compressFile(e.target.result, file.name, 68).then(compressedImage => {
+      let imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+      console.log('imageSize:', imageSize)
+      let quality;
+      if (imageSize < 1200) {
+        quality = 100;
+      } else if (imageSize > 1200 && imageSize < 2000) {
+        quality = 90;
+      } else if (imageSize > 2000 && imageSize < 4000) {
+        quality = 65;
+      } else if (imageSize > 4000) {
+        quality = 55;
+      } else {
+        quality = 85
+      }
+
+      console.log('quality:', quality);
+
+      this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
         this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex});
         if(compressedImage) {
-          this.newImages.push({name: this.generalService.generateRandomString(), blob: compressedImage.blob});
+
         }
       }).catch(err => {
         console.log(err);
@@ -188,9 +224,12 @@ export class ProductDetailComponent implements OnInit {
   deleteProduct() {
     this.deletingProduct = true;
 
-    this.dialogService.open(DeleteConfirmationComponent, {context: {
-      product: this.product
-    }}).onClose.subscribe(confirmation => {
+    this.dialogService.open(DeleteConfirmationComponent, {
+      context: {
+        product: this.product
+      },
+      backdropClass: 'custom-backdrop'
+    }).onClose.subscribe(confirmation => {
       if (confirmation) {
         this.generalService.deleteItem('products', this.id).then(result => {
           if(this.product.images && this.product.images.length > 0) {
@@ -225,10 +264,13 @@ export class ProductDetailComponent implements OnInit {
   }
 
   openImage(allImages, index) {
-    this.dialogService.open(ImageDetailComponent, {context: {
+    this.dialogService.open(ImageDetailComponent, {
+      context: {
         allImages: allImages,
         index: index
-      }})
+      },
+      backdropClass: 'custom-backdrop'
+    })
   }
 
   deleteImageFromProduct(imageName: string) {

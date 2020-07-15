@@ -133,8 +133,40 @@ export class ProductsService {
     return returnValue;
   }
 
+  updateProductThumbnail(product: Product): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.fireStorage.upload(`products/${product.newThumbnail.name}`, product.newThumbnail.blob).then(response => {
+        if (response.state === "success") {
+          response.ref.getDownloadURL().then(url => {
+
+            resolve({
+              name: product.newThumbnail.name,
+              url: url,
+            });
+          }).catch(err => reject(err));
+        } else {
+          reject('Během nahrávání nového obrázku došlo k chybě.');
+        }
+      }).catch(err => reject(err));
+    })
+  }
+
   editProduct(product: Product): Promise<void> {
-    return this._firestore.collection('products').doc(product.id).update(product);
+    return new Promise<any>((resolve, reject) => {
+
+      if (product.newThumbnail) {
+        this.updateProductThumbnail(product).then(newThumbnail => {
+          this.fireStorage.ref(`products/${product.thumbnail.name}`).delete();
+          delete product.newThumbnail;
+          product.thumbnail = newThumbnail;
+          this._firestore.collection('products')
+            .doc(product.id).update(product).then(response => resolve(response)).catch(err => reject(err));
+        }).catch(err => reject(err));
+      } else {
+        this._firestore.collection('products')
+          .doc(product.id).update(product).then(response => resolve(response)).catch(err => reject(err));
+      }
+    })
   }
 
   uploadImageToProduct(productID, image: Image): Promise<any> {

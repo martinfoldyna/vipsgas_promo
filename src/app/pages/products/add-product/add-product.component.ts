@@ -6,6 +6,8 @@ import {ImagesService} from "../../../@core/utils/images.service";
 import {TinymceOptions} from "ngx-tinymce";
 import {TinyMceConfig} from "../../../@core/data/tinyMceConfig";
 import {DynamicCategory} from "../../../@core/data/category";
+import {ImageCompress} from "ngx-image-compress/lib/image-compress";
+import {NgxImageCompressService} from "ngx-image-compress";
 
 @Component({
   selector: 'ngx-add-product',
@@ -29,7 +31,8 @@ export class AddProductComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private productsService: ProductsService,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private imageCompress: NgxImageCompressService
   ) {
     this.product = {
       name: '',
@@ -47,7 +50,27 @@ export class AddProductComponent implements OnInit {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.imagesService.compressFile(e.target.result, file.name, 55).then(compressedImage => {
+      let imageSize = this.imageCompress.byteCount(e.target.result);
+      let quality;
+      // switch (imageSize) {
+      //   case imageSize < 1200:
+      //     quality = 100;
+      //     break;
+      //   case imageSize > 1200 && imageSize < 2000:
+      //     quality = 80;
+      //     break;
+      //   case imageSize > 2000 && imageSize < 4000:
+      //     quality = 65;
+      //     break;
+      //   case imageSize > 4000:
+      //     quality = 55;
+      //     break;
+      //   default:
+      //     quality = 85;
+      //     break
+      // }
+      console.log('quality:', quality);
+      this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
         if(compressedImage) {
           this.product.thumbnail = {name: this.generateRandomString(), blob: compressedImage.blob};
         }

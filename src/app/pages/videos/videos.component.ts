@@ -105,7 +105,8 @@ export class VideosComponent implements OnInit {
     this.dialogService.open(YoutubePlayerComponent, {
       context: {
         videoID: videoID
-      }
+      },
+      backdropClass: 'custom-backdrop'
     })
   }
 
