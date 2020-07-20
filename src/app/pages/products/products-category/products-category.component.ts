@@ -130,20 +130,21 @@ export class ProductsCategoryComponent implements OnInit {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      let imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+      const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
       console.log('imageSize:', imageSize)
-      let quality;
-      if (imageSize < 1200) {
-        quality = 100;
-      } else if (imageSize > 1200 && imageSize < 2000) {
-        quality = 90;
-      } else if (imageSize > 2000 && imageSize < 4000) {
-        quality = 65;
-      } else if (imageSize > 4000) {
-        quality = 55;
-      } else {
-        quality = 85
-      }
+
+      const quality = this.imagesService.translateQuality(imageSize);
+      // if (imageSize < 1200) {
+      //   quality = 100;
+      // } else if (imageSize > 1200 && imageSize < 2000) {
+      //   quality = 90;
+      // } else if (imageSize > 2000 && imageSize < 4000) {
+      //   quality = 65;
+      // } else if (imageSize > 4000) {
+      //   quality = 55;
+      // } else {
+      //   quality = 85
+      // }
 
       console.log('quality:', quality);
 

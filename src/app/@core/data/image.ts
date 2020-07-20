@@ -10,4 +10,5 @@ export interface Thumbnail {
   blob?: Blob;
   name?: string;
   url?: string;
+  thumbnail?: boolean;
 }

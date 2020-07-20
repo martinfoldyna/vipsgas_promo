@@ -41,9 +41,9 @@
         <tinymce id="product-description" [(ngModel)]="product.description" [ngModelOptions]="{standalone: true}" [config]="tinyMceConfig"></tinymce>
       </div>
       <div class="d-flex justify-content-between">
-        <div class="form-group" *ngIf="thumbnail">
+        <div class="form-group" *ngIf="product.thumbnail">
           <label for="product-update-thumbnail" class="label">Náhledový obrázek</label>
-          <div id="product-update-thumbnail" class="thumbnail position-relative" [ngStyle]="{'background-image': ' url(' + thumbnail.url + ')'}" style="width: auto; height: 40vh; background-position: left center; background-repeat: no-repeat; background-size: contain;"></div>
+          <div id="product-update-thumbnail" class="thumbnail position-relative" [ngStyle]="{'background-image': ' url(' + product.thumbnail.url + ')'}" style="width: auto; height: 40vh; background-position: left center; background-repeat: no-repeat; background-size: contain;"></div>
           <div>
             <input type="file" nbInput (change)="onThumbnailChange($event)"><br>
           </div>
@@ -95,9 +95,9 @@
 </nb-card>
 
 <div class="row">
-  <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let image of product.images; let i = index">
+  <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let image of productImages; let i = index">
     <nb-card class="detail-image-container scale">
-      <div class="thumbnail position-relative" (click)="openImage(product.images, i)" [ngStyle]="{'background-image': ' url(' + image.url + ')'}" ></div>
+      <div class="thumbnail position-relative" (click)="openImage(productImages, i)" [ngStyle]="{'background-image': ' url(' + image.url + ')'}" ></div>
 
       <nb-card-footer *ngIf="authService.getUser()">
         <button *ngIf="image.thumbnail" nbButton fullWidth disabled status="danger">Náhled. obrázek nelze odstranit</button>

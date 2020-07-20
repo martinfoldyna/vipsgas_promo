@@ -51,24 +51,9 @@ export class AddProductComponent implements OnInit {
 
     reader.onload = (e: any) => {
       let imageSize = this.imageCompress.byteCount(e.target.result);
-      let quality;
-      // switch (imageSize) {
-      //   case imageSize < 1200:
-      //     quality = 100;
-      //     break;
-      //   case imageSize > 1200 && imageSize < 2000:
-      //     quality = 80;
-      //     break;
-      //   case imageSize > 2000 && imageSize < 4000:
-      //     quality = 65;
-      //     break;
-      //   case imageSize > 4000:
-      //     quality = 55;
-      //     break;
-      //   default:
-      //     quality = 85;
-      //     break
-      // }
+
+      const quality = this.imagesService.translateQuality(imageSize);
+
       console.log('quality:', quality);
       this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
         if(compressedImage) {

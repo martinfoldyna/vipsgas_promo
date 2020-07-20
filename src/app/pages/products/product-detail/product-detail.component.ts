@@ -39,6 +39,7 @@ export class ProductDetailComponent implements OnInit {
   galleryItems: Array<GalleryItem>;
   uploadingImages: boolean = false;
   newThumbnailSrc: string;
+  productImages: Array<Image>;
 
   tinyMceConfig = TinyMceConfig;
 
@@ -79,15 +80,10 @@ export class ProductDetailComponent implements OnInit {
 
         this.product = product;
         console.log(product);
+        this.product.thumbnail.thumbnail = true;
+        this.productImages = [product.thumbnail, ...product.images];
 
-        for (const [index, value] of this.product.images.entries()) {
-          if (value.thumbnail) {
-            this.thumbnail = this.product.images[index];
-            this.product.thumbnail = this.product.images[index];
-          }
-        }
-
-        if(product.productCategory) {
+        if (product.productCategory) {
           this.productCategory = {
             name: this.productsService.translateProductCategory(product.productCategory),
             url: '/pages/products/' + product.productCategory
@@ -144,19 +140,7 @@ export class ProductDetailComponent implements OnInit {
       console.log("in file reader")
 
       const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
-      let quality;
-
-      if (imageSize < 1200) {
-        quality = 100;
-      } else if (imageSize > 1200 && imageSize < 2000) {
-        quality = 90;
-      } else if (imageSize > 2000 && imageSize < 4000) {
-        quality = 65;
-      } else if (imageSize > 4000) {
-        quality = 55;
-      } else {
-        quality = 85
-      }
+      let quality = this.imagesService.translateQuality(imageSize);
 
       console.log('quality:', quality);
       this.imagesService.compressFile(e.target.result, file.image, quality).then(compressedImage => {
@@ -175,20 +159,10 @@ export class ProductDetailComponent implements OnInit {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      let imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+      const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
       console.log('imageSize:', imageSize)
-      let quality;
-      if (imageSize < 1200) {
-        quality = 100;
-      } else if (imageSize > 1200 && imageSize < 2000) {
-        quality = 90;
-      } else if (imageSize > 2000 && imageSize < 4000) {
-        quality = 65;
-      } else if (imageSize > 4000) {
-        quality = 55;
-      } else {
-        quality = 85
-      }
+
+      const quality = this.imagesService.translateQuality(imageSize);
 
       console.log('quality:', quality);
 

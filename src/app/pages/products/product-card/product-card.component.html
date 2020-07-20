@@ -1,8 +1,8 @@
 
-  <nb-card class="scale" style="cursor: pointer" (click)="navigateToProductDetail()">
+  <nb-card class="scale product-card" style="cursor: pointer" (click)="navigateToProductDetail()">
     <nb-card-body class="image-wrapper d-flex justify-content-center">
 <!--      <div class="thumbnail position-relative" [ngStyle]="{'background-image': ' url(' + product.thumbnailURL + ')'}" style="width: 100%; height: 40vh; background-position: center; background-repeat: no-repeat; background-size: cover">-->
-      <img defaultImage="assets/images/placeholder.png" [lazyLoad]="thumbnail ? thumbnail.url : 'assets/images/placeholder.png'" alt="" >
+      <img defaultImage="assets/images/placeholder.png" [lazyLoad]="product.thumbnail ? product.thumbnail.url : 'assets/images/placeholder.png'" alt="" style="height: 38vh">
 <!--      <img src="./../../../../assets/images/placeholder.png" alt="" >-->
 <!--      </div>-->
 
@@ -10,6 +10,5 @@
     </nb-card-body>
     <nb-card-footer>
       <h3>{{product.name}}</h3>
-
     </nb-card-footer>
   </nb-card>

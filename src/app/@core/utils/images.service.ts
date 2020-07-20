@@ -50,17 +50,38 @@ export class ImagesService {
     return new Blob([int8Array], {type: 'image/jpeg'});
   }
 
+  translateQuality(imageSize) {
+    let quality;
+
+    if (imageSize < 1200) {
+      quality = 100;
+    } else if (imageSize > 1200 && imageSize < 2000) {
+      quality = 90;
+    } else if (imageSize > 2000 && imageSize < 4000) {
+      quality = 65;
+    } else if (imageSize > 4000) {
+      quality = 55;
+    } else {
+      quality = 85
+    }
+
+    return quality;
+  }
+
   compressFile(image, fileName, quality): Promise<{blob: Blob, src: string}> {
     return new Promise(((resolve, reject) => {
       let sizeOfOriginalImage = this.imageCompress.byteCount(image) / (1024);
+
+      const finalQuality = this.translateQuality(sizeOfOriginalImage);
+
       let sizeOfCompressedImage;
       let imgResultAfterCompress;
 
       console.log('Size in kilobytes now:', sizeOfOriginalImage);
 
-      console.log('quality in Compress:', quality)
+      console.log('quality in Compress:', finalQuality)
 
-        this.imageCompress.compressFile(image, -1, 80, quality).then(result => {
+        this.imageCompress.compressFile(image, -1, 80, finalQuality).then(result => {
           imgResultAfterCompress = result;
           let blob = this.dataURItoBlob(imgResultAfterCompress.split(',')[1]);
 

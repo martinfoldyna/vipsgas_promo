@@ -159,6 +159,7 @@ export class ProductsService {
           this.fireStorage.ref(`products/${product.thumbnail.name}`).delete();
           delete product.newThumbnail;
           product.thumbnail = newThumbnail;
+
           this._firestore.collection('products')
             .doc(product.id).update(product).then(response => resolve(response)).catch(err => reject(err));
         }).catch(err => reject(err));

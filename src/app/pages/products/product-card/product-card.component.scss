@@ -1,4 +1,4 @@
-::ng-deep nb-card {
+::ng-deep nb-card.product-card {
   overflow: hidden;
 }
 ::ng-deep .image-wrapper {
@@ -7,10 +7,10 @@
 
 @import '../../../@theme/styles/themes';
 
-nb-card h3 {
+nb-card.product-card h3 {
   transition: color .5s;
 }
 
-nb-card:hover h3 {
+nb-card.product-card:hover h3 {
   color: nb-theme(color-primary-400);
 }
