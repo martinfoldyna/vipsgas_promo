@@ -49,9 +49,10 @@ export class UploadImagesComponent implements OnInit {
 
     reader.onload = (e: any) => {
       this.imagesService.compressFile(e.target.result, file.name, 68).then(compressedImage => {
-        this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex});
+        let fileName = this.generalService.generateRandomString();
+        this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex, name: fileName});
         if(compressedImage) {
-          this.newImages.push({name: this.generalService.generateRandomString(), blob: compressedImage.blob, index: fileIndex});
+          this.newImages.push({name: fileName, blob: compressedImage.blob, index: fileIndex});
         }
       }).catch(err => {
         console.log(err);
@@ -83,9 +84,15 @@ export class UploadImagesComponent implements OnInit {
   }
 
   removeFromList(imageIndex) {
-    const fileIndex = this.selectedImagesPreview[imageIndex].index;
+    const fileName = this.selectedImagesPreview[imageIndex].name;
     this.selectedImagesPreview.splice(imageIndex, 1);
-    this.newImages.filter(image => image.index === fileIndex)
+    this.newImages = this.newImages.filter(image => {
+      console.log('imageName', image.name);
+      console.log('fileName', fileName);
+
+      return image.name !== fileName
+    })
+    console.log(this.newImages);
   }
 
 }

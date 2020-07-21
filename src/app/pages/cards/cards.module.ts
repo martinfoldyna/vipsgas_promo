@@ -17,13 +17,15 @@ import {ImageDetailComponent} from "./image-detail/image-detail.component";
 import {EditCategoryComponent} from "../products/edit-category/edit-category.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LoadingDataWarningComponent } from './loading-data-warning/loading-data-warning.component';
+import {SafeHtmlPipe} from "../../@core/data/safe-html.pipe";
 
 @NgModule({
-    declarations: [CategoryCardComponent, UploadImagesComponent, DeleteConfirmationComponent, ImageDetailComponent, EditCategoryComponent, LoadingDataWarningComponent],
+  declarations: [CategoryCardComponent, UploadImagesComponent, DeleteConfirmationComponent, ImageDetailComponent, EditCategoryComponent, LoadingDataWarningComponent, SafeHtmlPipe],
   exports: [
     CategoryCardComponent,
     UploadImagesComponent,
     LoadingDataWarningComponent,
+    SafeHtmlPipe,
   ],
     imports: [
         CommonModule,

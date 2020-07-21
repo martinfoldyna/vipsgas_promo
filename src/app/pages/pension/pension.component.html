@@ -22,7 +22,7 @@
       </div>
     </nb-card-header>
     <nb-card-body>
-      <div class="pension-content" [innerHTML]="data.description" *ngIf="data">
+      <div class="pension-content" [innerHTML]="data.description | safeHtml" *ngIf="data">
       </div>
       <div class="gallery d-flex justify-content-center" >
       </div>

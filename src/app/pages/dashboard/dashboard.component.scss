@@ -5,3 +5,7 @@
 ::ng-deep nb-card {
   overflow: hidden;
 }
+
+::ng-deep nb-card.category-card .thumbnail {
+  background-size: cover;
+}

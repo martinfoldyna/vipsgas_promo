@@ -10,6 +10,7 @@ import {ReferencesRoutingModule} from "./references-routing.module";
 import {LazyLoadImageModule} from "ng-lazyload-image";
 import {CardsModule} from "../cards/cards.module";
 import {LightboxModule} from "@ngx-gallery/lightbox";
+import {SafeHtmlPipe} from "../../@core/data/safe-html.pipe";
 
 
 

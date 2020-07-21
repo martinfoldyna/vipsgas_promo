@@ -61,8 +61,10 @@ export class ReferencesDetailComponent implements OnInit {
   }
 
   editReference() {
+    console.log(this.reference)
     this.referenceService.updateReference(this.reference).then(response => {
       this.toastr.success('', 'Reference byl upravena.');
+      this.updateReference = false;
     }).catch(err => {
       this.toastr.danger(err ? JSON.stringify(err) : 'Během úpravy reference došlo k chybě.', 'Chyba')
     })

@@ -39,7 +39,7 @@
 
       </nb-card-header>
       <nb-card-body>
-        <div class="article-content" [innerHTML]="article.body">
+        <div class="article-content" [innerHTML]="article.body | safeHtml">
 
         </div>
       </nb-card-body>

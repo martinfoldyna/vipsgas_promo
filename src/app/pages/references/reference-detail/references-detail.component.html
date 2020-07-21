@@ -27,7 +27,7 @@
         </nb-card-header>
         <nb-card-header *ngIf="!authService.getUser()">{{reference.title}}</nb-card-header>
         <nb-card-body>
-          <div class="reference-content" [innerHTML]="reference.content"></div>
+          <div class="reference-content" [innerHTML]="reference.content | safeHtml"></div>
         </nb-card-body>
       </nb-card>
     </div>

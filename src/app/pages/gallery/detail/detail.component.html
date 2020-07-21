@@ -25,7 +25,7 @@
           </div>
         </nb-card-header>
         <nb-card-body>
-          <div [innerHTML]="section.description"></div>
+          <div [innerHTML]="section.description | safeHtml"></div>
 
         </nb-card-body>
 <!--        <nb-card-footer>-->
