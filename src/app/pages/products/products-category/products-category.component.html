@@ -8,7 +8,7 @@
         <form #form="ngForm" [formGroup]="newProductForm">
           <div class="form-group">
             <label for="title" class="label">Název produktu</label>
-            <input nbInput fullWidth type="text" id="title" name="name" required placeholder="např.: Victrix 12 X TT 2 ErP" [formControl]="newProductForm.controls.name">
+            <input nbInput fullWidth type="text" id="title" name="name" required placeholder="např.: Victrix 12 X TT 2 ErP" autocomplete="off" [formControl]="newProductForm.controls.name">
           </div>
           <div class="form-group">
             <label for="product-thumbnail" class="label">Vyberte náhledový obrázek kategorie</label><br>

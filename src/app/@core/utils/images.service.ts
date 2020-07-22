@@ -62,10 +62,28 @@ export class ImagesService {
     } else if (imageSize > 4000) {
       quality = 55;
     } else {
-      quality = 85
+      quality = 85;
     }
 
     return quality;
+  }
+
+  translateRatio(imageSize) {
+    let ratio;
+
+    if (imageSize < 1200) {
+      ratio = 95;
+    } else if (imageSize > 1200 && imageSize < 2000) {
+      ratio = 90;
+    } else if (imageSize > 2000 && imageSize < 4000) {
+      ratio = 80;
+    } else if (imageSize > 4000) {
+      ratio = 75;
+    } else {
+      ratio = 85;
+    }
+
+    return ratio;
   }
 
   compressFile(image, fileName, quality): Promise<{blob: Blob, src: string}> {
@@ -73,6 +91,7 @@ export class ImagesService {
       let sizeOfOriginalImage = this.imageCompress.byteCount(image) / (1024);
 
       const finalQuality = this.translateQuality(sizeOfOriginalImage);
+      const ratio = this.translateRatio(sizeOfOriginalImage)
 
       let sizeOfCompressedImage;
       let imgResultAfterCompress;

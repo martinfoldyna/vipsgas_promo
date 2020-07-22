@@ -14,3 +14,9 @@ nb-card.product-card h3 {
 nb-card.product-card:hover h3 {
   color: nb-theme(color-primary-400);
 }
+
+.image-wrapper img {
+  height: 38vh;
+  max-width: 100%;
+  object-fit: contain;
+}

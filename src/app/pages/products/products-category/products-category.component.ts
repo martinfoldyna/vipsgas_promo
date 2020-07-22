@@ -55,7 +55,7 @@ export class ProductsCategoryComponent implements OnInit {
     thumbnail: new FormControl("", Validators.required),
     description: new FormControl("", Validators.required),
     position: new FormControl("", Validators.required),
-    type: new FormControl("", Validators.required),
+    type: new FormControl(""),
   });
 
   ngOnInit(): void {
@@ -85,14 +85,12 @@ export class ProductsCategoryComponent implements OnInit {
 
       // Loading thumbnail image for each boiler
       for (let product of this.allProducts) {
-        // this.productsService.getImage(product.thumbnail.name).then(image => {
-        //   product.thumbnailURL = image;
-        // });
 
         // "Beautify" position names from type: "position&type" to "Position: type"
         let positionNameSplitted = product.position.split('&');
-        let positionName = positionNameSplitted[0][0].toUpperCase() + positionNameSplitted[0].slice(1) + ': ' + positionNameSplitted[1].replace(/-/g, ' ');
-        product.position = positionName
+
+        let positionName = positionNameSplitted[1].length > 0 ? positionNameSplitted[0][0].toUpperCase() + positionNameSplitted[0].slice(1).replace(/-/g, ' ') + ': ' + positionNameSplitted[1].replace(/-/g, ' ') : positionNameSplitted[0][0].toUpperCase() + positionNameSplitted[0].slice(1).replace(/-/g, ' ');
+        product.position = positionName;
       }
 
       // sort products by name alphabetically
@@ -134,23 +132,12 @@ export class ProductsCategoryComponent implements OnInit {
       console.log('imageSize:', imageSize)
 
       const quality = this.imagesService.translateQuality(imageSize);
-      // if (imageSize < 1200) {
-      //   quality = 100;
-      // } else if (imageSize > 1200 && imageSize < 2000) {
-      //   quality = 90;
-      // } else if (imageSize > 2000 && imageSize < 4000) {
-      //   quality = 65;
-      // } else if (imageSize > 4000) {
-      //   quality = 55;
-      // } else {
-      //   quality = 85
-      // }
 
       console.log('quality:', quality);
 
       this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
         if(compressedImage) {
-          this.product.images = [{name: this.generateRandomString(), blob: compressedImage.blob}];
+          this.product.thumbnail = {name: this.generateRandomString(), blob: compressedImage.blob};
         }
       }).catch(err => {
         console.log(err);
@@ -193,6 +180,7 @@ export class ProductsCategoryComponent implements OnInit {
       this.newProductForm.reset();
       this.uploadingProduct = false;
     }).catch(err => {
+      console.log(err);
       this.toastr.danger(JSON.stringify(err), 'Chyba');
     })
   }

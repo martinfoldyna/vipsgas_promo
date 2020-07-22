@@ -16,30 +16,6 @@ let routes: Routes = [
     component: DashboardComponent,
   },
   {
-    path: 'condensing-boilers',
-    component: CondensingBoilersComponent,
-  },
-  {
-    path: 'tuv-heaters',
-    component: TuvHeatersComponent,
-  },
-  {
-    path: 'tuv-containers',
-    component: TuvContainersComponent,
-  },
-  {
-    path: 'boiler-regulation',
-    component: BoilerRegulationComponent,
-  },
-  {
-    path: 'hydraulic-distributor',
-    component: HydraulicDistributorComponent,
-  },
-  {
-    path: 'category-overview',
-    component: ProductCategoryOverviewComponent
-  },
-  {
     path: 'category/:id',
     component: ProductsCategoryComponent
   },
@@ -53,7 +29,7 @@ let routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: '/pages/products/dashboard',
   },
 ]
 

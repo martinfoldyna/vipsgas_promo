@@ -24,7 +24,7 @@ export class ProductsService {
     return new Promise<any>((resolve, reject) => {
       console.log(data);
       this.fireStorage
-        .upload(`products/${data.images[0].name}`, data.images[0].blob).then(response => {
+        .upload(`products/${data.thumbnail.name}`, data.thumbnail.blob).then(response => {
           if(response.state === "success") {
             response.ref.getDownloadURL().then(url => {
               this._firestore
@@ -34,11 +34,11 @@ export class ProductsService {
                   productCategory: data.productCategory,
                   description: data.description,
                   position: data.position,
-                  images: [{
-                    name: data.images[0].name,
+                  thumbnail: {
+                    name: data.thumbnail.name,
                     url: url,
-                    thumbnail: true
-                  }]
+                  },
+                  images: []
                 })
                 .then(res => resolve(res), err => reject(err));
             }).catch(err => {
@@ -48,6 +48,7 @@ export class ProductsService {
             reject('Během nahrávání nahrávání obrázku došlo k chybě.')
           }
       }).catch(err => {
+        console.log('err on firestore')
         reject(err);
       });
 
