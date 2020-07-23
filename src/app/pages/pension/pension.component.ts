@@ -50,7 +50,7 @@ export class PensionComponent implements OnInit {
         return {id, ...data};
       })[0];
 
-      // this.data.images = this.data.images.sort((a,b) => a.name > b.name ? 1 : -1)
+      this.data.images = this.data.images.sort((a,b) => a.name > b.name ? 1 : -1)
 
       this.loadingContent = false;
     }, err => {

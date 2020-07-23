@@ -43,7 +43,7 @@
     </nb-card-body>
   </nb-card>
 
-  <ngx-upload-images dbCollection="pension" [documentID]="data.id" (loadDocument)="loadData()" *ngIf="uploadNewImages && data"></ngx-upload-images>
+  <ngx-upload-images dbCollection="pension" [documentID]="data.id" (loadDocument)="loadData()" *ngIf="uploadNewImages && data" dontChangeName="true"></ngx-upload-images>
 
   <div class="row" *ngIf="data.images">
     <div class="col-md-3" *ngFor="let image of data.images; let i = index">

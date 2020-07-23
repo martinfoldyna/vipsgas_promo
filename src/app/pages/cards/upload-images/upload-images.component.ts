@@ -16,6 +16,7 @@ export class UploadImagesComponent implements OnInit {
 
   @Input('dbCollection') dbCollection: string;
   @Input('documentID') documentID: string;
+  @Input('dontChangeName') dontChangeName: boolean;
 
   newImages: Array<Image>;
   selectedImagesPreview: Array<Image>;
@@ -52,7 +53,7 @@ export class UploadImagesComponent implements OnInit {
         let fileName = this.generalService.generateRandomString();
         this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex, name: fileName});
         if(compressedImage) {
-          this.newImages.push({name: fileName, blob: compressedImage.blob, index: fileIndex});
+          this.newImages.push({name: this.dontChangeName ? file.name : fileName, blob: compressedImage.blob, index: fileIndex});
         }
       }).catch(err => {
         console.log(err);

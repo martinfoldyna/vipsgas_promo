@@ -12,7 +12,7 @@ export class DashboardComponent implements OnInit {
     {
       name: 'Produkty',
       url: '/pages/products',
-      image: 'products.png',
+      image: 'products.jpg',
     }, {
       name: 'Novinky',
       url: '/pages/news',
