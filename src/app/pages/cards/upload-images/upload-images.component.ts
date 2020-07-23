@@ -53,7 +53,7 @@ export class UploadImagesComponent implements OnInit {
         let fileName = this.generalService.generateRandomString();
         this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex, name: fileName});
         if(compressedImage) {
-          this.newImages.push({name: this.dontChangeName ? file.name : fileName, blob: compressedImage.blob, index: fileIndex});
+          this.newImages.push({name: file.name, blob: compressedImage.blob, index: fileIndex});
         }
       }).catch(err => {
         console.log(err);

@@ -51,6 +51,7 @@ export class ReferencesDetailComponent implements OnInit {
         this.reference = reference;
         this.referenceLoaded = true;
         this.siteTitle = reference.title;
+        this.reference.images = this.reference.images.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
       } else {
         this.toastr.warning('Během načítání reference došlo k chybě.', 'Chyba');
       }

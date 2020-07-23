@@ -58,7 +58,7 @@ export class GalleryService {
   }
 
   loadSections() {
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<Array<ImageSection>>((resolve, reject) => {
       this.firestore.collection('gallery').snapshotChanges().subscribe(response => {
         if(!response) {
           reject('Nastala chyba během načítání sekcí obrázků.')
@@ -118,6 +118,26 @@ export class GalleryService {
       }).catch(err => {
         reject(err);
       })
+    })
+  }
+
+  deleteSection(section: ImageSection): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      if (section.images) {
+        section.images.forEach(image => {
+          this.deleteImageNameFromCollection("gallery", section.id, image.name, section.images).then(response => {
+
+          }).catch(err => {
+            console.log(err);
+            reject(err);
+          })
+        })
+      }
+      this.firestore.collection('gallery').doc(section.id).delete().then(r => {
+        resolve(r);
+      }).catch(err => {
+        reject(err);
+      });
     })
   }
 

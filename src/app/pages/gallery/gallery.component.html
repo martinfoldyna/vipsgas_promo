@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12 col-lg-8 m-auto">
-    <nb-card *ngIf="authService.getUser()" [nbSpinner]="uploadingSection">
+    <nb-card *ngIf="authService.getUser()" [nbSpinner]="creatingSection" nbSpinnerStatus="primary" nbSpinnerMessage="Vytvářím novou sekci.">
       <nb-card-header>Přidání nové sekce</nb-card-header>
       <nb-card-body>
         <form #form="ngForm" [formGroup]="galleryForm">

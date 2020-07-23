@@ -67,11 +67,15 @@ export class DetailComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.galleryService.loadSectionById(this.id).then(section => {
       this.section = section;
+      if (this.section.images) {
+        this.section.images = this.section.images.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
+      }
       console.log(this.section);
       this.imagesService.getImage('gallery', this.section.thumbnail.name).then(image => {
         this.section.thumbnail.image = image;
       })
     }).catch(err => {
+      console.log(err);
       if(err) {
         this.router.navigateByUrl('/pages/gallery');
       }
@@ -190,6 +194,14 @@ export class DetailComponent implements OnInit {
       this.load();
     }).catch(err => {
       this.toastr.danger(err ? JSON.stringify(err) : 'Během upravování sekce došlo k chybě.', 'Chyba')
+    })
+  }
+
+  removeSection() {
+    this.galleryService.deleteSection(this.section).then(response => {
+      console.log(response);
+      this.toastr.success("", "Sekce byla smazána");
+      this.router.navigateByUrl('/pages/gallery/');
     })
   }
 

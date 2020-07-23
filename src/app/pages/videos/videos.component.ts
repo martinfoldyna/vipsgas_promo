@@ -74,7 +74,7 @@ export class VideosComponent implements OnInit {
 
   retrieveVideos() {
     this.videosService.loadVideos().then(videos => {
-      this.allVideos = videos;
+      this.allVideos = videos.sort((a,b) => a.title.toLowerCase() > b.title.toLowerCase() ? 1 : -1);
       console.log(videos);
     }).catch(err => {
       console.log(err);

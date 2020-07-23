@@ -79,9 +79,9 @@ export class ProductDetailComponent implements OnInit {
       if(product) {
 
         this.product = product;
-        console.log(product);
         this.product.thumbnail.thumbnail = true;
         this.productImages = [product.thumbnail, ...product.images];
+        this.productImages = this.productImages.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
 
         if (product.productCategory) {
           this.productCategory = {

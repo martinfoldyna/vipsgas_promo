@@ -16,7 +16,7 @@ import {NbToastrService} from "@nebular/theme";
 })
 export class GalleryComponent implements OnInit {
 
-  uploadingSection: boolean = false;
+  creatingSection: boolean = false;
   section: ImageSection;
   allSections: Array<ImageSection>;
 
@@ -74,15 +74,18 @@ export class GalleryComponent implements OnInit {
 
   addSection() {
     if (this.section) {
+      this.creatingSection = true;
       this.section.createdAt = Date.now();
       this.section.createdBy = this.authService.getUser();
       console.log(this.section);
       this.galleryService.addSection(this.section).then(response => {
         this.toastr.success('', 'Nová sekce byla úspěšně vytvořena.')
-        this.loadSections();
         this.galleryForm.reset();
+        this.loadSections();
+        this.creatingSection = true;
       }).catch(err => {
         this.toastr.danger(err ? JSON.stringify(err) : 'Během nahrávání sekce došlo k chybě.', 'Chyba')
+        this.creatingSection = true;
       })
     } else {
       console.log('section is not defined');
@@ -100,6 +103,14 @@ export class GalleryComponent implements OnInit {
     this.galleryService.loadSections().then(response => {
       console.log(response);
       this.allSections = response;
+      this.allSections = this.allSections.sort((a,b) => {
+        if(a.name && b.name) {
+          return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
+        } else {
+          return 0;
+        }
+
+      });
       for (let selection of this.allSections) {
         console.log(selection);
         this.imagesService.getImage('gallery', selection.thumbnail.name).then(image => {
