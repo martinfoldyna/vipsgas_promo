@@ -116,7 +116,7 @@ export class ProductDetailComponent implements OnInit {
 
       this.setupFileReader(i, files[i]);
       this.generalService.setupFileReader(files[i]).then(file => {
-        this.newImages.push({name: this.generalService.generateRandomString(), blob: file.blob});
+        this.newImages.push({name: files[i].name, blob: file.blob});
       }).catch(err => {
 
       })
@@ -127,7 +127,7 @@ export class ProductDetailComponent implements OnInit {
     let thumbnail = event.target.files[0];
     this.generalService.setupFileReader(thumbnail).then(file => {
       this.newThumbnailSrc = file.src
-      this.product.newThumbnail = ({name: this.generalService.generateRandomString(), blob: file.blob})
+      this.product.newThumbnail = ({name: thumbnail.name, blob: file.blob})
     }).catch(err => {
 
     })
@@ -146,7 +146,7 @@ export class ProductDetailComponent implements OnInit {
       this.imagesService.compressFile(e.target.result, file.image, quality).then(compressedImage => {
 
         if (compressedImage) {
-          this.product.newThumbnail = ({name: this.generalService.generateRandomString(), blob: compressedImage.blob})
+          this.product.newThumbnail = ({name: file.name, blob: compressedImage.blob})
         }
       }).catch(err => {
         console.log(err);
