@@ -24,6 +24,10 @@ let routes: Routes = [
     component: ProductDetailComponent,
   },
   {
+    path: 'category-overview',
+    component: ProductCategoryOverviewComponent
+  },
+  {
     path: '',
     redirectTo: '/pages/products/dashboard',
   },
