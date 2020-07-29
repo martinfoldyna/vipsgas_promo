@@ -50,10 +50,9 @@ export class UploadImagesComponent implements OnInit {
 
     reader.onload = (e: any) => {
       this.imagesService.compressFile(e.target.result, file.name, 68).then(compressedImage => {
-        let fileName = this.generalService.generateRandomString();
-        this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex, name: fileName});
+        this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex, name: this.documentID + "_" + file.name});
         if(compressedImage) {
-          this.newImages.push({name: file.name, blob: compressedImage.blob, index: fileIndex});
+          this.newImages.push({name: this.documentID + "_" + file.name, blob: compressedImage.blob, index: fileIndex});
         }
       }).catch(err => {
         console.log(err);

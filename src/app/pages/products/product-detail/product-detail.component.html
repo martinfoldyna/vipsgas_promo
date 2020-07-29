@@ -67,32 +67,33 @@
 
 <!-- TODO: Update thumbnail image -->
 
-<nb-card *ngIf="uploadNewImages">
-  <nb-card-header>Nahrát nové obrázky</nb-card-header>
-  <nb-card-body>
-    <form>
-      <div class="form-group">
-        <label for="new-image" class="label">Nahrát nové obrázky</label><br>
-        <input type="file" #newImageInput id="new-image" multiple accept="image/*" nbInput (change)="onFileChange($event)">
-      </div>
-      <div class="form-group">
-        <button nbButton (click)="uploadImages(); newImageInput.value = ''"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>
-      </div>
-    </form>
-    <div class="row">
-      <div class="col-md-3" *ngFor="let image of selectedImagesPreview; let i = index" >
-        <nb-card style="width: 100%; height: 340px; overflow: hidden">
-          <nb-card-body defaultImage="assets/images/placeholder.png" [lazyLoad]="image.url" style="background-size: cover; background-position: center;"></nb-card-body>
-          <nb-card-footer>
-            <button nbButton fullWidth status="danger" (click)="removeFromList(i)">
-              <nb-icon icon="trash-2-outline"></nb-icon>
-            </button>
-          </nb-card-footer>
-        </nb-card>
-      </div>
-    </div>
-  </nb-card-body>
-</nb-card>
+<!--<nb-card *ngIf="uploadNewImages">-->
+<!--  <nb-card-header>Nahrát nové obrázky</nb-card-header>-->
+<!--  <nb-card-body>-->
+<!--    <form>-->
+<!--      <div class="form-group">-->
+<!--        <label for="new-image" class="label">Nahrát nové obrázky</label><br>-->
+<!--        <input type="file" #newImageInput id="new-image" multiple accept="image/*" nbInput (change)="onFileChange($event)">-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <button nbButton (click)="uploadImages(); newImageInput.value = ''"><nb-icon icon="cloud-upload-outline"></nb-icon>Nahrát obrázky</button>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--    <div class="row">-->
+<!--      <div class="col-md-3" *ngFor="let image of selectedImagesPreview; let i = index" >-->
+<!--        <nb-card style="width: 100%; height: 340px; overflow: hidden">-->
+<!--          <nb-card-body defaultImage="assets/images/placeholder.png" [lazyLoad]="image.url" style="background-size: cover; background-position: center;"></nb-card-body>-->
+<!--          <nb-card-footer>-->
+<!--            <button nbButton fullWidth status="danger" (click)="removeFromList(i)">-->
+<!--              <nb-icon icon="trash-2-outline"></nb-icon>-->
+<!--            </button>-->
+<!--          </nb-card-footer>-->
+<!--        </nb-card>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </nb-card-body>-->
+<!--</nb-card>-->
+<ngx-upload-images *ngIf="uploadNewImages" [documentID]="product.id" dbCollection="products" (loadDocument)="loadProduct()"></ngx-upload-images>
 
 <div class="row">
   <div class="col-md-6 col-lg-4 col-xl-3" *ngFor="let image of productImages; let i = index">

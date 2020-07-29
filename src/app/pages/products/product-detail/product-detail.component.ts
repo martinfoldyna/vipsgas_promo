@@ -80,8 +80,8 @@ export class ProductDetailComponent implements OnInit {
 
         this.product = product;
         this.product.thumbnail.thumbnail = true;
-        this.productImages = [product.thumbnail, ...product.images];
-        this.productImages = this.productImages.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)
+        this.productImages = [product.thumbnail, ...product.images.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1)];
+        console.log(this.productImages);
 
         if (product.productCategory) {
           this.productCategory = {
@@ -114,9 +114,9 @@ export class ProductDetailComponent implements OnInit {
     console.log(files);
     for (let i = 0; i < files.length; i++) {
 
-      this.setupFileReader(i, files[i]);
+      // this.setupFileReader(i, files[i]);
       this.generalService.setupFileReader(files[i]).then(file => {
-        this.newImages.push({name: files[i].name, blob: file.blob});
+        this.newImages.push({name: this.product.id + "_" + files[i].name, blob: file.blob});
       }).catch(err => {
 
       })
@@ -127,57 +127,57 @@ export class ProductDetailComponent implements OnInit {
     let thumbnail = event.target.files[0];
     this.generalService.setupFileReader(thumbnail).then(file => {
       this.newThumbnailSrc = file.src
-      this.product.newThumbnail = ({name: thumbnail.name, blob: file.blob})
+      this.product.newThumbnail = ({name: this.product.id + '_' + thumbnail.name, blob: file.blob})
     }).catch(err => {
 
     })
   }
 
-  setupFileReaderThumbnail(file) {
-    let reader = new FileReader();
+  // setupFileReaderThumbnail(file) {
+  //   let reader = new FileReader();
+  //
+  //   reader.onload = (e: any) => {
+  //     console.log("in file reader")
+  //
+  //     const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+  //     let quality = this.imagesService.translateQuality(imageSize);
+  //
+  //     console.log('quality:', quality);
+  //     this.imagesService.compressFile(e.target.result, file.image, quality).then(compressedImage => {
+  //
+  //       if (compressedImage) {
+  //         this.product.newThumbnail = ({name: file.name, blob: compressedImage.blob})
+  //       }
+  //     }).catch(err => {
+  //       console.log(err);
+  //     })
+  //   }
+  //
+  // }
 
-    reader.onload = (e: any) => {
-      console.log("in file reader")
-
-      const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
-      let quality = this.imagesService.translateQuality(imageSize);
-
-      console.log('quality:', quality);
-      this.imagesService.compressFile(e.target.result, file.image, quality).then(compressedImage => {
-
-        if (compressedImage) {
-          this.product.newThumbnail = ({name: file.name, blob: compressedImage.blob})
-        }
-      }).catch(err => {
-        console.log(err);
-      })
-    }
-
-  }
-
-  setupFileReader(fileIndex, file) {
-    let reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
-      console.log('imageSize:', imageSize)
-
-      const quality = this.imagesService.translateQuality(imageSize);
-
-      console.log('quality:', quality);
-
-      this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
-        this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex});
-        if(compressedImage) {
-
-        }
-      }).catch(err => {
-        console.log(err);
-      })
-    }
-
-    reader.readAsDataURL(file);
-  }
+  // setupFileReader(fileIndex, file) {
+  //   let reader = new FileReader();
+  //
+  //   reader.onload = (e: any) => {
+  //     const imageSize = this.imageCompress.byteCount(e.target.result) / (1024);
+  //     console.log('imageSize:', imageSize)
+  //
+  //     const quality = this.imagesService.translateQuality(imageSize);
+  //
+  //     console.log('quality:', quality);
+  //
+  //     this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
+  //       this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex});
+  //       if(compressedImage) {
+  //
+  //       }
+  //     }).catch(err => {
+  //       console.log(err);
+  //     })
+  //   }
+  //
+  //   reader.readAsDataURL(file);
+  // }
 
   uploadImages() {
       this.uploadingImages = true;

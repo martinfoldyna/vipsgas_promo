@@ -15,7 +15,6 @@ import {NgxImageCompressService} from "ngx-image-compress";
   styleUrls: ['./add-product.component.scss']
 })
 export class AddProductComponent implements OnInit {
-  //TODO: Add tinyMCE textarea
   //TODO: Add formControl
 
   @Output('loadProducts') loadProducts: EventEmitter<any> = new EventEmitter();
@@ -57,7 +56,7 @@ export class AddProductComponent implements OnInit {
       console.log('quality:', quality);
       this.imagesService.compressFile(e.target.result, file.name, quality).then(compressedImage => {
         if(compressedImage) {
-          this.product.thumbnail = {name: this.generateRandomString(), blob: compressedImage.blob};
+          this.product.thumbnail = {name: file.name, blob: compressedImage.blob};
         }
       }).catch(err => {
         console.log(err);
@@ -65,19 +64,6 @@ export class AddProductComponent implements OnInit {
     }
 
     reader.readAsDataURL(file);
-  }
-
-  generateRandomString(): string {
-    let alphabeta = ['A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z']
-    let returnString = "";
-
-    for(let i = 0; i <= 10; i++) {
-      let randomNumber = Math.round((Math.random() * 10) + 1);
-      returnString += alphabeta[randomNumber];
-      returnString += randomNumber;
-    }
-
-    return returnString + Date.now() + '.jpg';
   }
 
   addProduct() {
