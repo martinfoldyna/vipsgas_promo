@@ -44,8 +44,12 @@
         </div>
       </nb-card-body>
       <nb-card-footer *ngIf="authService.getUser()">
-        <button nbButton status="danger" fullWidth>
-          <nb-icon icon="trash-2-outline" pack="eva" class="align-self-center" (click)="deleteArticle(article.id)"></nb-icon>
+        <button nbButton status="warning" fullWidth (click)="editArticle(article)">
+          <nb-icon icon="edit-outline" pack="eva" class="align-self-center"></nb-icon>
+          Upravit
+        </button>
+        <button nbButton status="danger" class="mt-1" fullWidth (click)="deleteArticle(article.id)">
+          <nb-icon icon="trash-2-outline" pack="eva" class="align-self-center" ></nb-icon>
           Odstranit
         </button>
       </nb-card-footer>

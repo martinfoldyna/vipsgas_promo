@@ -1,4 +1,4 @@
-import {Image, Thumbnail} from "./image";
+import { Image, Thumbnail } from './image';
 
 export interface Product {
   images?: Array<Image>;
@@ -9,21 +9,24 @@ export interface Product {
   description?: any;
   thumbnailURL?: string;
   productCategory?: ProductCategoryInfo;
+  beautifiedPosition?: string;
   position?: string;
   type?: string;
   checkedThumbnail?: any;
   positionDetailed?: {
-    name?: string,
-    code?: string
-  }
+    name?: string;
+    code?: string;
+  };
 }
 
 export interface ProductPosition {
+  id: string;
   name: string;
   value: string;
 }
 
 export interface ProductType {
+  id: string;
   name: string;
   value: string;
   condition?: string;

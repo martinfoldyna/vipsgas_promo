@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TuvContainersComponent } from './tuv-containers.component';
+import { EditNewsComponent } from './edit-news.component';
 
-describe('TuvContainersComponent', () => {
-  let component: TuvContainersComponent;
-  let fixture: ComponentFixture<TuvContainersComponent>;
+describe('EditNewsComponent', () => {
+  let component: EditNewsComponent;
+  let fixture: ComponentFixture<EditNewsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TuvContainersComponent ]
+      declarations: [ EditNewsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TuvContainersComponent);
+    fixture = TestBed.createComponent(EditNewsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

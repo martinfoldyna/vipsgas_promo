@@ -1,0 +1,24 @@
+<nb-card class="edit-category" [nbSpinner]="updatingNews" nbSpinnerStatus="info" nbSpinnerMessage="Upravuji novinku..">
+  <nb-card-header>
+    Úprava kategorie {{news?.title}}
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="editNewsForm">
+      <div class="form-group">
+        <label for="news-edit-name"></label>
+        <tinymce name="news-edit-name" id="news-edit-name" [formControl]="editNewsForm.controls.name" [(ngModel)]="news.body"></tinymce>
+      </div>
+
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="row">
+      <div class="col-12">
+        <button nbButton fullWidth status="info" (click)="handleUpdate()" size="medium"><nb-icon icon="cloud-upload-outline"></nb-icon>Upravit</button>
+      </div>
+      <div class="col-12">
+        <button nbButton fullWidth status="danger" class="mt-1" (click)="dialogRef.close()">Zrušit</button>
+      </div>
+    </div>
+  </nb-card-footer>
+</nb-card>

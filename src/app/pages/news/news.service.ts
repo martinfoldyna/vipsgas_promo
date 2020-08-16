@@ -17,7 +17,12 @@ export class NewsService {
 
   getNews(): Observable<DocumentChangeAction<unknown>[]> {
     return this.firestore.collection<News>('news').snapshotChanges();
+  }
 
+  editNews(news: News): Promise<void> {
+    return this.firestore.doc(`news/${news.id}`).update({
+      body: news.body
+    });
   }
 
 }

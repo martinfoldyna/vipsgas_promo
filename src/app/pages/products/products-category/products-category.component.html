@@ -44,10 +44,18 @@
     </nb-alert>
   </div>
 </div>
-<ng-container *ngFor="let product of filteredProducts | keyvalue">
-  <h2>{{product.key}}</h2>
+<!--<ng-container *ngFor="let product of filteredProducts | keyvalue">-->
+<!--  <h2>{{product.key}}</h2>-->
+<!--  <div class="row">-->
+<!--    <div class="col-md-6 col-lg-3" *ngFor="let thisProduct of product.value.products">-->
+<!--      <ngx-product-card [product]="thisProduct"></ngx-product-card>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</ng-container>-->
+<ng-container *ngFor="let product of filteredProducts">
+  <h2>{{product.position.name}}</h2>
   <div class="row">
-    <div class="col-md-6 col-lg-3" *ngFor="let thisProduct of product.value">
+    <div class="col-md-6 col-lg-3" *ngFor="let thisProduct of product.products">
       <ngx-product-card [product]="thisProduct"></ngx-product-card>
     </div>
   </div>

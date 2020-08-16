@@ -130,5 +130,8 @@
     "tslint": "~6.1.0",
     "tslint-language-service": "^0.9.9",
     "typescript": "3.8.3"
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }
