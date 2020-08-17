@@ -70,9 +70,6 @@ export class ProductsCategoryComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get('id');
     this.loadCategoryInfo();
     this.loadProducts();
-    console.log(parseInt('01&03'));
-    let array = ['01&01', '02&01', '01&02', '01&03'];
-    console.log(array.sort((a, b) => (a > b ? 1 : -1)));
   }
 
   loadCategoryInfo() {
@@ -138,7 +135,7 @@ export class ProductsCategoryComponent implements OnInit {
           ) === index
       );
 
-      console.log(this.uniquePositions);
+      // console.log(this.uniquePositions);
 
       // sort postitions alphabetically
       this.uniquePositions.sort((a, b) => {
@@ -188,16 +185,13 @@ export class ProductsCategoryComponent implements OnInit {
     let position = positionNameSplitted[0];
     let type = positionNameSplitted[1];
 
-    let positionInfo = this.category.categoryPositions.find(
+    let positionInfo = this.category?.categoryPositions.find(
       (foundPosition) => foundPosition.value === position
     ).id;
-    let typeInfo = this.category.categoryTypes.find(
+    let typeInfo = this.category?.categoryTypes.find(
       (foundType) =>
         foundType.value === type && foundType.condition === position
     ).id;
-
-    console.log(`positionInfo info for ${position}`, positionInfo);
-    console.log(`typeInfo info for ${type}`, typeInfo);
 
     return typeInfo;
   }

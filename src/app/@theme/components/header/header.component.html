@@ -5,9 +5,11 @@
 </div>
 
 <div class="header-container">
-<!--  <nb-action class="control-item">-->
-<!--    <a href="#"><img src="../../../../assets/images/vipsgas.svg" alt="" style="height: calc(100% - 2.5rem);"></a>-->
-<!--  </nb-action>-->
+  <nb-actions size="small">
+    <nb-action class="control-item" >
+      <a href="#"><img src="assets/images/vipsgas.svg" alt="" style="width: 75%;"></a>
+    </nb-action>
+  </nb-actions>
   <nb-actions size="small">
     <nb-action  class="user-action" *ngIf="user">
       <nb-user [nbContextMenu]="userMenu"

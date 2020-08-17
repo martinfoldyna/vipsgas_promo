@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Product} from '../../../@core/data/product';
-import {GeneralService} from '../../../@core/utils/general.service';
-import {AuthService} from "../../auth/auth.service";
-import {NbMenuService} from "@nebular/theme";
-import {Router} from "@angular/router";
-import {Image} from "../../../@core/data/image";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Product } from '../../../@core/data/product';
+import { GeneralService } from '../../../@core/utils/general.service';
+import { AuthService } from '../../auth/auth.service';
+import { NbMenuService } from '@nebular/theme';
+import { Router } from '@angular/router';
+import { Image } from '../../../@core/data/image';
 
 @Component({
   selector: 'ngx-product-card',
@@ -21,15 +21,16 @@ export class ProductCardComponent implements OnInit {
   productDetailLink: string;
   deletingProduct: boolean = false;
 
-  productOptions = [ {title: 'Upravit', icon: 'edit-outline'}, { title: 'Smazat', icon: 'trash-2-outline', status: 'danger' } ]
+  productOptions = [
+    { title: 'Upravit', icon: 'edit-outline' },
+    { title: 'Smazat', icon: 'trash-2-outline', status: 'danger' },
+  ];
 
   constructor(
     private generalService: GeneralService,
     public authService: AuthService,
     private router: Router
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     this.productDetailLink = '/pages/products/detail/' + this.product.id;
@@ -38,12 +39,9 @@ export class ProductCardComponent implements OnInit {
         this.thumbnail = this.product.images[index];
       }
     }
-    console.log(this.thumbnail);
   }
 
   navigateToProductDetail() {
     this.router.navigateByUrl(this.productDetailLink);
   }
-
-
 }
