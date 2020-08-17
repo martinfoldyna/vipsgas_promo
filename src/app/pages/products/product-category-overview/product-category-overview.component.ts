@@ -175,13 +175,14 @@ export class ProductCategoryOverviewComponent implements OnInit {
   }
 
   pushToProductPosition(value) {
+    // console.log(
+    //   parseInt(this.positionOptions[this.positionOptions.length - 1].id)
+    // );
+
     this.positionOptions.push({
       name: value,
       value: value.replace(/\s+/g, '-').toLowerCase(),
-      id:
-        this.positionOptions.length > 1
-          ? parseInt(this.positionOptions[this.positionOptions.length - 1]) + 1
-          : '0' + (this.positionOptions.length + 1),
+      id: '0' + (this.positionOptions.length + 1),
     });
     console.log(this.positionOptions);
   }

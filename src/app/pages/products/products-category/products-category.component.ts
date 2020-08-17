@@ -25,7 +25,11 @@ export class ProductsCategoryComponent implements OnInit {
   id: string;
   category: DynamicCategory;
   allProducts: Array<Product>;
-  filteredProducts: Array<{ products: Array<any>; id: string }>;
+  filteredProducts: Array<{
+    products: Array<any>;
+    id: string;
+    position: ProductPosition;
+  }>;
   uniquePositions: Array<{ name: string; code: string }>;
   productPositions: Array<{ name: string; code: string }>;
   firstPosition: Array<Product>;

@@ -20,9 +20,10 @@ export interface Product {
 }
 
 export interface ProductPosition {
-  id: string;
-  name: string;
-  value: string;
+  id?: string;
+  name?: string;
+  code?: string;
+  value?: string;
 }
 
 export interface ProductType {
