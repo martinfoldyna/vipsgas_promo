@@ -77,15 +77,12 @@ export class ProductDetailComponent implements OnInit {
       if (product) {
         this.product = product;
         this.product.thumbnail.thumbnail = true;
-        console.log('image name length:', product.images[1]?.name.length);
-        console.log('thumbnail name length:', product.thumbnail.name.length);
-        this.productImages = [product.thumbnail, ...product.images];
+        this.productImages = product.images;
         this.productImages = this.productImages.sort((a, b) =>
           a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1
         );
-        this.productImages = this.productImages.sort((a) =>
-          a.thumbnail ? -1 : 1
-        );
+
+        this.productImages.unshift(product.thumbnail);
 
         if (product.productCategory) {
           this.productCategory = {
@@ -143,12 +140,9 @@ export class ProductDetailComponent implements OnInit {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      console.log('in file reader');
-
       const imageSize = this.imageCompress.byteCount(e.target.result) / 1024;
       let quality = this.imagesService.translateQuality(imageSize);
 
-      console.log('quality:', quality);
       this.imagesService
         .compressFile(e.target.result, file.image, quality)
         .then((compressedImage) => {
