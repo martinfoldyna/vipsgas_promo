@@ -185,13 +185,16 @@ export class ProductsCategoryComponent implements OnInit {
     let position = positionNameSplitted[0];
     let type = positionNameSplitted[1];
 
-    let positionInfo = this.category?.categoryPositions.find(
+    let positionRef = this.category?.categoryPositions.find(
       (foundPosition) => foundPosition.value === position
-    ).id;
-    let typeInfo = this.category?.categoryTypes.find(
+    );
+    let positionInfo = positionRef?.id;
+
+    let categoryTypesRef = this.category?.categoryTypes.find(
       (foundType) =>
         foundType.value === type && foundType.condition === position
-    ).id;
+    );
+    let typeInfo = categoryTypesRef?.id;
 
     return typeInfo;
   }
