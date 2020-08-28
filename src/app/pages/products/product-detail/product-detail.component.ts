@@ -119,7 +119,10 @@ export class ProductDetailComponent implements OnInit {
       this.generalService
         .setupFileReader(files[i])
         .then((file) => {
-          this.newImages.push({ name: files[i].name, blob: file.blob });
+          this.newImages.push({
+            name: this.product.id + '_' + files[i].name,
+            blob: file.blob,
+          });
         })
         .catch((err) => {});
     }
@@ -191,18 +194,19 @@ export class ProductDetailComponent implements OnInit {
   uploadImages() {
     this.uploadingImages = true;
     if (this.newImages.length > 0) {
-      for (let i = 0; i < this.newImages.length; i++) {
-        let image = this.newImages[i];
+      for (let image of this.newImages) {
         this.productsService
           .uploadImageToProduct(this.product.id, image)
           .then((uploadImages) => {
-            console.log(uploadImages);
             this.uploadingImages = false;
             this.loadProduct();
             this.selectedImagesPreview = new Array<Image>();
           })
           .catch((err) => {});
       }
+      // for (let i = 0; i < this.newImages.length; i++) {
+      //   let image = this.newImages[i];
+      // }
     }
   }
 
@@ -280,6 +284,11 @@ export class ProductDetailComponent implements OnInit {
   }
 
   deleteImageFromProduct(imageName: string) {
+    console.log(
+      this.product.images.filter((image) => {
+        return image.name !== imageName && image.thumbnail !== true;
+      })
+    );
     this.productsService
       .removeImageFromProduct(
         'products',
@@ -290,6 +299,7 @@ export class ProductDetailComponent implements OnInit {
       .then((response) => {
         console.log(response);
         this.loadProduct();
+        this.toastr.success('', 'Obrázek byl odstraněn.');
       })
       .catch((err) => console.log(err));
   }

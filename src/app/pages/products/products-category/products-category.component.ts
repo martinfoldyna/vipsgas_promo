@@ -107,6 +107,13 @@ export class ProductsCategoryComponent implements OnInit {
               positionNameSplitted[1].replace(/-/g, ' ')
             : positionNameSplitted[0][0].toUpperCase() +
               positionNameSplitted[0].slice(1).replace(/-/g, ' ');
+
+        positionName.indexOf(' tuv') > 0
+          ? (positionName = positionName.replace(' tuv', ' TUV'))
+          : null;
+
+        console.log(positionName);
+
         product.beautifiedPosition = positionName;
       }
 
@@ -135,6 +142,8 @@ export class ProductsCategoryComponent implements OnInit {
           ) === index
       );
 
+      console.log(this.uniquePositions);
+
       // console.log(this.uniquePositions);
 
       // sort postitions alphabetically
@@ -150,16 +159,6 @@ export class ProductsCategoryComponent implements OnInit {
 
       // Categorise products by its position
       for (let position of this.uniquePositions) {
-        // this.filteredProducts[position.name] = this.allProducts.filter(
-        //   (product) => product.beautifiedPosition === position.name
-        // );
-        // this.filteredProducts[position.name] = [];
-        // this.filteredProducts[position.name].products = this.allProducts.filter(
-        //   (product) => product.position === position.code
-        // );
-        // this.filteredProducts[
-        //   position.name
-        // ].id = this.translateProductPositionToId(position.code);
         let products = this.allProducts.filter(
           (product) => product.position === position.code
         );

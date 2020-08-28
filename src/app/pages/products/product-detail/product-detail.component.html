@@ -67,7 +67,7 @@
 
 <!-- TODO: Update thumbnail image -->
 
-<nb-card *ngIf="uploadNewImages">
+<nb-card *ngIf="uploadNewImages" [nbSpinner]="uploadingImages" nbSpinnerStatus="primary" nbSpinnerMessage="Nahrávám obrázky..">
   <nb-card-header>Nahrát nové obrázky</nb-card-header>
   <nb-card-body>
     <form>
