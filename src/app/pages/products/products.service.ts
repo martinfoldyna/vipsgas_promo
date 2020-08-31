@@ -172,6 +172,9 @@ export class ProductsService {
 
   editProduct(product: Product): Promise<void> {
     return new Promise<any>((resolve, reject) => {
+      product.images = product.images.filter(
+        (image) => image.thumbnail !== true
+      );
       if (product.newThumbnail) {
         this.updateProductThumbnail(product)
           .then((newThumbnail) => {
