@@ -1,15 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Image} from "../../../@core/data/image";
-import {GeneralService} from "../../../@core/utils/general.service";
-import {ImagesService} from "../../../@core/utils/images.service";
-import {newArray} from "@angular/compiler/src/util";
-import {NbToastrService} from "@nebular/theme";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Image } from '../../../@core/data/image';
+import { GeneralService } from '../../../@core/utils/general.service';
+import { ImagesService } from '../../../@core/utils/images.service';
+import { newArray } from '@angular/compiler/src/util';
+import { NbToastrService } from '@nebular/theme';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { async } from 'rxjs-compat/scheduler/async';
 
 @Component({
   selector: 'ngx-upload-images',
   templateUrl: './upload-images.component.html',
-  styleUrls: ['./upload-images.component.scss']
+  styleUrls: ['./upload-images.component.scss'],
 })
 export class UploadImagesComponent implements OnInit {
   @Output('loadDocument') loadDocument: EventEmitter<any> = new EventEmitter();
@@ -23,8 +24,8 @@ export class UploadImagesComponent implements OnInit {
   uploadingImages: boolean;
 
   uploadImagesForm = new FormGroup({
-    images: new FormControl('', Validators.required)
-  })
+    images: new FormControl('', Validators.required),
+  });
 
   constructor(
     private generalService: GeneralService,
@@ -35,8 +36,7 @@ export class UploadImagesComponent implements OnInit {
     this.newImages = new Array<Image>();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onFileChange(event) {
     let files = event.target.files;
@@ -49,16 +49,27 @@ export class UploadImagesComponent implements OnInit {
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.imagesService.compressFile(e.target.result, file.name, 68).then(compressedImage => {
-        let fileName = this.generalService.generateRandomString();
-        this.selectedImagesPreview.push({url: compressedImage.src, index: fileIndex, name: fileName});
-        if(compressedImage) {
-          this.newImages.push({name: file.name, blob: compressedImage.blob, index: fileIndex});
-        }
-      }).catch(err => {
-        console.log(err);
-      })
-    }
+      this.imagesService
+        .compressFile(e.target.result, file.name, 68)
+        .then((compressedImage) => {
+          let fileName = this.generalService.generateRandomString();
+          this.selectedImagesPreview.push({
+            url: compressedImage.src,
+            index: fileIndex,
+            name: fileName,
+          });
+          if (compressedImage) {
+            this.newImages.push({
+              name: file.name,
+              blob: compressedImage.blob,
+              index: fileIndex,
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
     reader.readAsDataURL(file);
   }
@@ -66,34 +77,34 @@ export class UploadImagesComponent implements OnInit {
   uploadImages(event) {
     event.preventDefault();
     this.uploadingImages = true;
-    if(this.newImages.length > 0) {
-      for (let i = 0; i < this.newImages.length; i++) {
-        let image = this.newImages[i];
-        console.log('collection: ' + this.dbCollection);
-        console.log('docID: ' + this.documentID);
-        this.imagesService.uploadImageToDocument(this.dbCollection, this.documentID, image).then(uploadImages => {
-          console.log(uploadImages);
-          this.uploadingImages = false;
-          this.loadDocument.emit();
-          this.toastr.success('', 'Obrázky byly nahrány.');
-
-        }).catch(err => {
-          console.log(err);
-        })
-      }
+    if (this.newImages.length > 0) {
+      console.log(this.newImages);
+      this.newImages.forEach((image, index) => {
+        console.log('image', image);
+        console.log('index', index);
+        this.imagesService
+          .uploadImageToDocument(this.dbCollection, this.documentID, image)
+          .then((uploadImages) => {
+            this.uploadingImages = false;
+            this.loadDocument.emit();
+            this.toastr.success('', 'Obrázky byly nahrány.');
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
     }
   }
 
   removeFromList(imageIndex) {
     const fileName = this.selectedImagesPreview[imageIndex].name;
     this.selectedImagesPreview.splice(imageIndex, 1);
-    this.newImages = this.newImages.filter(image => {
+    this.newImages = this.newImages.filter((image) => {
       console.log('imageName', image.name);
       console.log('fileName', fileName);
 
-      return image.name !== fileName
-    })
+      return image.name !== fileName;
+    });
     console.log(this.newImages);
   }
-
 }
